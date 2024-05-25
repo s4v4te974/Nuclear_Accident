@@ -1,0 +1,996 @@
+DROP TABLE IF EXISTS WEAPON CASCADE;
+DROP TABLE IF EXISTS VEHICULE CASCADE;
+DROP TABLE IF EXISTS COORDONATE CASCADE;
+DROP TABLE IF EXISTS FULL_DESCRIPTION CASCADE;
+DROP TABLE IF EXISTS BROKEN_ARROW CASCADE;
+
+CREATE TABLE IF NOT EXISTS WEAPON(
+	weapon_id UUID primary key,
+	name varchar(50),
+	builder varchar(20),
+	weapon_description varchar(2000)
+);
+
+CREATE TABLE IF NOT EXISTS VEHICULE(
+	vehicule_id UUID primary key,
+	type varchar(50),
+	builder varchar(20),
+	name varchar(50),
+	vehicule_description varchar(3000)
+);
+
+CREATE TABLE IF NOT EXISTS COORDONATE(
+	coordonate_id UUID primary key,
+	country_name varchar(50),
+	position_lost varchar(50),
+	x_coordonate float,
+	y_coordonate float
+);
+
+CREATE TABLE IF NOT EXISTS FULL_DESCRIPTION (
+	full_description_id UUID primary key,
+	full_description VARCHAR(2000)
+);
+
+CREATE TABLE IF NOT EXISTS BROKEN_ARROW (
+    broken_arrow_id UUID PRIMARY KEY,
+    coordonate_id UUID,
+    vehicule_id UUID,
+    weapon_id UUID,
+    full_description_id UUID,
+    disaster_date DATE,
+    short_description VARCHAR(2000),
+    bubble_description VARCHAR(500),
+    CONSTRAINT fk_country FOREIGN KEY (coordonate_id) REFERENCES COORDONATE(coordonate_id),
+    CONSTRAINT fk_vehicule FOREIGN KEY (vehicule_id) REFERENCES VEHICULE(vehicule_id),
+    CONSTRAINT fk_weapon FOREIGN KEY (weapon_id) REFERENCES WEAPON(weapon_id),
+    CONSTRAINT fk_full_desc FOREIGN KEY (full_description_id) REFERENCES FULL_DESCRIPTION(full_description_id)
+);
+
+
+
+--- data insertion
+--- weapons
+INSERT INTO WEAPON (weapon_id, name, builder, weapon_description)
+values 
+('65600023-bac7-454a-aef3-5de5459142a5', 'LGM-30 Minuteman', 'U.S', 'Le LGM-30 Minuteman est un missile balistique intercontinental (ICBM) 
+américain basé au sol, en service avec l''Air Force Global Strike Command. En 2024, le LGM-30G (Version 3) est le seul ICBM terrestre en service aux 
+États-Unis et représente la composante terrestre de la triade nucléaire américaine, aux côtés du missile balistique lancé par sous-marin Trident II et 
+des armes nucléaires transportées par des bombardiers stratégiques à long rayon d''action.
+Son développement a débuté dans les années 1950, lorsque des recherches ont montré qu''un moteur-fusée à propergol solide pouvait être prêt à lancer 
+pendant de longues périodes, contrairement aux fusées à propergol liquide qui nécessitaient un ravitaillement avant le lancement. Le Minuteman a été 
+mis en service en 1962 pour dissuader en pouvant frapper les villes soviétiques en cas d''attaque. La version Minuteman II est entrée en service en 
+1965 avec des améliorations de précision et de survie face aux systèmes anti-missiles balistiques (ABM) soviétiques. En 1970, le Minuteman III est 
+devenu le premier ICBM déployé avec des véhicules de rentrée à cibles multiples (MIRV), armé de trois ogives plus petites.
+Dans les années 1970, 1 000 missiles Minuteman étaient déployés. En septembre 2017, ce nombre a été réduit à 400 Minuteman III, déployés dans des 
+silos autour des bases aériennes de Malmstrom, Minot et Francis E. Warren. Le Minuteman III sera progressivement remplacé par le nouvel ICBM LGM-35 Sentinel, 
+construit par Northrop Grumman, à partir de 2030.'),
+('c9ecb03e-5daa-46b1-aa95-e40494ece2da', 'Mark 17', 'U.S', 'La Mark 17 était l''une des premières bombes à hydrogène produites en série et déployées par les 
+États-Unis. Une arme thermonucléaire, ou bombe à hydrogène (bombe H), est une arme nucléaire de deuxième génération. Sa sophistication accrue lui confère une 
+puissance destructrice bien supérieure à celle des bombes nucléaires de première génération, une taille plus compacte, une masse plus faible ou une combinaison 
+de ces avantages. Les caractéristiques des réactions de fusion nucléaire permettent d''utiliser de l''uranium appauvri non fissile comme principal combustible de 
+l''arme, permettant ainsi une utilisation plus efficace des matériaux fissiles rares tels que l''uranium-235 (235U) ou le plutonium-239 (239Pu). Le premier essai 
+thermonucléaire à grande échelle a été réalisé par les États-Unis en 1952 et ce concept a depuis été employé par la plupart des puissances 
+nucléaires mondiales dans la conception de leurs armes.'),
+('2957a217-cea8-492c-97d9-3f52116b4752', 'mark 15', 'U.S', 'La bombe nucléaire Mark 15, ou Mk-15, était une bombe thermonucléaire américaine des années 1950, 
+la première relativement légère (3 400 kg) créée par les États-Unis.),
+Un total de 1 200 bombes Mark 15 ont été produites de 1955 à 1957. Il y avait trois variantes de production : Mod 1, Mod 2 et Mod 3. La conception a été en service de 1955 à 1965.'),
+('cf5ca691-9179-4566-9c90-048296843a15', 'Mark 4', 'U.S', 'La bombe nucléaire Mark 4 était une bombe nucléaire américaine de type implosion basée sur la 
+conception précédente de la Mark 3 Fat Man, utilisée lors du test Trinity et lors du bombardement de Nagasaki. La Mark 3 nécessitant que chaque composant 
+soit assemblé à la main par des techniciens hautement qualifiés dans des conditions étroitement contrôlées, l''objectif de la Mark 4 était de produire 
+une arme atomique en tant que pièce d''artillerie pratique. La Mark 4 Mod 0 est entrée en service à partir du 19 mars 1949 et a été utilisée jusqu''en 1953. 
+Avec plus de 500 unités acquises, la Mark 4 a été la première arme nucléaire produite en série.'),
+('848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 'Mark 6', 'U.S', 'La bombe nucléaire Mark 6 était une bombe nucléaire américaine basée sur la conception précédente 
+de la bombe nucléaire Mark 4 et son prédécesseur, la bombe nucléaire Fat Man de la Mark 3.
+La Mark 6 a été produite de 1951 à 1955 et a été en service jusqu''en 1962. Sept variantes et versions ont été produites, avec une production totale de toutes les modèles de 1100 bombes.
+La conception de base de la Mark 6 mesurait 61 pouces (150 cm) de diamètre et 128 pouces (330 cm) de long, les mêmes dimensions de base que la Mark 4. Divers modèles de la Mark 6 
+étaient environ 25% plus légers que la Mark 4 ou Fat Man, et pesaient de 7 600 à 8 500 livres (3 400 à 3 900 kg).
+Les premiers modèles de la Mark 6 utilisaient le même concept de système d''implosion à 32 points que les précédentes Mark 4 et Mark 3 ; 
+la Mark 6 Mod 2 et les suivantes utilisaient un système d''implosion différent à 60 points.
+Divers modèles et options de cœur donnaient des rendements nucléaires de 18, 26, 80, 154 et 160 kilotonnes pour les modèles de la Mark 6.'),
+
+('8682cd74-b3ae-4523-a916-e280a48bbd08', 'Mark 39', 'U.S', 'La bombe nucléaire Mark 39 et la tête nucléaire W39 étaient des versions d''une arme thermonucléaire américaine, 
+en service de 1957 à 1966. La conception de la Mark 39 était une bombe thermonucléaire et avait une puissance de 3,8 mégatonnes. Elle pesait entre 2 950 et 
+3 060 kilogrammes et mesurait environ 3,556 mètres de long sur 89 centimètres de diamètre. La conception était une amélioration de la bombe nucléaire Mark 15. 
+La Mark 15 était la première bombe thermonucléaire légère américaine. La tête nucléaire W39 avait un diamètre de 89 centimètres et une longueur de 270 centimètres, 
+pour un poids de 2 830 à 2 900 kilogrammes. Elle était essentiellement identique à la bombe Mark 39, mais elle ne possédait pas son parachute, ses ailerons et 
+son ''faux'' nez. Elle était utilisée sur le missile SM-62 Snark, le missile balistique à courte portée PGM-11 Redstone, et dans la nacelle d''armes du B-58 Hustler. 
+Elle était désignée comme une tête de guerre possible à utiliser dans le missile SM-64 Navaho avant l''annulation de ce dernier. Une variante à plus faible puissance de la Mark 39 
+a été développée pour être utilisée avec le missile Redstone. Des sources indiquent qu''elle aurait pu être aussi basse que 425 kilotonnes ou aussi haute que 500 kilotonnes. 
+Un total de 700 bombes Mark 39 (de trois variantes ''mod'') ont été produites entre février 1957 et mars 1959. Le retrait de la Mark 39 a commencé en janvier 1962 et s''est 
+terminé en novembre 1966. Soixante têtes nucléaires W39 ont été produites pour le missile Redstone et stockées entre 1958 et 1963, et 30 têtes nucléaires W39 ont été produites 
+pour le missile Snark en 1958 et retirées entre août 1962 et septembre 1965.'),
+
+('2b4d9ef8-430c-4331-99cc-6fb114f3e296', 'Mark 90', 'U.S', 'La bombe nucléaire Mark 90, surnommée ''Betty'', était une charge nucléaire de la guerre froide, développée par les États-Unis en 1952.
+Elle mesurait 3,10 mètres de long, avait un diamètre de 0,80 mètre et pesait 564 kilogrammes. 
+Elle transportait une tête nucléaire Mark 7 d''une puissance de 32 kilotonnes. Son but était de servir d''arme anti-sous-marine pour la Marine des États-Unis.'),
+
+('fb5f9adb-6902-499a-ba53-d70442cd3c5b', 'B53', 'U.S', 'La Mk/B53 était une arme thermonucléaire à fort rendement conçue par les États-Unis pendant la guerre froide. 
+Déployée sur les bombardiers du Commandement aérien stratégique, la B53, avec un rendement de 9 mégatonnes, était l''arme la plus puissante de l''arsenal 
+nucléaire américain après que les dernières bombes nucléaires B41 ont été retirées en 1976.
+La B53 était à la base de la tête nucléaire W-53 transportée par le missile Titan II, qui a été mis hors service en 1987. Bien qu''elle ne soit pas en service
+ actif pendant de nombreuses années avant 2010, cinquante B53 ont été conservées pendant cette période dans le cadre de la ''réserve'' de la partie pérenne du Stock 
+d''urgence jusqu''à son démantèlement complet en 2011. La dernière B53 a été démontée le 25 octobre 2011, un an avant le calendrier prévu.
+Avec son retrait, la plus grosse bombe actuellement en service dans l''arsenal nucléaire américain est la B83, avec un rendement maximal de 1,2 mégatonnes.'),
+
+('bc08bf58-4ba9-4b5e-8080-176662a112fd', 'B43', 'U.S', 'La B43 était une arme thermonucléaire à rendement variable larguée par les avions de chasse-bombardiers et les bombardiers américains.
+La B43 a été développée à partir de 1956 par le Laboratoire national de Los Alamos et est entrée en production en 1959. Elle est entrée en service en avril 1961. 
+La production totale était de 2000 armes, se terminant en 1965. Certaines variantes étaient équipées d''un parachute retardateur et présentaient un parachute ruban.
+La B43 a été construite en deux variantes, Mod 1 et Mod 2, chacune avec cinq options de rendement. Selon la version, la B43 avait un diamètre de 18 pouces (45 cm) 
+et une longueur comprise entre 12,5 pieds (3,81 m) et 13,6 pieds (4,15 m). Les différentes versions pesaient entre 2061 et 2116 livres (935 à 960 kg). 
+Elle pouvait être larguée à des altitudes aussi basses que 300 pieds (90 m), avec des options de mise à feu pour une explosion aérienne, une explosion au sol, 
+une chute libre, un contact ou un largage. Le rendement explosif variait de 70 kilotonnes de TNT à 1 mégatonne de TNT.
+La B43 utilisait la conception primaire Tsetse pour son étage de fission, tout comme plusieurs conceptions des années 1950.
+La B43 était l''une des quatre bombes thermonucléaires gravitationnelles transportées par les avions CF-104 canadiens alors qu''ils servaient en Allemagne entre juin 1964 et 1972.'),
+
+('afb2411a-3a4b-4f7f-9d53-880ab8122073', 'B28', 'U.S', 'Le B28, initialement Mark 28, était une bombe thermonucléaire transportée par les avions de chasse tactiques, 
+les avions d''attaque et les bombardiers américains. De 1962 à 1972, dans le cadre du programme de partage des armes nucléaires de l''OTAN, des B28 américains ont 
+également équipé six escadrons de CF-104 canadiens basés en Europe, connus sous le nom de RCAF Nuclear Strike Force. Il était également fourni pour être livré par des 
+avions Valiant et Canberra du Royal Air Force basés au Royaume-Uni et affectés à l''OTAN sous le commandement du SACEUR. De plus, certains avions d''attaque embarqués de 
+l''US Navy tels que le A3D (plus tard A-3B) Skywarrior, le A4D (plus tard A-4) Skyhawk et le A3J (plus tard A-5A) Vigilante étaient équipés pour transporter le B28.'),
+
+('e1cee907-cde0-4182-9615-3f47a717b230', 'Mark 45', 'U.S', 'La torpille anti-sous-marine Mark 45, également appelée ASTOR, 
+était une torpille nucléaire guidée par câble lancée par sous-marin, conçue par la Marine américaine pour être utilisée contre les sous-marins ennemis à 
+grande vitesse et à plongée profonde. C''était l''une des plusieurs armes recommandées pour la mise en œuvre par le projet Nobska, une étude estivale de 
+1956 sur la guerre sous-marine. La torpille de 19 pouces (480 mm) de diamètre était équipée d''une tête nucléaire W34. La nécessité de maintenir un contrôle 
+direct sur la tête nucléaire signifiait qu''une connexion par câble devait être maintenue entre la torpille et le sous-marin jusqu''à la détonation. Des systèmes de 
+guidage par câble étaient associés à ce câble, et la torpille n''avait aucune capacité de recherche. La conception a été achevée en 1960, et 600 torpilles ont été 
+construites entre 1963 et 1976, date à laquelle ASTOR a été remplacée par la torpille Mark 48.'),
+
+('f3c55c85-1e06-4dd1-a3bc-c896d22f10db', 'Titan II', 'U.S', 'Le Titan II était un missile balistique intercontinental (ICBM) développé par la 
+société Glenn L. Martin à partir du précédent missile Titan I. Le Titan II était à l''origine conçu et utilisé comme ICBM, mais a ensuite été adapté en 
+tant que véhicule de lancement spatial à moyenne portée (ces adaptations étaient désignées Titan II GLV et Titan 23G) pour transporter des charges utiles en 
+orbite terrestre pour l''United States Air Force (USAF), la National Aeronautics and Space Administration (NASA) et l''Administration nationale océanique et 
+atmosphérique (NOAA). Ces charges utiles comprenaient le programme de satellites météorologiques de défense de l''USAF (DMSP), les satellites météorologiques 
+de la NOAA et les capsules spatiales Gemini de la NASA. Les lanceurs spatiaux Titan II modifiés ont été lancés depuis la base de l''US Air Force de Vandenberg, en Californie, jusqu''en 2003.');
+
+
+INSERT INTO VEHICULE (vehicule_id, type, builder, name, vehicule_description)
+values 
+('eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', 'Bombardier stratégique', 'Convair', 'Convair B-36', 'Le Convair B-36 ''Peacemaker'' est un bombardier stratégique construit par Convair et 
+exploité par l''United States Air Force (USAF) de 1949 à 1959. 
+Le B-36 est le plus grand avion à moteur à piston jamais construit en série. 
+Il possède la plus grande envergure de tous les avions de combat jamais construits, avec 230 pieds (70 mètres). 
+Le B-36 était le premier bombardier capable de larguer n''importe quelle arme nucléaire de l''arsenal américain à partir d''une soute à bombes interne sans modifications de l''avion. 
+Avec une portée de 10 000 milles (16 000 km) et une charge utile maximale de 87 200 livres (39 600 kg), le B-36 est capable de voler intercontinentalement sans ravitaillement.
+Entré en service en 1948, le B-36 était le principal vecteur de livraison d''armes nucléaires du Commandement aérien stratégique (SAC) 
+jusqu''à ce qu''il soit remplacé par le Boeing B-52 Stratofortress à réaction à partir de 1955. Tous sauf quatre avions ont été démantelés.'),
+
+('0a13cef9-3bc7-4b20-a8d8-d4206de9fc11','Porte Avion','U.S', 'USS John F. Kennedy', 'L’USS John F. Kennedy (CV-67) est un porte-avions de l''US Navy. 
+Il devait être le quatrième porte-avions de la classe Kitty Hawk, mais a subi tellement de modifications (propulsion nucléaire à 
+l''origine, pont plus court, puis retour à la propulsion classique, changement de cheminée) qu''il forme une classe à lui seul. 
+Il fut le dernier porte-avions à propulsion classique à avoir été construit pour l''US Navy1.
+À l''origine l''USS John F. Kennedy devait être propulsé par quatre réacteurs nucléaires Westinghouse A3W pour devenir le second porte-avions nucléaire au monde après le 
+USS Enterprise (CVN-65), mais pour des questions de réduction de budget, une propulsion classique fut retenue, entrainant une profonde modification de la coque et le rajout d''une cheminée.
+Il fut baptisé le 27 mai 1967 par Jacqueline Kennedy et sa fille de neuf ans, Caroline à Newport News, Virginie et entra en service le 7 septembre 1968 rejoignant la 
+Sixième flotte des États-Unis en mer Méditerranée en avril 1969.
+Les armes nucléaires qu''emportait le navire pour son groupe aérien ont été débarquées en février 19932.
+Il fut retiré du service le 23 mars 2007 et stationne depuis le 22 mars 2008 au Naval Inactive Ship Maintenance Facility de Philadelphie.
+En 2021, l''US Navy vend le porte-avion pour un centime à la société International Shipbreaking Limited (ISL), une entreprise de démolition de navires3.
+Un second porte-avions portant ce nom, l’USS John F. Kennedy (CVN-79) est en construction depuis 2011.'),
+
+
+('17b07385-af78-4a3f-be0b-4e4aea923023', 'Bombardier lourd', 'Boeing', 'B-29 Superfortress', 'Le Boeing B-29 Superfortress est un bombardier lourd américain à quatre moteurs à hélice, 
+conçu par Boeing et principalement utilisé par les États-Unis pendant la Seconde Guerre mondiale et la guerre de Corée. Nombré en référence à son prédécesseur, le B-17 Flying Fortress, 
+le Superfortress a été conçu pour le bombardement stratégique à haute altitude, mais a également excellé dans le bombardement incendiaire nocturne à basse altitude et dans le 
+largage de mines navales pour bloquer le Japon. Les B-29 ont largué les bombes atomiques sur Hiroshima et Nagasaki, les seuls avions à avoir jamais largué des armes nucléaires en combat.
+L''un des plus grands avions de la Seconde Guerre mondiale, le B-29 a été conçu avec une technologie de pointe, notamment une cabine pressurisée, un train d''atterrissage tricycle à 
+double roue et un système de contrôle de tir contrôlé par ordinateur analogique qui permettait à un mitrailleur et à un officier de contrôle de tir de diriger quatre tourelles de 
+mitrailleuses à distance. Le coût de conception et de production de 3 milliards de dollars (équivalent à 51 milliards de dollars en 2022), dépassant largement le coût de
+ 1,9 milliard de dollars du Projet Manhattan, a fait du programme B-29 le plus cher de la guerre. Le B-29 est resté en service dans divers rôles jusqu''aux années 1950, 
+avant d''être retiré au début des années 1960 après la construction de 3 970 exemplaires. Quelques-uns ont également été utilisés comme émetteurs de télévision volants par la société Stratovision. 
+La Royal Air Force a utilisé le B-29 sous le nom de Washington de 1950 à 1954, date à laquelle le Canberra à propulsion à réaction est entré en service.'),
+
+('4c09a7af-2ada-4b52-ad03-794f4ec0d5f4', 'Bombardier stratégique', 'Boeing', 'B-50 Superfortress', 'Le Boeing B-50 Superfortress est un bombardier stratégique américain. 
+Révision de l''après-Seconde Guerre mondiale du Boeing B-29 Superfortress, il était équipé de moteurs radiaux Pratt & Whitney R-4360 plus puissants, d''une structure renforcée,
+ d''une dérive plus haute et d''autres améliorations. C''était le dernier bombardier à moteur à piston construit par Boeing pour l''United States Air Force, 
+et il a été encore perfectionné dans la dernière conception de Boeing, le prototype B-54. Bien que moins connu que son prédécesseur direct, le B-50 était en service 
+dans l''USAF pendant près de 20 ans.
+Après la fin de son service principal au sein du Commandement aérien stratégique (SAC), les cellules des B-50 ont été modifiées en ravitailleurs aériens pour le 
+Commandement aérien tactique (TAC) (KB-50) et en avions de reconnaissance météorologique (WB-50) pour le Service météorologique de l''Air. Les versions ravitailleurs 
+et chasseurs d''ouragans ont été retirées en mars 1965 en raison de la fatigue des métaux et de la corrosion trouvées dans les débris d''un KB-50J, 48-065, qui s''est écrasé le 14 octobre 1964.'),
+
+('e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', 'Bombardier', 'Boeing', 'B-47 Stratojet', 'Le Boeing B-47 Stratojet (désignation de modèle de la société Boeing : Modèle 450) 
+est un bombardier stratégique américain à long rayon d''action, à six moteurs et propulsé par des turboréacteurs, qui a été retiré du service. Il a été conçu pour voler 
+à grande vitesse subsonique et à haute altitude afin d''éviter les avions intercepteurs ennemis. La mission principale du B-47 était celle d''un bombardier nucléaire 
+capable de frapper des cibles à l''intérieur de l''Union soviétique.'),
+
+('da108b16-8696-43f0-ad7a-81f95b2cbf51', 'Transport', 'Douglas ', 'C-124 Globemaster II', 'Le Douglas C-124 Globemaster II, surnommé "Old Shaky", est un avion de transport 
+de fret lourd américain construit par la Douglas Aircraft Company à Long Beach, en Californie.
+Le C-124 était le principal avion de transport de fret lourd de l''United States Air Force (USAF) Military Air Transport Service (MATS) pendant les 
+années 1950 et le début des années 1960, jusqu''à ce que le Lockheed C-141 Starlifter entre en service. Il a servi dans les unités de la réserve de l''Air Force et 
+de la Garde nationale aérienne jusqu''à sa retraite en 1974.'),
+
+('f41ab580-62d8-410c-8017-60801e70852e', 'chasseurs supersoniques', 'North American', 'F-100 Super Sabre', 'Le North American F-100 Super Sabre est un avion de chasse à 
+réaction supersonique américain conçu et produit par le fabricant d''aéronefs North American Aviation. Premier de la série des avions de chasse à réaction américains de 
+la série Century, il était le premier chasseur de l''United States Air Force (USAF) capable de voler en vitesse supersonique en vol horizontal.
+Le F-100 a été envisagé à la fin des années 1940 comme un successeur à plus haute performance du chasseur de supériorité aérienne F-86 Sabre. Initialement appelé Sabre 45,
+ il a été livré comme une proposition non sollicitée à l''USAF en janvier 1951, ce qui a conduit à la commande de deux prototypes un an plus tard après des modifications. 
+Le premier YF-100A a effectué son premier vol le 25 mai 1953, sept mois avant le calendrier prévu. Les essais en vol ont démontré à la fois les performances prometteuses du
+ F-100 et plusieurs défauts, notamment sa tendance à l''instabilité de lacet et son couplage d''inertie qui ont conduit à de nombreux accidents mortels. Le 27 septembre 1954, 
+le F-100A est officiellement entré en service dans l''USAF, cependant, à la suite de six accidents majeurs survenus avant le 10 novembre 1954, le type a été cloué au sol pendant
+ que des enquêtes et des travaux correctifs étaient menés. Le F-100 est retourné en vol en février 1955.'),
+ 
+('4e674f2f-d87b-462a-b8e2-a4f06ed48dcf', 'Lutte anti-sous-marine', 'Martin', 'P5M Marlin', 'Le Martin P5M Marlin (P-5 Marlin après 1962), 
+construit par la société Glenn L. Martin de Middle River, Maryland, était un hydravion à deux moteurs à pistons qui est entré en service en 1951 et
+ a servi jusqu''à la fin des années 1960 dans la marine des États-Unis pour des patrouilles navales. Il a également servi dans la Garde côtière des
+ États-Unis et dans la Marine française. 285 exemplaires ont été produits.'),
+ 
+('02c75786-ae90-4690-bb47-44e99b822c90', 'Bombardier stratégique', 'Boeing', 'B-52 Stratofortress', 'Le Boeing B-52 Stratofortress est un bombardier stratégique américain à 
+long rayon d''action, subsonique et propulsé par réacteur. Conçu et construit par Boeing, qui continue de fournir un soutien et des mises à niveau, il est exploité par 
+l''United States Air Force (USAF) depuis les années 1950 et par la NASA depuis plus de 40 ans. Le bombardier peut transporter jusqu''à 70 000 livres (32 000 kg) d''armes 
+et a une portée de combat typique d''environ 8 800 miles (14 200 km) sans ravitaillement en vol.
+À partir de la soumission réussie de l''appel d''offres en juin 1946, la conception du B-52 a évolué d''un avion à aile droite propulsé par six moteurs turbopropulseurs 
+jusqu''au prototype final YB-52 avec huit moteurs turbojets et des ailes balayées. Le B-52 a effectué son premier vol en avril 1952. Il est en service dans l''USAF depuis
+ 1955 et dans la NASA de 1959 à 2007. Construit pour transporter des armes nucléaires pour des missions de dissuasion de l''ère de la Guerre froide, le B-52 Stratofortress
+ a remplacé le Convair B-36 Peacemaker.
+Des performances supérieures à haute vitesse subsonique et des coûts de fonctionnement relativement bas ont maintenu sa présence en service malgré le développement de bombardiers
+ stratégiques plus avancés, tels que le Convair B-58 Hustler Mach 2+, le North American XB-70 Valkyrie Mach 3 annulé, le Rockwell B-1 Lancer à géométrie variable et le Northrop 
+Grumman B-2 Spirit furtif. Vétéran de plusieurs guerres, le B-52 n''a largué que des munitions conventionnelles au combat.
+Le nom officiel du B-52, Stratofortress, est rarement utilisé ; informellement, l''avion est communément appelé le BUFF (Big Ugly Fat Fucker/Fella). Il y a 72 avions en service
+ en 2022 ; 58 exploités par les forces actives (2nd Bomb Wing et 5th Bomb Wing), 18 par les forces de réserve (307th Bomb Wing), et environ 12 stockés à long terme à la Davis-Monthan 
+AFB Boneyard. Les bombardiers ont volé sous le Strategic Air Command (SAC) jusqu''à sa dissolution en 1992 et ses avions ont été absorbés par l''Air Combat Command (ACC) ; en 2010, 
+tous les B-52 Stratofortress ont été transférés de l''ACC au nouveau Air Force Global Strike Command (AFGSC). Le B-52 a achevé 60 ans de service continu avec son opérateur 
+d''origine en 2015. Après avoir été modernisés entre 2013 et 2015, les derniers avions devraient rester en service jusqu''aux années 2050.'),
+
+('3cba2535-f3dd-47c5-811e-e4ec06a16f74', 'Avion ravitailleur', 'Boeing', 'KC-135 Stratotanker', 'Le Boeing KC-135 Stratotanker est un avion ravitailleur militaire 
+américain qui a été développé à partir du prototype Boeing 367-80, aux côtés du Boeing 707. Il a un fuselage plus étroit et est plus court que le 707. Boeing a donné 
+à l''avion la désignation interne de modèle 717. Le KC-135 était le premier ravitailleur en vol à réaction de l''United States Air Force (USAF) et a remplacé le KC-97 
+Stratofreighter. Initialement chargé de ravitailler les bombardiers stratégiques, le KC-135 a été largement utilisé lors de la guerre du Vietnam et dans des conflits 
+ultérieurs comme l''Opération Desert Storm pour prolonger la portée et l''endurance des chasseurs tactiques et des bombardiers américains.
+Le KC-135 est entré en service dans l''USAF en 1957 ; il est l''un des neuf avions militaires à voilure fixe à avoir plus de 60 ans de service continu avec son opérateur
+ d''origine. Le KC-135 est complété par le plus grand McDonnell Douglas KC-10 Extender. Des études ont conclu que bon nombre de ces avions pourraient voler jusqu''en 2030, 
+bien que les coûts de maintenance aient considérablement augmenté. Le KC-135 doit être partiellement remplacé par le Boeing KC-46 Pegasus.'),
+
+('2f93905f-4492-4ef7-9e20-dce0420581fe', 'Missile sol-air', 'Boeing', 'CIM-10 Bomarc', 'Le Boeing CIM-10 Bomarc (« Boeing Michigan Aeronautical Research Center ») 
+(système d''arme IM-99 avant septembre 1962) était un missile sol-air supersonique à propulsion par réaction ramjet utilisé pendant la Guerre froide pour la défense 
+aérienne de l''Amérique du Nord. En plus d''être le premier missile sol-air à longue portée opérationnel et le premier radar aviation à impulsion Doppler opérationnel,
+ c''était le seul SAM déployé par l''United States Air Force.
+Stocké horizontalement dans un abri de lancement avec un toit mobile, le missile était érigé, tiré verticalement à haute altitude à l''aide de propulseurs à fusée, 
+puis basculé en une croisière horizontale à Mach 2,5 alimentée par des moteurs ramjet. Cette trajectoire en altitude permettait au missile de fonctionner sur une 
+portée maximale pouvant atteindre 690 km (430 mi). Contrôlé depuis le sol pendant la majeure partie de son vol, une fois arrivé dans la zone cible, il était commandé de 
+commencer une descente, activant un chercheur radar actif embarqué pour le guidage terminal. Un fusible de proximité radar déclenchait la charge explosive, soit un 
+explosif conventionnel de grande taille, soit la charge nucléaire W40.
+L''US Air Force prévoyait initialement un total de 52 sites couvrant la plupart des grandes villes et régions industrielles des États-Unis. L''armée américaine déployait
+ ses propres systèmes en même temps, et les deux services se disputaient constamment tant dans les cercles politiques que dans la presse. Le développement a traîné en longueur,
+ et au moment où il était prêt pour le déploiement à la fin des années 1950, la menace nucléaire était passée des bombardiers pilotés aux missiles balistiques intercontinentaux 
+(ICBM). À ce moment-là, l''armée avait déployé avec succès le Nike Hercules, d''une portée beaucoup plus courte, qu''ils prétendaient remplir tout besoin possible jusqu''à la 
+fin des années 1960, malgré les affirmations contraires de l''US Air Force.
+Alors que les essais se poursuivaient, l''US Air Force a réduit ses plans à seize sites, puis à nouveau à huit avec deux sites supplémentaires au Canada. Le premier site 
+américain a été déclaré opérationnel en 1959, mais avec un seul missile fonctionnel. La mise en service des autres missiles a pris des années, au moment où le système était 
+obsolète. Les désactivations ont commencé en 1969 et d''ici 1972, tous les sites Bomarc avaient été fermés. Un petit nombre a été utilisé comme drones cibles, et seulement 
+quelques-uns sont exposés aujourd''hui.'),
+
+('f285e904-35b7-4eaf-bee0-4f74102db8d5', 'Sous-marin', 'Marine soviétique.', 'K-19', 'Le K-19 était le premier sous-marin de la classe Projet 658, 
+également connue sous le nom de sous-marin de classe Hotel selon le nom de code de l''OTAN, la première génération de sous-marins nucléaires soviétiques 
+équipés de missiles balistiques nucléaires, en l''occurrence le SLBM R-13. Le bateau a été construit à la hâte par les Soviétiques en réponse aux développements
+ américains dans les sous-marins nucléaires, dans le cadre de la course aux armements. Avant son lancement, 10 travailleurs civils et un marin sont morts dans 
+des accidents et des incendies. Après la mise en service du K-19, le sous-marin a connu de multiples pannes et accidents, dont plusieurs menaçaient de couler le navire.
+Lors de son premier voyage le 4 juillet 1961, le K-19 a subi une perte complète de liquide de refroidissement dans l''un de ses deux réacteurs. 
+Un système de secours inclus dans la conception n''avait pas été installé, le capitaine a donc ordonné aux membres de l''équipage d''ingénierie de trouver 
+une solution pour éviter une fusion nucléaire. Sacrifiant leur propre vie, l''équipage d''ingénierie a bricolé un système de refroidissement secondaire et 
+a empêché le réacteur de fondre. Vingt-deux membres d''équipage sont décédés au cours des deux années suivantes. Le sous-marin a connu plusieurs autres accidents,
+ dont deux incendies et une collision. La série d''accidents a inspiré aux membres de l''équipage le surnom de "Hiroshima" pour le sous-marin.'),
+ 
+('b0bdc2c3-4ae4-4ab4-9dcf-52c4693a3e8e', 'Bombardier', 'Convair', 'B-58 Hustler', 'Le Convair B-58 Hustler, conçu et produit par le fabricant d''aéronefs américain Convair,
+ a été le premier bombardier opérationnel capable de vol à Mach 2.
+Le B-58 a été développé dans les années 1950 pour le Commandement aérien stratégique (SAC) de l''United States Air Force (USAF). Pour atteindre les vitesses élevées souhaitées, 
+Convair a choisi une conception d''aile delta utilisée par les intercepteurs contemporains tels que le Convair F-102. Le bombardier était propulsé par quatre moteurs 
+General Electric J79 montés sous les ailes. Il n''avait pas de soute à bombes; il transportait une seule arme nucléaire ainsi que du carburant dans une combinaison de 
+nacelle bombe/carburant sous le fuselage. Plus tard, quatre points d''attache externes ont été ajoutés, lui permettant de transporter jusqu''à cinq armes.
+Le B-58 est entré en service en mars 1960 et a volé pendant une décennie avec deux ailes de bombardement du SAC - la 43e et la 305e. Il était considéré comme difficile 
+à piloter, imposant une charge de travail élevée à ses équipages de trois hommes. Conçu pour remplacer le bombardier stratégique subsonique Boeing B-47 Stratojet, 
+le B-58 est devenu tristement célèbre pour son bang sonique entendu au sol par le public lorsqu''il passait en vol supersonique.
+Le B-58 était conçu pour voler à haute altitude et à des vitesses supersoniques pour éviter les intercepteurs soviétiques, mais avec l''introduction par les 
+Soviétiques de missiles sol-air à haute altitude, le B-58 a été contraint d''adopter un rôle de pénétration à basse altitude qui a considérablement limité sa 
+portée et sa valeur stratégique. Il n''a jamais été utilisé pour larguer des bombes conventionnelles. Le B-58 était nettement plus coûteux à exploiter que d''autres
+ bombardiers, tels que le Boeing B-52 Stratofortress, et nécessitait un ravitaillement en vol plus fréquent. Le B-58 a également souffert d''un taux élevé de pertes 
+accidentelles. Ces facteurs ont conduit à une carrière opérationnelle relativement brève de dix ans.'),
+
+('2cff1fc6-f2b7-4521-8d72-5949fdf17ef2', 'Avion d''attaque', 'Douglas', 'A-4 Skyhawk', 'Le Douglas A-4 Skyhawk est un avion d''attaque léger monoplace capable d''opérer depuis un 
+porte-avions, conçu et produit par le fabricant américain d''aéronefs Douglas Aircraft Company, puis par McDonnell Douglas. Il était initialement désigné A4D dans le système de 
+désignation pré-1962 de l''United States Navy.
+Le Skyhawk a été développé au début des années 1950 pour l''United States Navy et le Corps des Marines des États-Unis en remplacement du Douglas A-1 (AD) Skyraider à hélice. 
+Par rapport à ce dernier, le A-4 est un avion compact, simple et léger pour son époque, avec un poids maximum au décollage de 24 500 livres (11 100 kg), soit environ 
+la moitié de la spécification de poids de la marine. Le Skyhawk est doté d''une configuration d''aile delta à courte portée, d''un train d''atterrissage tricycle et est 
+propulsé par un seul moteur turbojet. Un contrat pour l''avion a été attribué par l''US Navy le 12 juin 1952. Le 22 juin 1954, le prototype XA4D-1 a effectué son premier vol ; 
+il a ensuite établi un record de vitesse mondial de 695,163 mi/h le 15 octobre 1955. Le 1er octobre 1956, le Skyhawk a été mis en service opérationnel.
+Les cinq points d''emport du Skyhawk soutiennent une variété de missiles, de bombes et d''autres munitions. Il est capable de transporter une charge de bombe équivalente à 
+celle du bombardier Boeing B-17 de la Seconde Guerre mondiale et peut larguer des armes nucléaires à l''aide d''un système de bombardement à basse altitude et d''une technique
+ de largage "loft". De plus, il a été le pionnier du concept de ravitaillement en vol "buddy", permettant à un avion de ravitailler d''autres et réduisant ainsi le besoin de 
+ravitailleurs aériens dédiés. Le Skyhawk était initialement propulsé par le turboréacteur Wright J65 ; à partir du A-4E, le moteur Pratt & Whitney J52 a été utilisé à la place.
+ La production du Skyhawk s''est poursuivie jusqu''en février 1979, date à laquelle 2 960 avions avaient été livrés à divers opérateurs. 555 avions ont été construits spécifiquement 
+en tant qu''entraîneurs biplaces.
+Le Skyhawk a été engagé dans plusieurs combats actifs. L''US Navy a utilisé le type comme principal avion d''attaque léger lors de la guerre du Vietnam, effectuant certaines des 
+premières frappes aériennes américaines pendant le conflit. Le Skyhawk était l''avion d''attaque principal de l''armée de l''air israélienne lors de la guerre d''usure et de la 
+guerre du Kippour. Pendant la guerre des Malouines, des Skyhawks de l''armée de l''air argentine ont bombardé des navires de la Royal Navy, coulant le destroyer de type 42 Coventry 
+et la frégate de type 21 Ardent. Des Skyhawks de l''armée de l''air koweïtienne ont participé à l''opération Desert Storm. En 2022, près de sept décennies après le premier vol de 
+l''avion en 1954, un certain nombre de Skyhawks restent en service dans l''armée de l''air argentine et l''aviation navale brésilienne.'),
+
+('e5a26f91-e3cc-49ec-a8dc-59401dbd70ed', 'Sous marin Nucléaire Attaque', 'US Navy', 'USS scorpion', 'L''USS Scorpion (SSN-589) était un sous-marin nucléaire 
+de classe Skipjack qui a servi dans la Marine des États-Unis, et le sixième navire, et le deuxième sous-marin, de l''US Navy à porter ce nom.
+On pense que le Scorpion a été perdu le 27 mai 1968. Elle est l''un des deux sous-marins nucléaires que la Marine américaine a perdus, l''autre étant 
+l''USS Thresher. Elle a été l''une des quatre disparitions de sous-marins en 1968, les autres étant le sous-marin israélien INS Dakar, le sous-marin français 
+Minerve et le sous-marin soviétique K-129.
+L''épave du navire se trouve dans l''océan Atlantique Nord avec tous ses armements et son réacteur nucléaire.'),
+
+('d6b7d88b-4fe0-40f5-8076-5ea4eac25085', 'Sous marin Nucléaire Attaque', 'Soviet Marine', 'K-171', 'Le K-171 était un sous-marin nucléaire lanceur 
+de missiles balistiques du projet 667B Murena (connu sous le nom de Delta I par l''OTAN) de la Marine soviétique. Le sous-marin a été lancé et mis en service en 1976.
+ Il a été transféré de la Flotte du Nord soviétique à la Flotte du Pacifique plus tard cette année-là.'),
+ 
+('c1e3b054-bf99-4b1a-a091-546389201d68', 'Yankee-class submarine
+', 'Soviet Marine', 'K-219', 'Le K-219 était un sous-marin lanceur de missiles balistiques de classe Navaga du projet 667A (connu sous le nom de Yankee I par l''OTAN) de 
+la Marine soviétique. Il transportait 16 missiles R-27U à carburant liquide alimentés par UDMH avec tétraoxyde d''azote (NTO). Le K-219 a été impliqué dans l''un des incidents 
+sous-marins les plus controversés de la guerre froide le vendredi 3 octobre 1986. Le navire de 15 ans, qui effectuait une patrouille de dissuasion nucléaire de routine lors de 
+la guerre froide dans l''Atlantique Nord à 1 090 kilomètres (680 mi) au nord-est des Bermudes, a subi une explosion et un incendie dans un tube de missile. En cours de route, un
+ joint submergé dans un couvercle de trappe de missile a échoué, permettant à l''eau de mer à haute pression d''entrer dans le tube de missile et, en raison du différentiel de 
+pression, a fait éclater les réservoirs de carburant du missile, permettant au carburant liquide du missile de se mélanger et de finalement s''enflammer. Bien qu''aucune annonce 
+officielle n''ait été faite, l''Union soviétique a affirmé que la fuite était due à une collision avec le sous-marin USS Augusta. Bien que l''Augusta opérait dans la région, la 
+marine américaine et le commandant du K-219, le capitaine de deuxième rang Igor Britanov, nient qu''une collision ait eu lieu.'),
+
+('f109493d-4165-411e-a3c6-670ce7af55c0', 'Sous marin Nucléaire Attaque', 'Soviet Marine', 'K-431', 'Le K-431 (initialement le K-31) était un sous-marin nucléaire
+ soviétique qui a connu un accident de réacteur le 10 août 1985. Il a été mis en service le 30 septembre 1965. L''explosion de 1985 s''est produite lors du ravitaillement
+ en combustible du sous-marin à la baie de Chazhma, Dunay, Vladivostok. Il y a eu dix décès et 49 autres personnes ont subi des blessures par radiation. Le magazine Time 
+a identifié l''accident comme l''une des "pires catastrophes nucléaires" au monde.');
+
+INSERT INTO COORDONATE(coordonate_id, country_name, position_lost, x_coordonate, y_coordonate)
+values 
+('5a0aae66-71a9-452e-b8a1-8fc35d942634', 'Canada', 'Quebec', '48.060991420591655', '-73.26900198962217'),
+('cb075c10-967f-4c20-b431-b54b92012365', 'Canada', 'Colombie Britannique', '55.46232117554326', '-124.69336587565931'),
+('b82944d4-3a43-4519-8a87-37f62bf01db1', 'US', 'Manzano Base, Nouveau Mexique', '34.64414619428519', '-106.34396824157199'),
+('b74af9df-0823-4ab1-b24d-463a782c2ea3', 'US', 'Lebanon, Ohio', '39.43072434011488', '-84.20431428641108'),
+('e0afe998-f6ee-4706-9ba3-8978cc566a50', 'US', 'Kirtland AFB, Nouveau Mexique', '36.75140128416968', '-108.33195198448044'),
+('6bc6873b-0383-4fc5-abca-4d792d98824b', 'US', 'Fairfield Suisun-AFB. Californie', '38.27953260314395', '-121.95832957752532'),
+('2ecc35a6-b415-4780-a480-da9238d46c82', 'US', 'New Egypt, New Jersey, US', '40.06528805690022', '-74.53207957552085'),
+('c92091cf-0e8a-4448-94f1-01db18dfc16d', 'US', 'Homestead AFB, Floride', '25.482950407697523', '-80.4207473231067'),
+('3faa58b9-ae1e-4e2b-bf99-479370fbaf05', 'US', 'Savannah River, Georgie', '32.09063232126431', '-81.0993416122285'),
+('caf8794f-b0f1-467d-8401-04eb92b4fae6', 'US', 'Florence, Caroline du sud', '34.20146430611757', '-79.75374459304484'),
+('6946917e-98a9-4934-aa97-8d2f135305d8', 'US', 'Dress AFB, Texas', '31.78729716264151', '-97.72576832496856'),
+('2e84a913-5e6a-4985-acb8-3c6f033917c3', 'US', 'Chennault AFB, Louisiane', '30.21426366751035', '-93.1547172095452'),
+('f86a3f49-86c8-49d2-9980-c12eaf1557a3', 'US', 'Barksdale AFB, Louisiane', '32.5104194446055', '-93.54942003720345'),
+('3c8ee5a7-2c90-45c7-9f01-b93e8c1ed85d', 'US', 'Off Whidbey Island, Washington', '48.02578160876247', '-122.46195803970372'),
+('af823dba-7bb8-4de1-96d6-c7c09f3db832', 'US', 'Hardinsburg, Kentucky', '37.77545006527044', '-86.44784486543323'),
+('84511857-fe56-4adb-84af-4dcb2ede87e4', 'US', 'Goldsboro, Caroline du nord', '35.382086088906036', '-77.92487960138652'),
+('539a0106-5af7-410d-8cc6-a401fc4f2717', 'US', 'Yuba City, Californie', '39.132806722221105', '-121.61991655316848'),
+('a8f562a2-a679-4457-af3f-f1e23a7816c9', 'US', 'Cumberland, Maryland', '39.6507809742293', '-78.74943294246296'),
+('3976bf8e-5687-4849-8e73-ba0d457fdead', 'US', 'Ellsworth AFB, Dakota du Sud', '45.126644540392405', '-98.41245878724182'),
+('7f54a225-4b8d-4ef9-b20e-f830d9e3b32e', 'US', 'Bunker Hill (Now Grissom) AFB, Indiana', '40.661743480621006', '-86.0968434526764'),
+('0b6c9363-7982-4403-b087-c8bdda1d17f8', 'US', 'Wright-Patterson AFB, Ohio', '39.81526311273887', '-84.03303910316848'),
+('5925b33b-c553-4ebd-9f2b-13c440676a71', 'US', 'Damascus. Arkansas', '35.369858683772044', '-92.39631949589737'),
+('0075a48f-922c-4dad-ab7d-bbe924db9086', 'Ocean', 'Mer Méditerranée', '40.398177018274374', '4.813578937051075'),
+('4da5af20-5a6b-4713-8e44-e03e49de6caf', 'Ocean', 'Océan Atlantique', '46.75618741812224', '-34.825092861135005'),
+('bf10f987-9639-47d7-b389-eaefa460f4b8', 'Ocean', 'Océan pacifique', '40.61173524261595', '-155.56847153971464'),
+('a9d0c174-7192-4401-bb43-226b0410ad20', 'Ocean', 'Mer blanche', '67.33590884387809', '42.64685153907599'),
+('d083b8e3-9288-4ca5-834e-a152b385fcdd', 'Ocean', 'Mer des Philippines', '18.529685289913864', '145.45925452772994'),
+('978709fc-cacb-40a5-ab6e-33b4671fa5d2', 'Ocean', 'Mer de Barents', '75.49175968823545', '51.35540341514016'),
+('747a7569-a8c8-47ca-bb59-d2004fa78529', 'Ocean', 'Mer du Nord', '56.800131108900985', '4.2826174845366545'),
+('3f8f177c-e620-4421-bfc3-321ef75554d1', 'Ocean', 'Cote du Kamchatka', '55.97165111407779', '162.10410928718966'),
+('562f8f12-e576-4505-9aea-80ae77cb880c', 'Ocean', 'Chazhma Bay, Vladivostok', '55.10066074569865', '161.9086181754311'),
+('ffe3bcbc-5619-496d-a823-a87c71f0b0c7', 'Ocean', 'Mer de Kara', '78.50893896300637', '91.66858575811787'),
+('25d37526-63cb-4fa9-a478-8f4c9127113a', 'Europe', 'Royaume Uni', '54.19289698651019', '-1.089982697665179'),
+('7847da43-50df-4873-8b15-d1dc3a587ec3', 'Europe', 'Greenham Common US Base, Newbury, Royaume Uni', '51.40534920051264', '-1.3108236491090273'),
+('9de586dd-dc28-4dfe-9b6c-362d6623f9a7', 'Europe', 'Palomares, Spain', '37.24107775485184', '-1.7988591629795905'),
+('46d08f51-c536-41b4-8974-9446c798a7ff', 'Europe', 'Azores, portugal', '37.81662769161849', '-25.438358931505913'),
+('6d7d79ca-8ccb-48db-b5b3-968134ebb131', 'Europe', 'Thule, Greenland', '77.46790456057276', '-69.20957559438132'),
+('19b19107-af22-4e78-aba4-92b7050ecdbb', 'Europe', 'Sicile, Italie', '37.54985674614316', '14.668232183656611'),
+('834674f1-a714-4fbc-80d3-a4e56012fc75', 'Afrique', 'Sidi Slimane Air Base, Maroc', '34.28825555257046', '-5.926694948886283'),
+('7fc5a702-bc63-4e96-997b-6bae686f976d', 'Asie', 'Osan Air Base, South Korea', '37.08499666599453', '127.0355036578654');
+
+INSERT INTO FULL_DESCRIPTION(full_description_id, full_description)
+values 
+('c1397711-f58e-44df-942b-ce03e048a8e0', 'Une bombe nucléaire simulée contenant du TNT et de l''uranium, mais sans le noyau fissile nécessaire pour créer une explosion nucléaire, 
+a été délibérément larguée dans l''océan Pacifique après que les moteurs d''un bombardier Convair B-36 ont pris feu lors d''un test de sa capacité à transporter des charges nucléaires. 
+L''équipage a signalé avoir largué l''arme par précaution en raison de la quantité de TNT à bord, avant de sauter en parachute hors de l''avion. 
+Le bombardier s''est finalement écrasé à un endroit inconnu au Canada. Quatre ans plus tard, les débris ont été retrouvés et fouillés, 
+mais aucune bombe n''a été trouvée. La bombe a brièvement été pensée avoir été localisée par un plongeur civil en 2016 près de l''île Pitt, mais cela s''est avéré par la suite ne pas être le cas.
+Un bombardier B-36 de l''USAF, numéro de série AF 44-92075, effectuait une mission de combat simulée depuis la base aérienne d''Eielson, près de Fairbanks, 
+en Alaska, jusqu''à la base aérienne de Carswell à Fort Worth, au Texas, transportant une arme contenant une tête de guerre factice. 
+La tête de guerre contenait des explosifs conventionnels et de l''uranium naturel mais manquait du noyau fissile d''une arme réelle. 
+Après six heures de vol, le bombardier a rencontré des problèmes mécaniques et a été contraint de fermer trois de ses six moteurs à une altitude de 12 000 pieds (3 700 m). 
+Craignant que les conditions météorologiques sévères et le givrage ne compromettent un atterrissage d''urgence en toute sécurité, 
+l''arme a été larguée dans l''océan Pacifique depuis une hauteur de 8 000 pieds (2 400 m). 
+Les explosifs de l''arme ont explosé à l''impact avec une vive lumière visible. 
+Les seize membres d''équipage et un passager ont tous pu sauter en parachute depuis l''avion et douze ont ensuite été secourus de l''île Princess Royal.'),
+('431908b5-c1d8-4cb2-809d-62ec7182f50b', 'Trois minutes après le départ de la base aérienne de Kirtland à Albuquerque, un Boeing B-29 Superfortress de l''USAF 
+transportant une arme nucléaire (sans noyau fissile), 
+quatre détonateurs de rechange et un équipage de treize personnes s''est écrasé contre une montagne près de la base de Manzano. 
+Des détonateurs étaient installés dans la bombe à bord de l''avion. 
+Le boîtier de la bombe a été détruit et une partie du matériau explosif (HE) a brûlé dans l''incendie de l''essence. 
+D''autres morceaux d''HE non brûlés étaient dispersés dans les débris. Quatre détonateurs de rechange dans leur étui de transport ont été retrouvés intacts. 
+L''accident a provoqué un incendie que le New York Times a rapporté comme étant visible à 15 miles (24 km). 
+Le boîtier de la bombe a été détruit et ses explosifs ont été enflammés au contact du carburant en feu de l''avion. 
+Cependant, selon le Département de la Défense, les quatre détonateurs de rechange et tous les composants nucléaires ont été récupérés.
+Il n''y a eu aucun problème de contamination ou de récupération. Les composants récupérés de l''arme ont été retournés à la Commission de l''énergie atomique. 
+L''arme et la capsule de matériau nucléaire étaient à bord de l''avion mais la capsule n''a pas été insérée pour des raisons de sécurité. Une détonation nucléaire n''était pas possible.'),
+('10e3ab73-73a1-4587-b2c3-8ade3d6532ee', 'Le B-50 effectuait une mission d''entraînement depuis la base aérienne de Biggs, au Texas. L''avion volait à 7 000 pieds par 
+temps clair. L''avion a piqué vers le sol et s''est écrasé, tuant quatre officiers et douze membres d''équipage. La partie explosive de l''arme à bord a explosé à l''impact. 
+Aucune capsule nucléaire n''était à bord de l''avion.'),
+('32ab008e-e733-46c6-916a-8ff3078201e1', 'Un bombardier B-29 de l''USAF, numéro de série AF 44-87651, transportant une bombe nucléaire Mark 4 (sans noyau fissile) à bord, 
+en route vers Guam, a connu des dysfonctionnements avec deux hélices et avec la rétraction du train d''atterrissage au décollage. Il s''est écrasé en tentant un atterrissage 
+d''urgence à Fairfield Suisun-AFB. Dans l''incendie qui a suivi, le matériau explosif de la bombe a explosé, tuant dix-neuf personnes parmi l''équipage et le personnel de secours. 
+Le brigadier général Robert F. Travis, pilote commandant du bombardier, était parmi les morts.'),
+('eddc60cf-fcf6-4a95-a1a7-9dfac97b36f2', 'De retour d''une des plusieurs bombes nucléaires de type Mark 4 déployées secrètement au Canada, un B-50 de l''USAF a rencontré des 
+problèmes de moteur et a largué l''arme à 10 500 pieds (3 200 m). L''équipage a réglé la bombe pour s''auto-détruire à 2 500 pieds (760 m) et l''a larguée au-dessus du fleuve Saint-Laurent. 
+L''explosion a secoué les résidents de la région et a dispersé près de 100 livres (45 kg) d''uranium (U-238) utilisé dans la chemise de la bombe. Aucun noyau fissile n''était installé dans la bombe.
+'),
+('93037dcc-64c0-4c85-97d8-a08676697377', 'Un B-47 Stratojet de l''USAF, numéro de série 52-534, en mission sans escale de la base aérienne de MacDill, en Floride, vers une base à l''étranger
+avec ravitaillement en vol.
+Le premier ravitaillement s''est déroulé normalement. Le deuxième point de ravitaillement était au-dessus de la mer Méditerranée. En préparation à cela, le vol a pénétré dans 
+une formation nuageuse solide pour descendre au niveau de ravitaillement de 14 000 pieds. La base des nuages était à 14 500 pieds et la visibilité était mauvaise. L''avion, 
+transportant deux capsules de matériau d''armes nucléaires dans des étuis de transport, n''a jamais réussi à contacter le ravitailleur. Une recherche approfondie n''a pas 
+permis de localiser de traces de l''avion ou de l''équipage disparus. Aucune arme n''était à bord de l''avion, seulement deux capsules de matériau d''armes nucléaires 
+dans des étuis de transport. Une détonation nucléaire n''était pas possible.
+Une agence de presse française a rapporté que l''avion avait explosé en plein air au nord-est de Saïdia, au Maroc français, dans la même zone générale que sa dernière 
+position connue. L''avion a été perdu alors qu''il volait à travers des nuages denses, et les noyaux et autres débris n''ont jamais été retrouvés.
+'),
+('c18c7f4a-fe03-4375-b497-9375c2e7de1d', 'Un avion B-47 sans armes à bord effectuait une mission d''entraînement de routine lorsqu''il a perdu soudainement le contrôle 
+et a dérapé hors de la piste, percutant un igloo de stockage contenant plusieurs armes nucléaires mark 6. Les bombes n''ont pas brûlé ni explosé. Aucun problème de 
+contamination ou de nettoyage n''a été signalé. Les armes endommagées et les composants ont été renvoyés à la Commission de l''énergie atomique. Les armes impliquées 
+étaient dans une configuration de stockage. Aucune capsule de matériau nucléaire n''était présente dans les armes ou dans le bâtiment.
+'),
+('23f7629f-2899-4b63-9bc5-4933b2afabb9', 'L''avion transportait une arme de la base aérienne de Biggs, au Texas, à la base aérienne de Kirtland. À 11h50, heure normale
+ des Rocheuses, alors qu''il approchait de Kirtland à une altitude de 1 700 pieds, l''arme est tombée de la soute à bombes en emportant les portes de la soute avec elle.
+ Les parachutes de l''arme ont été déployés mais n''ont apparemment pas totalement retardé la chute en raison de la faible altitude. Le point d''impact était d''environ 
+4,5 miles au sud de la tour de contrôle de Kirtland et à 0,3 miles à l''ouest de la réserve de la base de Sandia. Le matériau explosif a détoné, détruisant complètement 
+l''arme et créant un cratère d''environ 25 pieds de diamètre et 12 pieds de profondeur. Des fragments et des débris ont été dispersés jusqu''à un mile du point d''impact. 
+Le verrouillage de la mécanisme de libération était en cours de retrait au moment de la libération. (Il était de procédure standard à ce moment-là que le verrouillage soit
+ retiré pendant le décollage et l''atterrissage pour permettre un largage d''urgence de l''arme si nécessaire.) Les opérations de récupération et de nettoyage ont été 
+menées par le Commandement de terrain, Projet des armes spéciales des forces armées. Une enquête radiologique de la zone n''a révélé aucune radioactivité au-delà du bord 
+du cratère, à ce niveau, la concentration était de 0,5 milliroentgens. Aucun problème de santé ou de sécurité n''a été signalé. L''arme et la capsule étaient toutes deux à
+ bord de l''avion mais la capsule n''était pas insérée pour des raisons de sécurité et une détonation nucléaire n''était pas possible.
+'),
+('7dbaa624-b9b9-4fdc-8647-9b8370b7b478', 'Deux armes ont été larguées d''un avion C-124 le 28 juillet au large de la côte est des États-Unis. 
+Trois armes et une capsule nucléaire étaient à bord de l''avion à ce moment-là. Aucun composant nucléaire 
+n''était installé dans les armes. 
+L''avion C-124 se trouvait en route depuis la base aérienne de Dover, 
+dans le Delaware, lorsqu''une perte de puissance des moteurs numéro un et deux a été constatée. 
+La puissance maximale a été appliquée aux moteurs restants ; cependant, le maintien d''un vol de niveau n''a pas été possible. 
+À ce moment-là, la décision a été prise de larguer la cargaison dans l''intérêt de la sécurité de l''avion et de l''équipage. 
+La première arme a été larguée à une altitude de 4 500 pieds. La deuxième arme a été larguée à environ 2 500 pieds d''altitude. 
+Aucune explosion n''a eu lieu à partir d''aucune des armes. Il est présumé que les deux armes ont été endommagées lors de l''impact 
+avec la surface de l''océan. Il est également présumé que les deux armes ont presque immédiatement plongé sous la surface de l''eau. 
+La profondeur de l''océan varie dans la zone des largages. Le C-124 a atterri sur un terrain d''aviation à proximité d''Atlantic City, dans le New Jersey, 
+avec l''arme restante et la capsule nucléaire à bord. Une recherche des armes ou des débris a donné des résultats négatifs.'),
+('11a65035-5640-4122-8577-9a7ee66bc024', 'Le B-47 a décollé de la base aérienne de Homestead peu après minuit pour une mission de déploiement. 
+Peu après le décollage, l''un des pneus extérieurs de l''avion a explosé. L''avion s''est écrasé dans une 
+zone inhabitée à environ 3 800 pieds de l''extrémité de la piste. L''avion transportait une arme en 
+configuration de transport dans la soute à bombes et une capsule nucléaire dans un étui de transport 
+dans le compartiment de l''équipage. L''arme était enveloppée de flammes qui ont brûlé et couvé pendant 
+environ quatre heures, après quoi elle a été refroidie à l''eau. Deux détonations de faible puissance 
+de haute explosivité ont eu lieu pendant la combustion. La capsule nucléaire et son étui de transport 
+ont été récupérés intacts et légèrement endommagés par la chaleur. Environ la moitié de l''arme est restée. 
+Tous les composants principaux étaient endommagés mais identifiables et comptabilisés.'),
+('45414a5b-cfce-47fe-88a5-5b31e229260b', 'Un B-47 équipé d''une arme en configuration de frappe effectuait un décollage simulé 
+lors d''un exercice d''alerte. Lorsque l''avion a atteint environ 30 nœuds sur la piste, 
+le moulage de la roue arrière gauche a cédé. La queue a heurté la piste et un réservoir 
+de carburant s''est rompu. L''avion a pris feu et a brûlé pendant sept heures. 
+Les pompiers ont combattu l''incendie pendant les dix minutes allouées pour la 
+lutte contre le feu en présence de contenu explosif de cette arme, 
+puis ont évacué la zone. L''explosif à haute puissance n''a pas explosé, 
+mais il y a eu une certaine contamination dans la zone immédiate de 
+l''accident. Après que les débris et l''asphalte en dessous ont été enlevés 
+et que la piste a été lavée, aucune contamination n''a été détectée. 
+Un camion de pompiers et les vêtements d''un pompier ont montré une 
+légère contamination alpha jusqu''à ce qu''ils soient lavés. 
+À la suite de l''accident, les alertes d''exercice ont été temporairement suspendues et 
+les roues des B-47 ont été vérifiées pour détecter d''éventuels défauts.'),
+('958b3c74-3c89-45b3-ae02-825af5b5eeb9', 'Le B-47 effectuait une mission de combat simulée qui avait débuté à la base aérienne de Homestead, en Floride.
+ Alors qu''il se trouvait près de Savannah, en Géorgie, le B-47 a eu une collision en plein vol à 3h30 
+ du matin avec un avion F-86. Après la collision, le B-47 a tenté à trois reprises d''atterrir à la base 
+ aérienne de Hunter, en Géorgie, avec une arme à bord. En raison de l''état de l''avion, sa vitesse de vol 
+ ne pouvait pas être réduite suffisamment pour garantir un atterrissage en toute sécurité. 
+ Par conséquent, la décision a été prise de larguer l''arme plutôt que d''exposer la base aérienne 
+ de Hunter à la possibilité d''une détonation de haute explosif. Une détonation nucléaire n''était 
+ pas possible car la capsule nucléaire n''était pas à bord de l''avion. L''arme a été larguée dans 
+ l''eau à plusieurs milles de l''embouchure de la rivière Savannah (Géorgie) dans Wassaw Sound de Tybee Beach.
+ Le point d''impact précis de l''arme est inconnu. L''arme a été larguée d''une altitude d''environ 
+ 7 200 pieds à une vitesse de l''avion de 180 à 190 nœuds. Aucune détonation ne s''est produite. 
+ Après largage, le B-47 a atterri en toute sécurité. Une zone de trois milles carrés a été 
+ fouillée à l''aide d''un navire avec des plongeurs et des techniciens d''équipe de démolition 
+ sous-marine utilisant des dispositifs de traînée galvanique et des sonars portatifs. 
+ L''arme n''a pas été retrouvée. La recherche a été abandonnée le 16 avril 1958. 
+ L''arme était considérée comme irrémédiablement perdue.'),
+('dbb5331d-3a57-4f0f-a5da-22a82b79895b', 'Un B-47E de la 310th Bomb Wing a développé des problèmes peu après le décollage et 
+a largué ses deux réservoirs de carburant externes de 1 700 gallons. Ils ont manqué 
+leur zone d''impact sûre désignée, et l''un a heurté un hangar tandis que l''autre a 
+frappé le sol à 65 pieds (20 m) derrière un B-47E garé. L''avion stationné, qui était
+ ravitaillé en carburant, avait un pilote à bord et transportait une bombe nucléaire 
+ B28 de 1,1 mégatonne (4,6 PJ). Il a été englouti par les flammes. L''incendie a nécessité 
+ seize heures et plus d''un million de gallons d''eau pour être éteint, en partie en raison 
+ des alliages de magnésium utilisés dans l''avion. Bien que deux hommes aient été tués et huit 
+ blessés, les gouvernements américain et britannique ont gardé l''accident secret : aussi tard 
+ qu''en 1985, le gouvernement britannique affirmait qu''un avion roulant avait heurté un avion 
+ stationné et qu''aucun incendie n''était impliqué.'),
+('9a5968b6-430f-4751-8f89-b452a452cbb3', 'Le bombardier B-47E de l''USAF, numéro 53-1876A, volait de la base aérienne de Hunter à 
+Savannah, en Géorgie, vers l''Angleterre dans une formation de quatre B-47 dans le cadre 
+d''une mission top secrète appelée Opération Snow Flurry pour effectuer un exercice de 
+bombardement simulé. Le navigateur/bombardier de vol vérifiait le harnais de verrouillage 
+de la massive (7 600 livres (3 447 kg)) bombe nucléaire Mark 6 lorsqu''il a accidentellement 
+actionné le levier de dégagement d''urgence. La bombe est tombée sur les portes de la soute à 
+bombes, les brisant et tombant librement à 15 000 pieds (4 572 m). Le détonateur explosif 
+s''est déclenché après avoir touché le sol à 6,5 miles à l''est de Florence, en Caroline du Sud, 
+à Mars Bluff, créant un cratère de 70 pieds (21 m) de large et de 30 pieds (9 m) de profondeur. 
+Une maison à proximité a été détruite et plusieurs personnes ont été blessées. 
+Une détonation nucléaire n''était pas possible car, à bord, le cœur de l''arme n''était pas dans
+ l''arme pour des raisons de sécurité.'),
+('feb09ac6-9764-4d7a-b8e6-02ffa1fb62d0', 'Un B-47 a pris feu au décollage. Trois membres de l''équipage se sont éjectés avec succès ; 
+l''un a été tué lorsque l''avion s''est écrasé d''une altitude de 1 500 pieds.
+ Une arme nucléaire était à bord lorsque l''avion s''est écrasé. 
+ La détonation résultante du matériau explosif a créé un cratère de 35 pieds de 
+ diamètre (10,7 m) et six pieds de profondeur (1,8 m). Des matériaux nucléaires ont été récupérés
+ près du site de l''accident.'),
+('f5491a4a-bc18-4cd5-a2ef-1cef283fc9db', 'Un bombardier B-47 de l''USAF avec une arme nucléaire à bord a pris feu au sol. 
+Les débris de l''avion et le site de l''accident ont été contaminés après une explosion 
+limitée de matériaux non nucléaires.'),
+('47fb7d5b-dc49-465f-938d-76dbb3570be2', 'L''avion était garé sur un durcissement dans une configuration d''alerte au sol. 
+La charge externe se composait d''une arme sur la station intermédiaire gauche et 
+de trois réservoirs de carburant (les deux stations internes et la station intermédiaire droite). 
+Lorsque le bouton de démarrage a été enfoncé lors d''une alerte d''entraînement, une explosion et 
+un incendie se sont produits lorsque les réservoirs de carburant externes ont été largués par 
+inadvertance. Les camions de pompiers sur place ont éteint l''incendie en environ sept minutes. 
+La capsule n''était pas à proximité de l''avion et n''était pas impliquée dans l''accident. 
+Il n''y a eu aucun problème de contamination ou de nettoyage.'),
+('037a2b44-43b1-4b48-9c69-625e6ba7946d', 'Un C-124 en mission de mouvement logistique nucléaire s''est écrasé au décollage. 
+L''avion a été détruit par le feu, qui a également détruit une arme. 
+Aucune détonation nucléaire ou de haute explosivité ne s''est produite - 
+les dispositifs de sécurité ont fonctionné comme prévu. Une contamination 
+limitée était présente sur une très petite zone immédiatement sous l''arme détruite. 
+Cette contamination n''a pas entravé les opérations de sauvetage ou de lutte contre l''incendie.'),
+('67a5854b-bf5d-4167-a2e9-962705fd1af2', 'Un avion de la marine américaine de type P5M s''est écrasé dans le Puget Sound au large 
+de l''île de Whidbey, dans l''océan Pacifique, à environ 100 miles (160 km) à l''ouest de la frontière 
+entre Washington et l''Oregon. Il transportait une arme anti-sous-marine 
+nucléaire non armée ne contenant pas de matériau nucléaire. L''arme n''a pas été récupérée.'),
+('0f4a0da8-a7f3-4872-a36b-411c31496084', 'Le B-52 a décollé de la base aérienne de Columbus, Mississippi, à 14h30 CST, 
+le 15 octobre 1959. Cet avion a assumé la position n°2 dans un vol de deux. 
+Le KC-135 a décollé de la base aérienne de Columbus à 17h33 CST en tant que 
+12e avion ravitailleur dans un vol de deux prévu pour ravitailler les B-52. 
+Le rendez-vous pour le ravitaillement a été effectué près de Hardinsburg, 
+Kentucky, à 32 000 pieds. Il faisait nuit, le temps était clair et 
+il n''y avait pas de turbulence. Peu après que le B-52 a commencé à se 
+ravitailler à partir du KC-135, les deux avions sont entrés en collision. 
+Le pilote instructeur et le pilote du B-52 se sont éjectés, suivis par l''officier de 
+guerre électronique et le navigateur radar. Le copilote, le navigateur, 
+le navigateur instructeur et le mitrailleur de queue n''ont pas réussi à 
+quitter le B-52. Les quatre membres d''équipage du KC-135 ont été mortellement blessés.
+ Les deux armes nucléaires non armées du B-52 ont été récupérées intactes.
+ L''une d''elles avait été partiellement brûlée, mais cela n''a pas entraîné 
+ la dispersion de matériau nucléaire ou d''autres contaminations.'),
+('35b15637-b508-4a27-95f4-e2b7bd9775bf', 'À la base aérienne de McGuire, dans le New Jersey, un missile de défense 
+aérienne BOMARC (prêt au lancement en deux minutes) a été détruit par une 
+explosion et un incendie après qu''un réservoir d''hélium haute pression a 
+explosé et ait rompu les réservoirs de carburant du missile. La tête de 
+guerre a également été détruite par le feu bien que l''explosif de haute
+ puissance n''ait pas explosé. Les dispositifs de sécurité nucléaire ont 
+ fonctionné comme prévu. La contamination s''est limitée à une zone immédiatement 
+ sous l''arme et à une zone adjacente allongée d''environ 100 pieds, causée par un 
+ écoulement d''eau d''extinction des incendies.'),
+('1bd3c9ff-cfa9-4627-97d1-caf212a79b4c', 'Un bombardier B-52 de l''USAF a pris feu et a explosé en plein vol en raison d''une importante 
+fuite dans une cellule de carburant de l''aile à 12 miles (19 km) au nord de la base aérienne de 
+Seymour Johnson, en Caroline du Nord. Cinq membres d''équipage se sont parachutés en sécurité, 
+mais trois autres sont décédés, deux dans l''aéronef et un lors de l''atterrissage. 
+L''incident a libéré les deux bombes nucléaires Mark 39 du bombardier. 
+Trois des quatre dispositifs de mise en marche d''une des bombes ont été activés, 
+ce qui l''a amenée à effectuer bon nombre des étapes nécessaires à son armement, 
+telles que le chargement des condensateurs de tir et, de manière critique, 
+le déploiement d''un parachute de retardement de 100 pieds (30 m) de diamètre. 
+Le parachute a permis à la bombe de toucher le sol avec peu de dommages. 
+Le quatrième dispositif de mise en marche - l''interrupteur de sécurité/armement du pilote - 
+n''a pas été activé, empêchant la détonation. La deuxième bombe est tombée dans un 
+champ boueux à environ 700 mph (300 m/s) et s''est désintégrée. 
+Sa queue a été découverte à environ 20 pieds (6 m) de profondeur 
+et une grande partie de la bombe a été récupérée, y compris la 
+bouteille de tritium et le plutonium. Cependant, l''excavation a été 
+abandonnée en raison de l''inondation incontrôlable des eaux souterraines. 
+La plupart de l''étage thermonucléaire, contenant de l''uranium, est restée sur place. 
+On estime qu''elle se trouve à environ 55 pieds (17 m) sous terre. L''US Air Force a acheté le terrain et l''a clôturé pour 
+empêcher toute perturbation, et il est régulièrement testé pour la contamination, bien qu''aucune n''ait été trouvée jusqu''à présent.'),
+('5757ce61-f8a0-404c-b89b-c64f434e6dea', 'Un B-52 a connu une défaillance du système de pressurisation du compartiment équipage, 
+le forçant à descendre à une altitude de 10 000 pieds. La consommation de carburant 
+accrue a entraîné une épuisement du carburant avant le rendez-vous avec un avion ravitailleur.
+ L''équipage s''est éjecté à 10 000 pieds, à l''exception du commandant de bord qui est resté avec 
+ l''avion jusqu''à 4 000 pieds pour diriger l''avion loin d''une zone peuplée. Les deux armes 
+ nucléaires à bord ont été arrachées de l''avion à l''impact au sol. Les explosifs de haute 
+ puissance n''ont pas explosé. Les dispositifs de sécurité ont fonctionné comme prévu et 
+ il n''y a eu aucune contamination nucléaire.'),
+('9cfab034-89c7-4c69-95b6-2f44d54669fc', 'Le sous-marin soviétique de classe Hotel K-19 a subi une défaillance de 
+son système de refroidissement. Les températures du cœur du réacteur ont atteint 
+800 °C (1 500 °F), presque suffisantes pour faire fondre les barres de combustible,
+ bien que l''équipage ait pu reprendre le contrôle de la température en utilisant des 
+ procédures d''urgence. L''incident a contaminé certaines parties du navire, certains des 
+ missiles balistiques à bord et l''équipage, entraînant plusieurs décès.'),
+('1683d42b-eab7-4b77-8a53-8923b2b51491', 'Un B-52D était en route depuis la base aérienne de Westover, dans le Massachusetts, 
+vers sa base d''attache à la base aérienne de Turner, en Géorgie. 
+Le crash s''est produit à environ 17 miles au sud-ouest de Cumberland, dans le Maryland. 
+L''avion transportait deux armes. Les deux armes étaient dans une configuration de transfert 
+tactique (aucune connexion mécanique ou électrique n''avait été établie avec l''avion et les 
+interrupteurs de sécurité étaient en position "SAFE"). Avant le crash, le pilote avait 
+demandé un changement d''altitude en raison de turbulences atmosphériques sévères à 29 500 pieds. 
+L''avion a été autorisé à monter à 33 000 pieds. Pendant la montée, l''avion a rencontré des 
+turbulences atmosphériques violentes et une défaillance structurelle de l''aéronef s''est ensuite produite. 
+Sur les cinq membres d''équipage, seuls le pilote et le copilote ont survécu. Le mitrailleur et 
+le navigateur se sont éjectés mais sont morts d''exposition aux températures sub-zéro après avoir 
+atteint le sol avec succès. Le navigateur radar ne s''est pas éjecté et est mort lors de l''impact de l''avion. 
+Le site du crash était une zone montagneuse et boisée isolée. Le site était recouvert de 14 pouces de 
+neige fraîche recouvrant les débris de l''avion qui étaient dispersés sur une superficie d''environ 
+100 yards carrés. La météo pendant l''opération de récupération et de nettoyage impliquait un froid 
+extrême et des vents violents. Les deux armes sont restées dans l''avion jusqu''à ce qu''il s''écrase 
+et étaient relativement intactes dans le centre approximatif de la zone des débris.'),
+('f918c479-6787-4e24-a289-b1b6df62c597', 'Le missile LGM 30 Minuteman I était en alerte stratégique au Launch Facility (LF) L-02, 
+à la base aérienne d''Ellsworth, dans le Dakota du Sud. Deux aviateurs ont été envoyés
+ au site de lancement pour réparer le système de sécurité de la zone intérieure (IZ). 
+ Au milieu de leur vérification du système IZ, une rétrofusée dans l''espaceur sous le 
+ Véhicule de rentrée (RV) a été tirée, faisant tomber le RV d''environ 75 pieds au fond du silo. 
+ Lorsque le RV a heurté le fond du silo, le sous-système d''armement et de commande d''altitude
+ contenant les batteries a été arraché, retirant ainsi toutes les sources d''alimentation du RV. 
+ La structure du RV a subi des dommages considérables. Tous les dispositifs de sécurité ont 
+ fonctionné correctement en ce sens qu''ils n''ont pas détecté la séquence d''événements appropriée 
+ pour permettre l''armement de la tête nucléaire. Il n''y a pas eu de détonation ni de contamination 
+ radioactive.'),
+('f900d695-8eaa-4569-a65e-4de1e1228b38', 'Les avions de la SAC roulaient lors d''un exercice d''alerte. 
+Alors qu''un B-58 atteignait une position directement derrière l''avion sur la piste devant lui,
+l''avion devant a augmenté la puissance. En raison de la combinaison de la poussée des réacteurs de
+ l''avion devant, des conditions de surface glacée de la piste et de la puissance appliquée à 
+ l''avion en essayant de tourner sur la piste, le contrôle a été perdu et l''avion a glissé sur 
+ le côté gauche de la voie de circulation. Le train d''atterrissage principal gauche a passé 
+ sur un feu de balisage encastré dans la voie de circulation et, 10 pieds plus loin dans son 
+ déplacement, a frôlé le bord gauche d''une base de lumière en béton. Dix pieds plus loin, 
+ le train d''atterrissage principal gauche a heurté une boîte de regard électrique en béton, 
+ et l''avion a pris feu. Lorsque l''avion s''est immobilisé, les trois membres d''équipage à bord 
+ ont commencé à abandonner l''avion. Le commandant de l''avion et l''opérateur des systèmes de
+ défense sont sortis avec seulement des blessures légères. Le navigateur s''est éjecté dans 
+ sa capsule de sauvetage, qui a heurté le sol à 548 pieds de l''avion. Il n''a pas survécu. 
+ Des parties des cinq armes nucléaires à bord ont brûlé ; la contamination était limitée à 
+ la zone immédiate de l''accident et a été ensuite éliminée.'),
+('207cfaa1-29eb-4d49-8712-bf7c22132886', 'L''avion était en train d''être ravitaillé en préparation d''une mission logistique de routine 
+lorsqu''un incendie s''est déclaré à l''extrémité arrière de la remorque de ravitaillement. 
+Le fuselage de l''avion, ne contenant que des composants d''armes nucléaires et une unité 
+d''entraînement factice, a été détruit par le feu. Il n''y a eu aucune victime. 
+Le danger de radiation résultant était minimal. Une légère contamination a été 
+trouvée sur l''avion, le fret et les vêtements du personnel de déminage et de lutte contre 
+l''incendie, et a été éliminée par un nettoyage normal.'),
+('0c1ba313-a287-4d94-99ac-fd675e584db9', 'Un avion A-4E Skyhawk de l''US Navy avec une bombe nucléaire B43 à bord est tombé 
+du porte-avions USS Ticonderoga dans 16 200 pieds (4 900 m) d''eau alors que le navire se 
+rendait du Vietnam à Yokosuka, au Japon. L''avion, le pilote et l''arme n''ont jamais été retrouvés. 
+Il y a un désaccord sur l''endroit exact où l''incident s''est produit - le Département de la Défense 
+américain a initialement déclaré qu''il s''était produit à 500 miles (800 km) des côtes japonaises ; 
+l''accident aurait eu lieu à 68 miles (59 nmi ; 109 km) de l''île de Kikai, préfecture de Kagoshima, Japon. 
+Les documents de l''US Navy montrent plus tard qu''il s''est produit à environ 80 miles (130 km) des îles 
+Ryukyu et à 200 miles (320 km) d''Okinawa.'),
+('da19e045-0370-4b96-8cd6-b53cc73eb9f3', 'Le brise-glace nucléaire soviétique Lénine a été contraint de larguer ses réacteurs dans la mer de Kara. 
+Selon certains récits, le Lénine aurait subi une fusion de réacteur.'),
+('00434d3d-c0b1-4f2c-b589-e63908efd10f', 'Un B-52 de l''USAF transportant quatre bombes à hydrogène est entré en collision avec 
+un avion ravitailleur KC-135 de l''USAF lors d''un ravitaillement en vol au-dessus de l''océan. 
+Quatre des sept membres d''équipage du B-52 ont sauté en parachute pour se mettre en sécurité, 
+tandis que les trois autres et les quatre membres d''équipage du KC-135 ont été tués. Les explosifs 
+classiques de deux des bombes ont explosé à l''impact avec le sol, dispersant du plutonium sur 
+les fermes voisines. Une troisième bombe est tombée intacte près de Palomares, Almería (Espagne), 
+tandis que la quatrième est tombée à 19 km au large de la côte, en Méditerranée. 
+La marine américaine a mené une recherche de trois mois impliquant 12 000 hommes et a réussi à 
+récupérer la quatrième bombe. La marine américaine a utilisé le sous-marin de recherche à 
+grande profondeur DSV Alvin pour aider aux efforts de récupération. Pendant le nettoyage qui a suivi, 
+1 500 tonnes de sol et de plants de tomates radioactifs ont été expédiés vers un site 
+d''enfouissement nucléaire à Aiken, en Caroline du Sud. Les États-Unis ont réglé les 
+réclamations de 522 habitants de Palomares pour 600 000 dollars. La ville a également 
+reçu une usine de dessalement de 200 000 dollars. Le film Men of Honor (2000), avec Cuba Gooding, Jr., 
+dans le rôle du plongeur de l''USN, le maître principal Carl Brashear, et Robert De Niro 
+dans celui du plongeur de l''USN, le chef principal Billy Sunday, contenait un récit de la 
+récupération de la quatrième bombe.'),
+('9671a945-1fe2-4a30-879f-e53ecd89ec01', 'Un incendie s''est déclaré dans le compartiment du navigateur d''un B-52 de 
+l''USAF près de la base aérienne de Thule, au Groenland. Le bombardier s''est écrasé à 7 miles 
+(11 km) de la base aérienne, provoquant la rupture de la soute à bombes du bombardier 
+et entraînant la détonation des explosifs conventionnels des quatre bombes thermonucléaires B28FI, 
+fragmentant et dispersant les composants primaires et secondaires radioactifs sur une grande zone. 
+Le bombardier en feu et sa charge de carburant ont fondu à travers la glace, laissant tomber 
+les débris au fond de la mer en dessous. 
+Six des sept membres d''équipage ont survécu. L''effort de récupération et de décontamination a été 
+compliqué par le climat rigoureux du Groenland. La glace et les débris contaminés ont été renvoyés 
+et enterrés aux États-Unis. Les fragments de bombes récupérés ont été recyclés par Pantex, à 
+Amarillo, au Texas. L''incident a provoqué l''indignation et des manifestations au Danemark, 
+le Groenland étant une possession danoise, et le Danemark interdisant les armes nucléaires 
+sur son territoire.'),
+('12f7d8f5-0bf5-4f13-8761-b90b54515052', 'Le sous-marin nucléaire soviétique K-129 a coulé avec un équipage de 98 personnes à la 
+suite d''une explosion de cause inconnue. L''Agence internationale de l''énergie atomique 
+a déclaré que deux ogives nucléaires du K-129 ont été localisées dans le Pacifique à 
+1 230 miles de Kamtchatka aux coordonnées 40°6''N et 179°57''E, à une profondeur de 6 000 mètres 
+(20 000 pieds), et les répertorie comme récupérées.'),
+('20097db1-b63a-4991-b7b6-65336ee6ee3b', 'Le sous-marin américain USS Scorpion a coulé en route de Rota, en Espagne, 
+à Norfolk, en Virginie, aux États-Unis. La cause du naufrage reste inconnue ; 
+les 99 officiers et hommes à bord ont été tués. La révision complète initiale 
+du Scorpion a été réduite en ampleur. Des travaux SUBSAFE depuis longtemps prévus, 
+tels qu''un nouveau système de commande de valve central, n''ont pas été réalisés. 
+Les débris du sous-marin, son réacteur nucléaire S5W et ses deux torpilles Mark 45 
+avec des têtes nucléaires W34, restent au fond de la mer dans plus de 3 000 mètres (9 800 pieds) d''eau.'),
+('5b209fde-cbb8-4096-b6e1-179e260d9273', 'Le sous-marin nucléaire américain Gato aurait heurté un sous-marin soviétique le 14 ou 15 novembre 1969,
+près de l''entrée de la mer Blanche.'),
+('eac22c46-71dc-466d-8438-5329d3c47066', 'Le sous-marin d''attaque nucléaire de classe soviétique "November" a rencontré un problème 
+apparent de propulsion nucléaire dans l''océan Atlantique, à environ 300 miles au nord-ouest de l''Espagne. 
+Bien qu''une tentative ait été faite pour attacher une ligne de remorquage depuis un navire marchand 
+du bloc soviétique, le sous-marin a apparemment coulé, entraînant la mort de 52 personnes.'),
+('00ee7d6a-788f-4c20-81f1-b7f653758857', 'Le porte-avions USS John F. Kennedy et le croiseur USS Belknap sont entrés en
+ collision par mer agitée pendant la nuit lors d''exercices. Bien qu''il ait été déclaré 
+ comme ''un possible accident impliquant des armes nucléaires'', aucune contamination 
+ nucléaire ultérieure n''a été découverte lors des opérations de lutte contre l''incendie et de secours.'),
+('9231c157-d07b-4d63-845c-d4af3fa63f6d', 'Le sous-marin soviétique K-171 a accidentellement libéré une ogive nucléaire. 
+L''ogive a été récupérée après une recherche impliquant des dizaines de navires et d''aéronefs.'),
+('4bd1fbe4-8d14-44ac-8ac9-cfa6cd735841', 'Pendant la maintenance de routine dans un silo de Titan II, un réparateur de l''armée de l''air 
+a accidentellement laissé tomber une douille de clé à douille lourde, qui a roulé hors 
+d''une plate-forme de travail et est tombée vers le bas du silo. Lors de l''impact avec le 
+missile, la douille a provoqué une fuite d''un réservoir de carburant pressurisé. 
+En réponse, le complexe de missiles et la zone environnante ont été évacués, et 
+une équipe de spécialistes a été convoquée depuis la base principale de soutien 
+des missiles de Little Rock Air Force Base. Environ 8½ heures après la perforation 
+initiale, les vapeurs de carburant à l''intérieur du silo ont pris feu et ont 
+provoqué une explosion. Malheureusement, un membre de l''équipe a été mortellement blessé, 
+et vingt et un autres membres du personnel de l''USAR ont été blessés. Malgré l''explosion, 
+le véhicule de rentrée du missile, qui abritait une tête nucléaire, est resté intact et a 
+été récupéré avec succès. Heureusement, il n''y a eu aucune contamination radioactive 
+résultant de l''incident.'),
+('cb1f55de-16e0-4d84-ba8a-44abc8f340be', 'À 480 miles (770 km) à l''est des Bermudes, le sous-marin soviétique de classe Yankee I, 
+le K-219, a subi une explosion dans l''un de ses tubes lance-missiles et au moins trois membres 
+de l''équipage ont été tués. Seize missiles nucléaires et deux réacteurs étaient à bord. 
+Le dirigeant soviétique Mikhail Gorbatchev a communiqué en privé la nouvelle du désastre 
+au président américain Ronald Reagan avant de reconnaître publiquement l''incident le 4 octobre. 
+Deux jours plus tard, le 6 octobre, le sous-marin a coulé dans l''océan Atlantique alors qu''il 
+était remorqué à une profondeur de 18 000 pieds (5 500 mètres).'),
+('f22782fd-cfa1-4b3a-809b-28547ee24488', 'À environ 300 miles au nord de la côte norvégienne, le Komsomolets, 
+un sous-marin d''attaque nucléaire soviétique, a pris feu et a coulé. 
+Le réacteur nucléaire du navire, deux torpilles armées de têtes nucléaires et
+ 42 des 69 membres d''équipage ont été perdus.'),
+('0fd3ec09-c424-4211-9010-d6a514837f44', 'Pendant son séjour à l''installation de réparation de la baie de Chazhma,
+ à environ 35 miles de Vladivostok, un sous-marin nucléaire soviétique de classe "Echo"
+ a subi une explosion de réacteur. L''explosion a libéré un nuage de radioactivité en 
+ direction de Vladivostok mais n''a pas atteint la ville. Dix officiers ont été tués dans l''explosion.'),
+('a83144de-9603-48c7-beb0-f632965b0804', 'Un dysfonctionnement du lancement d''un missile s''est produit lors d''un 
+essai sur un sous-marin nucléaire lanceur de missiles de classe Typhoon.'),
+('01cb7626-c99a-4bd6-8dd2-3c423e9f0714', 'Le sous-marin nucléaire américain Grayling est entré en collision avec un sous-marin nucléaire 
+lanceur de missiles balistiques de classe Delta III russe. Les deux navires ont apparemment 
+subi des dommages mineurs.'),
+('baed8ac8-d503-49b9-8ad1-6df68e6276d1', 'Une collision entre un sous-marin d''attaque à propulsion nucléaire de classe 
+Sierra de la Communauté des États indépendants (CEI) et le sous-marin d''attaque à 
+propulsion nucléaire américain Baton Rouge a eu lieu. Les deux navires ont apparemment 
+subi des dommages mineurs. Il y a un différend sur l''emplacement de l''incident, 
+dans ou à l''extérieur des eaux territoriales russes.'),
+('807551c4-2c18-45c7-aa15-44296c5771ea', 'Le sous-marin de classe "Oscar II" de la Communauté des États indépendants (CEI), 
+le Koursk, coule après une explosion massive à bord. 
+Les tentatives de sauver les 118 hommes échouent. 
+On pense qu''une défaillance de torpille a causé l''accident. 
+Les niveaux de radiation sont normaux et le sous-marin ne transportait pas d''armes nucléaires.');
+
+
+INSERT INTO BROKEN_ARROW(broken_arrow_id, coordonate_id, vehicule_id, weapon_id, full_description_id, disaster_date, short_description, bubble_description)
+values 
+('71bececf-8815-4ec6-a572-26937c455021', 'cb075c10-967f-4c20-b431-b54b92012365', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', NULL, 'c1397711-f58e-44df-942b-ce03e048a8e0', '1950-02-13', 
+'Le B-36 était en route de la base aérienne d''Eielson à la base aérienne de Carswell dans le cadre d''une mission de profil de combat simulée. 
+L''arme à bord de l''avion avait une capsule factice installée. 
+Après six heures de vol, l''avion a développé de graves problèmes mécaniques, rendant nécessaire l''arrêt de trois moteurs. 
+L''avion se trouvait à une altitude de 12 000 pieds. 
+Les conditions de givrage ont compliqué l''urgence et le vol en palier n''a pas pu être maintenu. 
+L''avion s''est dirigé vers l''océan Pacifique et a largué l''arme depuis 8 000 pieds. 
+Une vive lumière s''est produite à l''impact, suivie d''un son et d''une onde de choc. 
+Seul le matériau explosif de l''arme a explosé. 
+L''avion a ensuite survolé l''île Princess Royal où l''équipage s''est éjecté. 
+Les débris de l''avion ont été retrouvés plus tard sur l''île de Vancouver.', 'Le B-36, en route d''Eielson AFB à Carswell AFB pour une mission de profil de combat simulée, a 
+largué une arme factice au-dessus de l''océan Pacifique 
+après avoir rencontré des problèmes mécaniques graves, suivis d''une éjection de l''équipage au-dessus de l''île Princess Royal, 
+avec les débris de l''avion retrouvés ultérieurement sur l''île de Vancouver.'),
+('50503eb1-2487-422c-b68d-e2d24fa471a5', 'b82944d4-3a43-4519-8a87-37f62bf01db1', '17b07385-af78-4a3f-be0b-4e4aea923023', NULL, '431908b5-c1d8-4cb2-809d-62ec7182f50b', '1950-04-11', 
+'Trois minutes après le départ de la base aérienne de Kirtland à Albuquerque, un Boeing B-29 Superfortress de l''USAF s''est écrasé contre une montagne sur la base de Manzano environ 
+trois minutes plus tard, tuant l''équipage. 
+Des détonateurs étaient installés dans la bombe à bord de l''avion. 
+Le boîtier de la bombe a été détruit et une partie du matériau explosif (HE) a brûlé dans l''incendie de l''essence.', 'Un Boeing B-29 Superfortress s''est écrasé en transportant 
+une arme nucléaire sans noyau fissile.'),
+('6b97893b-08b8-4c0e-8c75-16927d80d052', 'b74af9df-0823-4ab1-b24d-463a782c2ea3', '4c09a7af-2ada-4b52-ad03-794f4ec0d5f4', NULL, '10e3ab73-73a1-4587-b2c3-8ade3d6532ee', '1950-07-13', 
+'Un avion B-50 de l''USAF en mission d''entraînement depuis la base aérienne de Biggs avec une arme nucléaire (sans noyau nucléaire) s''est écrasé au sol, entraînant une détonation 
+de haute intensité d''explosifs, mais aucune explosion nucléaire.', 'Un B-50 en mission d''entraînement avec une arme nucléaire s''est écrasé au sol.'),
+('1bbab815-df84-4d02-a23f-5d7dc2637c25', '6bc6873b-0383-4fc5-abca-4d792d98824b', '17b07385-af78-4a3f-be0b-4e4aea923023', 'cf5ca691-9179-4566-9c90-048296843a15', 
+'32ab008e-e733-46c6-916a-8ff3078201e1', '1950-08-5', 'Un B-29 transportant une arme mais sans capsule a connu deux hélices incontrôlables et des difficultés de rétraction 
+du train d''atterrissage lors du décollage de Fairfield-Suisun AF9 (aujourd''hui Travis AFB). L''avion a tenté un atterrissage d''urgence et s''est écrasé et a pris feu. 
+Le feu a été combattu pendant 12 à 15 minutes avant que le matériau explosif de la bombe ne détonne. Dix-neuf membres de l''équipage et du personnel de secours ont été 
+tués dans le crash et/ou la détonation qui a suivi, y compris le général Travis.', 'Un B-29 s''est écrasé après des problèmes techniques, explosant et tuant dix-neuf 
+personnes, dont le général Travis. Dans l''incendie qui a suivi, le matériau explosif de la bombe a explosé.'),
+('d25de8c5-c721-467f-9452-4c95bb540e78', '5a0aae66-71a9-452e-b8a1-8fc35d942634', '4c09a7af-2ada-4b52-ad03-794f4ec0d5f4', 'cf5ca691-9179-4566-9c90-048296843a15', 
+'eddc60cf-fcf6-4a95-a1a7-9dfac97b36f2', '1950-11-10', 'Un B-50 a largué une bombe de type Mark 4 sur le fleuve Saint-Laurent près de Rivière-du-Loup, à environ 
+300 miles au nord-est de Montréal. Les explosifs haute puissance de la bombe ont explosé à l''impact. Bien qu''elle ne contienne pas son cœur de plutonium essentiel, 
+l''explosion a dispersé près de 100 livres (45 kg) d''uranium. L''avion a ensuite atterri en toute sécurité sur une base de l''US Air Force dans le Maine.', 
+'Un B-50 a largué une bombe Mark 4 au-dessus du fleuve Saint-Laurent près de Rivière-du-Loup, explosant à l''impact. L''avion a ensuite atterri en toute sécurité.'),
+('21447942-7e89-4116-bc31-eccd30988904', '0075a48f-922c-4dad-ab7d-bbe924db9086', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, '93037dcc-64c0-4c85-97d8-a08676697377', 
+'1956-03-10', 'Un B-47 Stratojet de l''USAF, en mission sans escale de la base aérienne de MacDill, en Floride, vers une base à l''étranger, a pénétré dans une formation
+nuageuse à 14 000 pieds au-dessus de la Méditerranée en préparation d''un ravitaillement en vol et a disparu alors qu''il transportait deux capsules de matériau d''armes nucléaires 
+dans des étuis de transport ; une détonation nucléaire n''était pas possible.', 'Un B-47 Stratojet de l''USAF  a pénétré dans une formation nuageuse au-dessus de la Méditerranée 
+et a disparu alors qu''il transportait deux capsules de matériau d''armes nucléaires'),
+('cdecbe08-5abb-4b81-a8a6-4bbd9b470a78', '25d37526-63cb-4fa9-a478-8f4c9127113a', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', '848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 
+'c18c7f4a-fe03-4375-b497-9375c2e7de1d', '1956-07-27', 'Un B-47 de l''USAF s''est écrasé dans un igloo de stockage, répandant du carburant en feu sur trois bombes 
+nucléaires de type Mark 6 à la RAF Lakenheath. Un expert en neutralisation des bombes a déclaré que c''était un miracle que les détonateurs exposés sur une des bombes 
+n''aient pas explosé, ce qui aurait probablement libéré du matériel nucléaire dans l''environnement.', 'Un B-47 de l''USAF s''est écrasé dans un igloo de stockage, 
+répandant du carburant en feu sur trois bombes nucléaires de type Mark 6 à la RAF Lakenheath aucune explosions.'),
+('62d30105-5f61-45fc-b2b5-5bf6a3c5f186', 'e0afe998-f6ee-4706-9ba3-8978cc566a50', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', '2957a217-cea8-492c-97d9-3f52116b4752', 
+'23f7629f-2899-4b63-9bc5-4933b2afabb9', '1957-05-22', 'Un B-36 transportant une arme nucléaire de la base aérienne de Biggs à la base aérienne de Kirtland a largué 
+une arme nucléaire lors de son approche de Kirtland. L''arme a frappé le sol à 4,5 miles au sud de la tour de contrôle de Kirtland et à 0,3 miles à l''ouest de la réserve de la base de Sandia. 
+L''arme a été complètement détruite par la détonation de son matériau explosif, créant un cratère de 12 pieds (3,7 m) de profondeur et 25 pieds (7,62 m) de diamètre. 
+La contamination radioactive au bord du cratère s''élevait à 0,5 milliroentgen.', 'Une arme nucléaire est accidentellement larguée lors de l''approche de la base aérienne de Kirtland, 
+provoquant une explosion sans contamination radioactive.'),
+('6eac2f24-e79d-46e1-8918-b770ee8136e9', '4da5af20-5a6b-4713-8e44-e03e49de6caf', 'da108b16-8696-43f0-ad7a-81f95b2cbf51', NULL, '7dbaa624-b9b9-4fdc-8647-9b8370b7b478', '1957-07-28', 
+'Un avion C-124 de l''USAF en provenance de la base aérienne de Dover, dans le Delaware, transportait trois armes et une capsule nucléaire à bord à ce moment-là. Aucun composant nucléaire
+n''était installé dans les armes. En survolant l''océan Atlantique, l''avion a connu une perte de puissance. Par souci de leur propre sécurité, l''équipage a largué deux bombes qui
+n''ont jamais été retrouvées.', 'Un avion C-124 de l''USAF transportant des armes nucléaires a subi une perte de puissance au-dessus de l''Atlantique. L''équipage a largué deux bombes, 
+jamais retrouvées.'),
+('c52334b2-2642-44c5-be64-58ab88f717eb', 'c92091cf-0e8a-4448-94f1-01db18dfc16d', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, '11a65035-5640-4122-8577-9a7ee66bc024', '1957-10-11', 
+'Un avion B-47 s''est écrasé lors du décollage après qu''une roue ait explosé, résultant à un crash.
+L''avion transportait une arme en configuration de transport et une capsule nucléaire.
+L''arme était enveloppée de flammes pendant environ quatre heures entrainant deux détonations de faible puissance 
+de haute explosivité. La capsule nucléaire et son étui de transport ont été récupérés intacts.', 'Un avion B-47 s''est écrasé lors du décollage après qu''une roue ait explosé ; 
+une bombe nucléaire a brûlé dans l''incendie qui a suivi.'),
+('1c7bd784-8888-4310-9616-4594970dc5cd', '834674f1-a714-4fbc-80d3-a4e56012fc75', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, '45414a5b-cfce-47fe-88a5-5b31e229260b', '1958-01-31', 
+'Lors d''un décollage simulé, une défaillance du moulage de la roue a provoqué le contact de la queue d''un B-47 de l''USAF transportant une arme nucléaire armée avec la piste, 
+entraînant la rupture d''un réservoir de carburant et déclenchant un incendie. Une certaine contamination a été détectée immédiatement après l''accident.', 
+'Un B-47 transportant une arme nucléaire, a eu un accident lors d''un décollage simulé en raison d''une défaillance de la roue, entraînant un incendie et une contamination détectée après.'),
+('36b2e00c-9fd7-46a7-999c-01fe3e2d8aec', '3faa58b9-ae1e-4e2b-bf99-479370fbaf05', '17b07385-af78-4a3f-be0b-4e4aea923023', '2957a217-cea8-492c-97d9-3f52116b4752', 
+'958b3c74-3c89-45b3-ae02-825af5b5eeb9', '1958-02-05', 'Un bombardier B-47 de l''USAF a largué une bombe nucléaire Mark 15 Mod 0 (la capsule nucléaire 
+n''était pas à bord de l''avion ; la bombe contenait une capsule simulée de 150 livres (68 kg) en plomb) au-dessus de l''océan Atlantique après une collision
+ en plein vol avec un F-86 Sabre de l''USAF lors d''une mission de combat simulée depuis la base aérienne de Homestead, en Floride. Le pilote du F-86 
+s''est éjecté et a sauté en parachute en toute sécurité. L''USAF a affirmé que le B-47 avait tenté d''atterrir à la base aérienne de Hunter, en Géorgie, 
+à trois reprises avant que la bombe ne soit larguée à 7 200 pieds (2 200 m) près de l''île de Tybee, en Géorgie. Le pilote du B-47 a réussi à atterrir 
+en une seule tentative seulement après avoir largué la bombe. Une zone de trois milles carrés (7,8 km²) près de Wassaw Sound a été fouillée pendant neuf 
+semaines avant que la recherche ne soit abandonnée.', 'Un B-47 de l''USAF a largué une bombe nucléaire Mark 15 Mod 0 près de l''île de Tybee, en Géorgie, après une collision en plein vol.'),
+('ac79b072-178a-4615-9830-5e6ad2bea835', '7847da43-50df-4873-8b15-d1dc3a587ec3', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', 'afb2411a-3a4b-4f7f-9d53-880ab8122073', 
+'dbb5331d-3a57-4f0f-a5da-22a82b79895b', '1958-02-28', 'Un B-47 basé à la base aérienne américaine de Greenham Common, en Angleterre, aurait été chargé d''une arme 
+nucléaire lorsqu''il a pris feu et a complètement brûlé. En 1960, des signes de contamination radioactive de haut niveau ont été détectés autour de la base par un 
+groupe de scientifiques travaillant à l''Atomic Weapons Research Establishment (AWRE). Le gouvernement américain n''a jamais confirmé si l''accident impliquait une 
+ogive nucléaire.', 'bubble : Un B-47 basé à Greenham Common, en Angleterre, a pris feu en 1960, entraînant des signes de contamination radioactive détectés autour de la base.
+L''implication d''une arme nucléaire n''a jamais été confirmée.'),
+('3a6b8e2f-0840-406a-9dd9-c72e9f005591', 'caf8794f-b0f1-467d-8401-04eb92b4fae6', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', '848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 
+'9a5968b6-430f-4751-8f89-b452a452cbb3', '1958-03-11', 'Le 11 mars 1958, à 15h53 HNE, un B-47E a décollé de la base aérienne de Hunter, en Géorgie, en tant que troisième 
+appareil d''un vol de quatre en route vers une base à l''étranger. Après avoir atteint une altitude de 15 000 pieds, l''avion a accidentellement largué une arme nucléaire 
+non armée qui a impacté une zone peu peuplée à 6½ miles à l''est de Florence, en Caroline du Sud. Le matériau explosif de haute puissance de la bombe a explosé à l''impact. 
+La détonation a causé des dommages matériels et plusieurs blessures au sol. L''avion est retourné à la base sans autre incident. Aucune capsule de matériaux nucléaires 
+n''était à bord du B-47 ou installée dans l''arme.', 'Un B-47E de la base de Hunter, Géorgie, largua accidentellement une arme nucléaire non armée près de Florence, en 
+Caroline du Sud. Dégâts matériels et blessures signalés. L''avion retourna sans incident.'),
+('b7206684-7c06-4fb0-ad0f-ea45c4a7c44a', '6946917e-98a9-4934-aa97-8d2f135305d8', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'feb09ac6-9764-4d7a-b8e6-02ffa1fb62d0', '1958-11-04', 
+'Un bombardier B-47 de l''USAF a pris feu peu après le décollage et s''est écrasé avec une arme nucléaire à bord depuis une altitude de 1 500 pieds (460 m). 
+La détonation du matériau explosif de haute puissance dans la bombe a créé un cratère de 6 pieds (1,8 m) de profondeur et 35 pieds (10,7 m) de diamètre. 
+Trois membres de l''équipage ont réussi à s''échapper, et un a été tué.', 'Un B-47 de l''USAF s''est écrasé peu après le décollage avec une arme nucléaire à bord.
+La détonation du matériau explosif a formé un cratère. U membres d''équipage fut tué.'),
+('7869563e-856c-4db1-b632-9a1db95f974f', '2e84a913-5e6a-4985-acb8-3c6f033917c3', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'f5491a4a-bc18-4cd5-a2ef-1cef283fc9db', 
+'1958-11-26', 'Un B-47 a pris feu au sol. L''unique arme nucléaire à bord a été détruite par le feu. La contamination s''est limitée à la proximité immédiate des résidus 
+de l''arme dans les débris de l''avion.', 'Un B-47 a pris feu au sol. L''unique arme nucléaire à bord a été détruite par le feu.'),
+('873e7e01-a47e-47a0-9beb-d3ebcb10981f', '7fc5a702-bc63-4e96-997b-6bae686f976d', 'f41ab580-62d8-410c-8017-60801e70852e', NULL, '47fb7d5b-dc49-465f-938d-76dbb3570be2', 
+'1959-01-18', 'Un F-100C Super Sabre de l''USAF garé, chargé d''une arme nucléaire, a pris feu après que ses réservoirs de carburant externes aient été largués et 
+aient explosé lors d''une alerte d''entraînement. L''incendie qui en a résulté a été éteint en sept minutes et il n''y a pas eu d''explosion nucléaire. 
+Lorsqu''il a été initialement divulgué en 1980, l''emplacement a été initialement identifié comme étant sur une base de la région du Pacifique. 
+En 2016, le journal Asahi Shimbun a rapporté que l''emplacement de l''accident était la base aérienne d''Osan.', 'Un Super Sabre garé, chargé d''une arme nucléaire, a pris feu 
+avoir après l''explosion de ses réservoirs de carburant externes.'),
+('bbbda961-99bc-4808-a96f-0fc9bc55ca75', 'f86a3f49-86c8-49d2-9980-c12eaf1557a3', 'da108b16-8696-43f0-ad7a-81f95b2cbf51', '8682cd74-b3ae-4523-a916-e280a48bbd08', 
+'037a2b44-43b1-4b48-9c69-625e6ba7946d', '1959-07-05', 'Un C-124 de l''USAF transportant trois armes nucléaires scellées de type Mark 39 Mod 2 s''est écrasé et 
+a pris feu lors du décollage. Les explosifs de haute puissance n''ont pas explosé, mais une arme a été complètement détruite par le feu, 
+et les deux autres ont subi des dommages dus à la chaleur et à des fuites de tritium. La zone des débris a connu une contamination limitée.', 
+'Un C-124 transportant trois armes nucléaires s''est écrasé et a pris feu lors du décollage.'),
+('becf3693-5cbd-4ead-a845-951cf7aa6af8', '3c8ee5a7-2c90-45c7-9f01-b93e8c1ed85d', '4e674f2f-d87b-462a-b8e2-a4f06ed48dcf', '2b4d9ef8-430c-4331-99cc-6fb114f3e296', 
+'67a5854b-bf5d-4167-a2e9-962705fd1af2', '1959-09-25', 'Un avion anti sous-marin de l''US Navy P5M, en patrouille depuis la base aéronavale de NAS Whidbey Island avec
+un boîtier de charge nucléaire sous-marine Mark 90 non armé à bord, s''est écrasé dans l''océan Pacifique, à environ 100 miles (160 km) à l''ouest de la frontière entre Washington 
+et l''Oregon. Le boîtier n''a pas été récupéré.', 'Un P5M en patrouille s''est écrasé dans l''océan Pacifique. Le boîtier n''a pas été récupéré.'),
+('24eeaeec-9951-4da6-9a8a-d67db0a5b978', 'af823dba-7bb8-4de1-96d6-c7c09f3db832', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, '0f4a0da8-a7f3-4872-a36b-411c31496084', 
+'1959-12-15', 'Après le décollage des deux avions de la base aérienne de Columbus dans le Mississippi, un B-52F-100-BO de l''USAF (n°57-036), avec deux armes nucléaires, 
+est entré en collision à 32 000 pieds (9 754 m) avec un avion ravitailleur KC-135 (n°57-1513), pendant une procédure de ravitaillement en vol près de Hardinsburg, Kentucky. 
+Les deux avions se sont écrasés, tuant huit membres d''équipage. Une arme nucléaire non armée a été partiellement endommagée, mais aucune contamination n''en a résulté.', 
+'Collision pendant une procédure de ravitaillement en vol. 
+Les deux avions se sont écrasés, tuant huit membres d''équipage.'),
+('79886cc2-0b31-44c2-bfdb-35ef3e474e03', '2ecc35a6-b415-4780-a480-da9238d46c82', '2f93905f-4492-4ef7-9e20-dce0420581fe', NULL, '35b15637-b508-4a27-95f4-e2b7bd9775bf', 
+'1960-06-07', 'Un réservoir d''hélium a explosé et a rompu les réservoirs de carburant d''un missile surface-air BOMARC-A de l''USAF à la base aérienne de McGuire, 
+dans le New Jersey. Le feu a détruit le missile et a contaminé la zone directement en dessous et adjacente au missile.', 'Un réservoir d''hélium a explosé et a rompu les réservoirs de carburant 
+d''un missile surface-air BOMARC-A.'),
+('d15b8954-d7de-469c-878e-e41e68da17ae', '84511857-fe56-4adb-84af-4dcb2ede87e4', '02c75786-ae90-4690-bb47-44e99b822c90', '8682cd74-b3ae-4523-a916-e280a48bbd08', 
+'1bd3c9ff-cfa9-4627-97d1-caf212a79b4c', '1960-01-24', 'Lors d''une mission d''alerte en vol du B-52, une défaillance structurelle de l''aile droite a entraîné la 
+séparation de deux armes de l''avion lors de la désintégration de l''aéronef à une altitude de 2 000 à 10 000 pieds. Un parachute de bombe s''est déployé et 
+l''arme a subi peu de dommages à l''impact. L''autre bombe est tombée librement et s''est brisée à l''impact. Aucune explosion ne s''est produite. 
+Cinq des huit membres d''équipage ont survécu. Une partie d''une arme, contenant de l''uranium, n''a pas pu être récupérée malgré l''excavation dans les terres agricoles 
+gorgées d''eau jusqu''à une profondeur de 50 pieds. Par la suite, l''US Air Force a acheté une servitude exigeant la permission de quiconque de creuser là-bas. 
+Aucune radiation détectable n''a été détectée et il n''y a aucun danger dans la région.', 'Défaillance structurelle de l''aile droite entraînant la séparation de deux armes 
+lors de la désintégration de l''aéronef'),
+('185cf919-c639-4598-a324-628737808aa2', '539a0106-5af7-410d-8cc6-a401fc4f2717', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, '5757ce61-f8a0-404c-b89b-c64f434e6dea', 
+'1961-03-14', 'Un bombardier B-52 de l''USAF a quitté la base aérienne de Mather, en Californie, et a subi un événement de décompression qui l''a contraint à voler en 
+dessous de 10 000 pieds. La consommation de carburant accrue qui en a résulté a entraîné une épuisement du carburant ; l''avion s''est écrasé près de Yuba City, en Californie,
+ avec deux bombes nucléaires, qui n''ont pas déclenché d''explosion nucléaire.', 'Suite à une décompression forçant un avion transportant 2 bombes nucléaires à voler bas,
+ celui-ci s''écrase une fois à court de carburant. '),
+('5b753ed6-a4dd-49e2-9e84-89b0447b162a', '747a7569-a8c8-47ca-bb59-d2004fa78529', 'f285e904-35b7-4eaf-bee0-4f74102db8d5', NULL, '9cfab034-89c7-4c69-95b6-2f44d54669fc', 
+'1961-07-04', 'Un système de refroidissement a échoué, contaminant les membres d''équipage, les missiles et certaines parties d''un sous-marin à missiles balistiques 
+nucléaires de classe K-19 "Hotel" soviétique au large de la Norvège. L''un des deux réacteurs du sous-marin a atteint 800 degrés Celsius et menacé de faire fondre 
+les barres de combustible du réacteur. Plusieurs décès ont été signalés.', 'Dysfonctionnement du système de refroidissement du cœur du réacteur nucléaire.'),
+('b3a75ceb-aa02-49cb-b4f5-54f12fb976bb', 'a8f562a2-a679-4457-af3f-f1e23a7816c9', '02c75786-ae90-4690-bb47-44e99b822c90', 'cf5ca691-9179-4566-9c90-048296843a15', 
+'1683d42b-eab7-4b77-8a53-8923b2b51491', '1964-01-13', 'Un B-52 de l''USAF en alerte aérienne a rencontré une violente tempête hivernale et des turbulences extrêmes, 
+se désintégrant finalement en plein vol au-dessus du sud de la Pennsylvanie. Seuls les deux pilotes ont survécu. Un membre de l''équipage n''a pas réussi à sauter
+en parachute et les autres ont succombé à leurs blessures ou à l''exposition aux conditions météorologiques hivernales rigoureuses. Une recherche des armes manquantes a
+ été lancée, et la récupération a été effectuée à partir de parties de l''épave sur une ferme au nord-ouest de Frostburg, dans le Maryland.', 'Un B-52 à été désintégré 
+ suite à une mauvaise météo.'),
+('5d3f3999-3611-4053-b4a1-f9053f216b9c', '3976bf8e-5687-4849-8e73-ba0d457fdead', NULL, '65600023-bac7-454a-aef3-5de5459142a5', 'f918c479-6787-4e24-a289-b1b6df62c597',
+ '1964-12-05', 'La tête nucléaire s''est séparée dans le tube de lancement en raison d''un court-circuit électrique et est tombée au fond du tube. Au site de lancement 
+ Lima-02 près de Vale, Dakota du Sud. Le site de lancement faisait partie de l''ancienne 44e escadre de missiles à la base aérienne d''Ellsworth, Dakota du Sud.', 
+'La tête nucléaire s''est séparée dans le tube de lancement et est tombée au fond du tube.'),
+('c2218be2-52eb-4706-870b-71046548dccc', '7f54a225-4b8d-4ef9-b20e-f830d9e3b32e', 'b0bdc2c3-4ae4-4ab4-9dcf-52c4693a3e8e', 'fb5f9adb-6902-499a-ba53-d70442cd3c5b', 
+'f900d695-8eaa-4569-a65e-4de1e1228b38', '1964-12-08', 'Un avion B-58 de l''USAF transportant une bombe nucléaire B53 à l''intérieur et quatre bombes nucléaires B43 
+à l''extérieur a pris feu lorsqu''il roulait après l''effondrement de son train d''atterrissage. La B53 a brûlé, provoquant une contamination de la zone de l''accident. 
+Deux des B43 ont causé une certaine contamination au plutonium et à l''uranium.', 'Un avion B-58 de l''USAF transportant des bombes nucléaires a pris feu lorsqu''il roulait suite 
+l''effondrement de son train d''atterrissage.'),
+('d0473640-9d8f-4b75-b9f6-7988295d21d5', '0b6c9363-7982-4403-b087-c8bdda1d17f8', NULL, NULL, '207cfaa1-29eb-4d49-8712-bf7c22132886', '1965-10-11', 
+'Un incendie à Rocky Flats a exposé un équipage de 25 personnes à jusqu''à 17 fois la limite légale de radiation.', 'Un incendie a exposé un équipage à de fortes radiation.'),
+('3c1d19cc-88df-4484-8967-137d539b9b22', 'd083b8e3-9288-4ca5-834e-a152b385fcdd', '2cff1fc6-f2b7-4521-8d72-5949fdf17ef2', 'bc08bf58-4ba9-4b5e-8080-176662a112fd', 
+'0c1ba313-a287-4d94-99ac-fd675e584db9', '1965-12-05', 'Un avion d''attaque A-4E Skyhawk chargé d''une bombe nucléaire B43 a dérapé du pont de l''USS Ticonderoga. 
+Le pilote, l''avion et l''arme n''ont jamais été retrouvés. L''incident s''est produit à plus de 500 miles des côtes.', 'Un avion d''attaque A-4E Skyhawk chargé d''une bombe 
+nucléaire B43 a dérapé du pont de l''USS Ticonderoga. '),
+('d14b7e95-a2d5-4726-84f3-ca3372494797', 'ffe3bcbc-5619-496d-a823-a87c71f0b0c7', NULL, NULL, 'da19e045-0370-4b96-8cd6-b53cc73eb9f3', '1960-06-15', 
+'Le brise-glace nucléaire soviétique Lénine a été contraint de larguer ses réacteurs dans la mer de Kara. Selon certains récits, le Lénine aurait subi une fusion de 
+réacteur.', 'Le brise-glace nucléaire a été contraint de larguer ses réacteurs dans la mer de Kara '),
+('3e04326e-07e2-4e8c-87f8-ec5102e29399', '9de586dd-dc28-4dfe-9b6c-362d6623f9a7', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, '00434d3d-c0b1-4f2c-b589-e63908efd10f', 
+'1966-01-17', 'Le B-52 et le KC-135 sont entrés en collision lors d''une opération de ravitaillement en vol à haute altitude routinière. Les deux avions se sont écrasés 
+près de Palomares, en Espagne. Quatre des onze membres d''équipage ont survécu. Le B-52 transportait quatre armes nucléaires. Une a été récupérée sur terre, et une autre 
+a été récupérée en mer le 7 avril, après d''importants efforts de recherche et de récupération. Deux des explosifs à haut rendement des armes ont explosé à l''impact avec le sol, 
+libérant des matériaux radioactifs. Environ 1 400 tonnes de sol et de végétation légèrement contaminés ont été enlevées vers les États-Unis pour être stockées sur un site approuvé. 
+Des représentants du gouvernement espagnol ont surveillé l''opération de nettoyage.', 'Un B-52 et un KC-135 sont entrés en collision lors d''une opération de ravitaillement en vol 
+à haute altitude routinière. Les deux avions se sont écrasés.'),
+('7dfeca96-bab8-4c4c-88ae-d83426e7b936', '6d7d79ca-8ccb-48db-b5b3-968134ebb131', '02c75786-ae90-4690-bb47-44e99b822c90', 'afb2411a-3a4b-4f7f-9d53-880ab8122073', 
+'9671a945-1fe2-4a30-879f-e53ecd89ec01', '1968-01-21', 'Un B-52 de la base aérienne de Plattsburgh, dans l''État de New York, s''est écrasé et a brûlé à environ sept 
+miles au sud-ouest de la piste à la base de Thule, au Groenland, alors qu''il s''approchait de la base pour atterrir. Six des sept membres d''équipage ont survécu. 
+Le bombardier transportait quatre armes nucléaires, toutes détruites par le feu. Une certaine contamination radioactive s''est produite dans la zone de l''accident, 
+qui était sur la glace de mer. Environ 237 000 pieds cubes de glace, de neige et d''eau contaminées, avec des débris de l''accident, ont été enlevés vers un site de 
+stockage approuvé aux États-Unis au cours d''une opération de quatre mois. Bien qu''une quantité inconnue de contamination ait été dispersée par l''accident, des prélèvements 
+environnementaux ont montré des lectures normales dans la région après que le nettoyage a été terminé. Des représentants du gouvernement danois ont surveillé les opérations de 
+nettoyage.', 'Un B-52 s''est écrasé et a brûlé alors qu''il s''approchait de la base pour atterrir.'),
+('215c3ff0-777d-4690-b2c1-1c60f669c499', 'bf10f987-9639-47d7-b389-eaefa460f4b8', 'c1e3b054-bf99-4b1a-a091-546389201d68', NULL, '12f7d8f5-0bf5-4f13-8761-b90b54515052', 
+'1968-03-08', 'Le sous-marin nucléaire soviétique K-129 a coulé avec un équipage de 98 personnes à la suite d''une explosion de cause inconnue. L''Agence internationale de 
+l''énergie atomique a déclaré que deux ogives nucléaires du K-129 ont été localisées dans le Pacifique à 1 230 miles de Kamtchatka aux coordonnées 40°6''N et 179°57''E, à une profondeur 
+de 6 000 mètres (20 000 pieds), et les répertorie comme récupérées.', 'Le sous-marin nucléaire soviétique K-129 a coulé à la suite d''une explosion de cause inconnue.'),
+('335ce885-78e8-4aac-b84e-77d7dea11bf4', '46d08f51-c536-41b4-8974-9446c798a7ff', 'e5a26f91-e3cc-49ec-a8dc-59401dbd70ed', 'e1cee907-cde0-4182-9615-3f47a717b230', '20097db1-b63a-4991-b7b6-65336ee6ee3b',
+'1968-05-22', 'Le sous-marin américain USS Scorpion a coulé en route de Rota, en Espagne, à Norfolk, en Virginie, aux États-Unis. 
+La cause du naufrage reste inconnue ; les 99 officiers et hommes à bord ont été tués. La révision complète initiale du Scorpion a été réduite en
+ ampleur. Des travaux SUBSAFE depuis longtemps prévus, tels qu''un nouveau système de commande de valve central, n''ont pas été réalisés. Les débris du 
+sous-marin, son réacteur nucléaire S5W et ses deux torpilles Mark 45 avec des têtes nucléaires W34, restent au fond de la mer dans plus de 3 000 mètres 
+(9 800 pieds) d''eau.', 'Le sous-marin américain USS Scorpion a coulé, le matériel nucléaire est resté aux fond de l''océan.'),
+('bec83840-d90b-4983-8020-c93c162da1e4', 'a9d0c174-7192-4401-bb43-226b0410ad20', NULL, NULL, '5b209fde-cbb8-4096-b6e1-179e260d9273', '1969-11-15', 
+'Le sous-marin nucléaire américain Gato aurait heurté un sous-marin soviétique le 14 ou 15 novembre 1969, près de l''entrée de la mer Blanche.', 
+'Collision de 2 sous marins (américain et soviétique).'),
+('86cd5c0c-e630-469a-9c64-bafcad50e372', '4da5af20-5a6b-4713-8e44-e03e49de6caf', NULL, NULL, 'eac22c46-71dc-466d-8438-5329d3c47066', '1970-04-12', 
+'Le sous-marin d''attaque de classe soviétique de novembre, le K-8, a sombré lors de sa récupération avec 52 marins à bord après avoir subi des 
+incendies dans deux compartiments simultanément. Les deux réacteurs ont été arrêtés. L''équipage a tenté d''attacher une ligne de remorquage à un 
+navire marchand du bloc de l''Est, mais a finalement échoué.', 'Le sous-marin d''attaque soviétique a sombré après avoir subi des incendies dans deux compartiments 
+simultanément.'),
+('f183fdf8-27f2-4dfd-ba48-8fd72f20eec4', '19b19107-af22-4e78-aba4-92b7050ecdbb', '0a13cef9-3bc7-4b20-a8d8-d4206de9fc11', NULL, '00ee7d6a-788f-4c20-81f1-b7f653758857', 
+'1975-11-22', 'Le porte-avions USS John F. Kennedy et le croiseur USS Belknap sont entrés en collision par mer agitée pendant la nuit lors d''exercices. Bien qu''il ait 
+été déclaré comme "un possible accident impliquant des armes nucléaires", aucune contamination nucléaire ultérieure n''a été découverte lors des opérations de lutte contre 
+l''incendie et de secours.', 'Collision de 2 Bateaux américains.'),
+('21316338-08e7-486c-8dc7-bea0db865bf0', '3f8f177c-e620-4421-bfc3-321ef75554d1', 'd6b7d88b-4fe0-40f5-8076-5ea4eac25085', NULL, '9231c157-d07b-4d63-845c-d4af3fa63f6d', 
+'1977-06-15', 'Le sous-marin soviétique K-171 a accidentellement libéré une ogive nucléaire. L''ogive a été récupérée après une recherche impliquant des dizaines de navires
+et d''aéronefs.', 'Le sous-marin soviétique K-171 a accidentellement libéré une ogive nucléaire.'),
+('21620073-a1ad-4338-950e-3ca1b448615c', '5925b33b-c553-4ebd-9f2b-13c440676a71', NULL, 'f3c55c85-1e06-4dd1-a3bc-c896d22f10db', '4bd1fbe4-8d14-44ac-8ac9-cfa6cd735841', 
+'1980-09-19', 'Vers 18h30, un aviateur effectuant une maintenance sur un missile Titan II de l''USAF sur le complexe de lancement 374-7 de la base aérienne de Little Rock, 
+situé à Southside (comté de Van Buren), juste au nord de Damascus, dans l''Arkansas, a laissé tomber une douille de neuf livres (4 kg) d''une clé à douille, qui est tombée 
+d''une hauteur d''environ 80 pieds (24 m) avant de percer la paroi externe du réservoir de carburant du premier étage de la fusée, provoquant une fuite. 
+La zone a été évacuée. Pendant la nuit, vers 3 heures du matin, le carburant hypergolique a explosé. La tête nucléaire W53 est tombée à environ 100 pieds (30 m) 
+de l''entrée du complexe de lancement ; ses dispositifs de sécurité ont fonctionné correctement et ont empêché toute explosion, chimique ou nucléaire. Un aviateur de 
+l''armée de l''air, David Livingston, a été tué et le complexe de lancement a été détruit.', 'Pendant la maintenance dans un silo de missile, un réparateur a 
+laissé tomber une douille de clé qui, lors de l''impact avec le missile, a provoqué une fuite d''un réservoir de carburant.'),
+('9aeaad73-2f39-427e-9fab-fd60e5e627bf', '4da5af20-5a6b-4713-8e44-e03e49de6caf', NULL, NULL, 'cb1f55de-16e0-4d84-ba8a-44abc8f340be', '1986-10-03', 
+'Un sous-marin nucléaire de classe "Yankee I" soviétique a subi une explosion et un incendie dans l''un de ses tubes lance-missiles à 480 miles à l''est des Bermudes. 
+Le sous-marin a coulé alors qu''il était remorqué le 6 octobre dans 18 000 pieds d''eau. Deux réacteurs nucléaires et environ 34 armes nucléaires étaient à bord.', 
+'Un sous-marin nucléaire soviétique a subi une explosion et un incendie dans 
+l''un de ses tubes lance-missiles.'),
+('0362a35a-b723-4c5d-baf9-03c39802b66b', '4da5af20-5a6b-4713-8e44-e03e49de6caf', '17b07385-af78-4a3f-be0b-4e4aea923023', NULL, 'f22782fd-cfa1-4b3a-809b-28547ee24488', 
+'1989-04-07', 'À environ 300 miles au nord de la côte norvégienne, le Komsomolets, un sous-marin d''attaque nucléaire soviétique, a pris feu et a coulé. 
+Le réacteur nucléaire du navire, deux torpilles armées de têtes nucléaires et 42 des 69 membres d''équipage ont été perdus.', 'Un sous-marin d''attaque nucléaire 
+soviétique, a pris feu et a coulé.'),
+('b15918d6-9186-4b89-8241-658d091763fb', '562f8f12-e576-4505-9aea-80ae77cb880c', 'f109493d-4165-411e-a3c6-670ce7af55c0', NULL, '0fd3ec09-c424-4211-9010-d6a514837f44', 
+'1985-08-10', 'À environ 35 miles (56 km) de Vladivostok, dans la baie de Chazhma, le sous-marin soviétique de classe Echo, K-431, a subi une explosion de réacteur, 
+produisant des niveaux de radioactivité mortellement élevés. Dix hommes ont été tués, mais le nuage de radioactivité mortelle n''a pas atteint Vladivostok.', 
+'Le sous-marin soviétique, le K-431, a subi une explosion de réacteur.'),
+('b0a2431d-a18e-423e-8a98-8c7ac958dea4', 'a9d0c174-7192-4401-bb43-226b0410ad20', NULL, NULL, 'a83144de-9603-48c7-beb0-f632965b0804', '1991-09-27', 
+'Un dysfonctionnement du lancement d''un missile s''est produit lors d''un essai sur 
+un sous-marin nucléaire lanceur de missiles de classe Typhoon.', 'Dysfonctionnement lors d''un esai de lancement de missile.'),
+('6093c400-4731-4d07-8bd4-916c2b8fc2c7', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, '01cb7626-c99a-4bd6-8dd2-3c423e9f0714', '1993-03-20', 
+'Le sous-marin nucléaire américain Grayling est entré en collision avec un sous-marin nucléaire lanceur de missiles balistiques de classe Delta III russe. 
+Les deux navires ont apparemment subi des dommages mineurs.', 'Collision de 2 sous marins (américain et soviétique).'),
+('f93347fe-dc8f-4484-9e97-bb33388fc565', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'baed8ac8-d503-49b9-8ad1-6df68e6276d1', '1992-02-11', 
+'Une collision entre un sous-marin d''attaque à propulsion nucléaire de classe Sierra de la Communauté des États indépendants (CEI) et le sous-marin d''attaque à 
+propulsion nucléaire américain Baton Rouge a eu lieu. Les deux navires ont apparemment subi des dommages mineurs. Il y a un différend sur l''emplacement de l''incident, dans
+ou à l''extérieur des eaux territoriales russes.', 'Collision de 2 sous marins américains.'),
+('4cdf34ba-faf6-427e-a9d8-9271fa380c92', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, '807551c4-2c18-45c7-aa15-44296c5771ea', '2000-08-12', 
+'Le sous-marin de classe "Oscar II" de la Communauté des États indépendants (CEI), le Koursk, coule après une explosion massive à bord. Les tentatives de sauver
+ les 118 hommes échouent. On pense qu''une défaillance de torpille a causé l''accident. Les niveaux de radiation sont normaux et le sous-marin ne transportait pas 
+d''armes nucléaires.', 'Le sous-marin Koursk coule après une explosion massive à bord.');
