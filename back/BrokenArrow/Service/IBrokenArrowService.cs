@@ -13,6 +13,8 @@ namespace BrokenArrow.Service
 
         Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByWeapon(Guid weaponId);
 
+        Task<IEnumerable<BrokenArrows>> RetrieveAllBrokenArrowsByCoordonate(Guid coordonate);
+
         Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByVehicule(Guid vehiculeId);
 
     }

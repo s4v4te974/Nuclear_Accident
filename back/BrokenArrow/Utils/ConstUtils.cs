@@ -13,5 +13,7 @@
 
         public const string UNABLE_TO_RETRIEVE_SINGLE_BA = "Unable to retrieve the specified Broken Arrows";
 
+        public const string UNABLE_TO_RETRIEVE_BA_BY_COORDONATE = "Unable to retrieve broken Arrows by coordonate";
+
     }
 }

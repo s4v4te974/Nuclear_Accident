@@ -24,6 +24,19 @@ namespace BrokenArrow.Service.Impl
             }
         }
 
+        public async Task<IEnumerable<BrokenArrows>> RetrieveAllBrokenArrowsByCoordonate(Guid coordonate)
+        {
+            try
+            {
+                var brokenArrows = await _context.BrokenArrows.Where(b => b.CoordonateId == coordonate).ToListAsync();
+                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrows>();
+            }
+            catch (DbException ex)
+            {
+                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_COORDONATE, ex);
+            }
+        }
+
         public async Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByVehicule(Guid vehiculeId)
         {
             try
