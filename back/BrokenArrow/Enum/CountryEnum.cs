@@ -1,6 +1,6 @@
 ﻿namespace BrokenArrow.Enum
 {
-    public enum Country
+    public enum CountryEnum
     {
         CANADA,
         US,

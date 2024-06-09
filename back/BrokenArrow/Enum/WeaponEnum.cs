@@ -1,6 +1,6 @@
 ﻿namespace BrokenArrow.Enum
 {
-    public enum Weapon
+    public enum WeaponEnum
     {
         MINUTEMAN,
         MARK17,

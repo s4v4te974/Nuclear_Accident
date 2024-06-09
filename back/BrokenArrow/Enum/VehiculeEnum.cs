@@ -1,6 +1,6 @@
 ﻿namespace BrokenArrow.Enum
 {
-    public enum Vehicule
+    public enum VehiculeEnum
     {
         CONVAIR,
         BOEING,
