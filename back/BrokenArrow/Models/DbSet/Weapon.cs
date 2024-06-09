@@ -14,6 +14,6 @@ namespace BrokenArrow.Models.Entities
 
         public string? WeaponDescription { get; set; }
 
-        public List<BrokenArrows>? BrokenArrows { get; set; }
+        public List<BrokenArrow>? BrokenArrows { get; set; }
     }
 }
