@@ -5,7 +5,7 @@ namespace BrokenArrow.Service
     public interface ICoordonate
     {
 
-        Task<IEnumerable<Coordonate>> retrieveAllCoordonates();
+        Task<IEnumerable<Coordonate>> RetrieveAllCoordonates();
 
     }
 }

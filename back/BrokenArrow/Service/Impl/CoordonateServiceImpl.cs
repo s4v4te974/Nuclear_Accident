@@ -4,7 +4,7 @@ namespace BrokenArrow.Service.Impl
 {
     public class CoordonateServiceImpl : ICoordonate
     {
-        public Task<IEnumerable<Coordonate>> retrieveAllCoordonates()
+        public Task<IEnumerable<Coordonate>> RetrieveAllCoordonates()
         {
             throw new NotImplementedException();
         }

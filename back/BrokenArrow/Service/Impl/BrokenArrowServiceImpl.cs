@@ -11,57 +11,70 @@ namespace BrokenArrow.Service.Impl
     {
         private readonly BrokenArrowContext _context = context;
 
-        public async Task<IEnumerable<BrokenArrows>> retrieveAllBrokenArrows()
+        public async Task<IEnumerable<BrokenArrows>> RetrieveAllBrokenArrows()
         {
             try
             {
-                var brokensArrows = await _context.BrokenArrows.ToListAsync();
-                return brokensArrows.Count != 0 ? brokensArrows : Enumerable.Empty<BrokenArrows>();
+                var brokenArrows = await _context.BrokenArrows.ToListAsync();
+                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrows>();
             }
             catch (DbException ex)
             {
-                throw new BrokenArrowException(BrokenArrowUtils.UNABLE_TO_RETRIEVE_BA, ex);
+                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
             }
         }
 
-        // to be modified after with all other service
-
-        public async Task<IEnumerable<BrokenArrows>> retrieveBrokenArrowsByVehicule(Guid vehiculeId)
+        public async Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByVehicule(Guid vehiculeId)
         {
             try
             {
-                var brokensArrows = await _context.BrokenArrows.Where(b => b.VehiculeId == vehiculeId).ToListAsync();
-                return brokensArrows.Count != 0 ? brokensArrows : Enumerable.Empty<BrokenArrows>();
+                var brokenArrows = await _context.BrokenArrows.Where(b => b.VehiculeId == vehiculeId).ToListAsync();
+                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrows>();
             }
             catch (DbException ex)
             {
-                throw new BrokenArrowException(BrokenArrowUtils.UNABLE_TO_RETRIEVE_BA, ex);
+                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
             }
         }
 
-        // to be modified after with all other service
-
-        public async Task<IEnumerable<BrokenArrows>> retrieveBrokenArrowsByWeapon(Guid weaponId)
+        public async Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByWeapon(Guid weaponId)
         {
             try
             {
-                var brokensArrows = await _context.BrokenArrows.Where(b => b.WeaponId == weaponId).ToListAsync();
-                return brokensArrows.Count != 0 ? brokensArrows : Enumerable.Empty<BrokenArrows>();
+                var brokenArrows = await _context.BrokenArrows.Where(b => b.WeaponId == weaponId).ToListAsync();
+                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrows>();
             }
             catch (DbException ex)
             {
-                throw new BrokenArrowException(BrokenArrowUtils.UNABLE_TO_RETRIEVE_BA, ex);
+                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, ex);
             }
         }
 
-        public async Task<IEnumerable<BrokenArrows>> retrieveBrokenArrowsByYears(int year)
+        public async Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByYears(int year)
         {
-            return await _context.BrokenArrows.Where(b => b.DisasterDate.Year == year).ToListAsync();
+            try
+            {
+                var brokenArrows = await _context.BrokenArrows.Where(b => b.DisasterDate.Year == year).ToListAsync();
+                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrows>();
+            }
+            catch (DbException ex)
+            {
+                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
+            }
+
         }
 
-        public async Task<BrokenArrows> retrieveSpecificBrokenArrow(Guid brokenArrowId)
+        public async Task<BrokenArrows?> RetrieveSpecificBrokenArrow(Guid brokenArrowId)
         {
-            return await _context.BrokenArrows.SingleOrDefaultAsync(b => b.BrokenArrowId == brokenArrowId);
+            try
+            {
+                var brokenArrow = await _context.BrokenArrows.SingleOrDefaultAsync(b => b.BrokenArrowId == brokenArrowId);
+                return brokenArrow;
+            }
+            catch (DbException ex)
+            {
+                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
+            }
         }
     }
 }

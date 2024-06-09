@@ -5,15 +5,15 @@ namespace BrokenArrow.Service
     public interface IBrokenArrowService
     {
 
-        Task<IEnumerable<BrokenArrows>> retrieveAllBrokenArrows();
+        Task<IEnumerable<BrokenArrows>> RetrieveAllBrokenArrows();
 
-        Task<BrokenArrows> retrieveSpecificBrokenArrow(Guid brokenArrowId);
+        Task<BrokenArrows?> RetrieveSpecificBrokenArrow(Guid brokenArrowId);
 
-        Task<IEnumerable<BrokenArrows>> retrieveBrokenArrowsByYears(int year);
+        Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByYears(int year);
 
-        Task<IEnumerable<BrokenArrows>> retrieveBrokenArrowsByWeapon(Guid weaponId);
+        Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByWeapon(Guid weaponId);
 
-        Task<IEnumerable<BrokenArrows>> retrieveBrokenArrowsByVehicule(Guid vehiculeId);
+        Task<IEnumerable<BrokenArrows>> RetrieveBrokenArrowsByVehicule(Guid vehiculeId);
 
     }
 }
