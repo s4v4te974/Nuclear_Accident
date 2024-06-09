@@ -1,6 +1,6 @@
-﻿namespace BrokenArrow.Models.Dtos
+﻿namespace BrokenArrow.Models.Dtos.Responses
 {
-    public class VehiculeDto
+    public class VehiculeResponse
     {
         public Guid VehiculeId { get; set; }
 

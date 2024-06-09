@@ -1,6 +1,6 @@
-﻿namespace BrokenArrow.Models.Dtos
+﻿namespace BrokenArrow.Models.Dtos.Responses
 {
-    public class DescriptionDto
+    public class DescriptionResponse
     {
         public Guid FullDescriptionId { get; set; }
 

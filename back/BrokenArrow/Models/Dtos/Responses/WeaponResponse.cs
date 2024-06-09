@@ -1,6 +1,6 @@
-﻿namespace BrokenArrow.Models.Dtos
+﻿namespace BrokenArrow.Models.Dtos.Responses
 {
-    public class WeaponDto
+    public class WeaponResponse
     {
         public Guid WeaponId { get; set; }
 

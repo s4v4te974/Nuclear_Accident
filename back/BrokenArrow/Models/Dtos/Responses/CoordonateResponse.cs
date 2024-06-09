@@ -1,6 +1,6 @@
-﻿namespace BrokenArrow.Models.Dtos
+﻿namespace BrokenArrow.Models.Dtos.Responses
 {
-    public class CoordonateDto
+    public class CoordonateResponse
     {
         public Guid CoordonateId { get; set; }
 
@@ -12,6 +12,6 @@
 
         public float? YCoordonate { get; set; }
 
-        public List<Guid>? BrokenArrowsId { get; set;}
+        public List<Guid>? BrokenArrowsId { get; set; }
     }
 }

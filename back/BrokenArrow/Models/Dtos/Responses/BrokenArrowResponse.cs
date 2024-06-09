@@ -1,8 +1,8 @@
 ﻿using BrokenArrow.Models.Entities;
 
-namespace BrokenArrow.Models.Dtos
+namespace BrokenArrow.Models.Dtos.Responses
 {
-    public class BrokenArrowDto
+    public class BrokenArrowResponse
     {
         public Guid BrokenArrowId { get; set; }
         public Guid? CoordonateId { get; set; }
