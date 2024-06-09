@@ -1,6 +1,6 @@
 ﻿namespace BrokenArrowApp.Enum
 {
-    public enum YearEnum
+    public enum AvailableYear
     {
         FIFTY = 1950,
         SIXTY = 1960,

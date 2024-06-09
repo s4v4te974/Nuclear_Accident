@@ -1,6 +1,6 @@
 ﻿namespace BrokenArrowApp.Enum
 {
-    public enum CountryEnum
+    public enum AvailableCountry
     {
         CANADA,
         US,
