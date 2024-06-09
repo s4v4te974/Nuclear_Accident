@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace BrokenArrow.Exceptions
+﻿namespace BrokenArrow.Exceptions
 {
-    public class BrokenArrowException : Exception
+    public class BrokenArrowException(string message, Exception exception) : Exception(message, exception)
     {
-        public BrokenArrowException(string message, Exception exception) : base(message, exception) { }
-
     }
 }

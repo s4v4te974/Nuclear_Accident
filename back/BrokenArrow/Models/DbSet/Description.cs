@@ -9,7 +9,7 @@ namespace BrokenArrow.Models.Entities
 
         public string? FullDescription { get; set; }
 
-        public BrokenArrows? BrokenArrow { get; set; }
+        public BrokenArrow? BrokenArrow { get; set; }
 
     }
 }

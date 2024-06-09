@@ -16,7 +16,7 @@ namespace BrokenArrow.Models.Entities
 
         public float? YCoordonate { get; set; }
 
-        public BrokenArrows? BrokenArrow { get; set; }
+        public BrokenArrow? BrokenArrow { get; set; }
 
     }
 }

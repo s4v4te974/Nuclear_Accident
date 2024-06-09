@@ -10,7 +10,7 @@ namespace BrokenArrow.Models.Entities
 
         // coordonate
         public Guid? CoordonateId { get; set; }
-        public Coordonate? Coordonate {  get; set; }
+        public Coordonate? Coordonate { get; set; }
 
         // description
         public Guid? FullDescriptionId { get; set; }
@@ -25,7 +25,7 @@ namespace BrokenArrow.Models.Entities
         public Weapon? Weapon { get; set; }
 
 
-        public DateTime DisasterDate {  get; set; }
+        public DateTime DisasterDate { get; set; }
 
         public string? ShortDescription { get; set; }
 
