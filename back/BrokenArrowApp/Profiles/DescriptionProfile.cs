@@ -12,6 +12,8 @@ namespace BrokenArrowApp.MappingProfile
                  .ForMember(dest => dest.BrokenArrowId,
                  src => src.MapFrom(b => b.BrokenArrow != null ? b.BrokenArrow.BrokenArrowId : (Guid?)null));
 
+            CreateMap<BrokenArrow, BrokenArrowResponse>();
+
         }
     }
 }
