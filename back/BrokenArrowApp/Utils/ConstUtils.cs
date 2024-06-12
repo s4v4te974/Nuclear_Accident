@@ -15,5 +15,17 @@
 
         public const string UNABLE_TO_RETRIEVE_BA_BY_COORDONATE = "Unable to retrieve broken Arrows by coordonate";
 
+        public const string UNABLE_TO_RETRIEVE_ALL_COORDONATE = "Unable to retrieve all coordonates";
+
+        public const string UNABLE_TO_RETRIEVE_SPECIFIC_COORDONATE = "Unable to retrieve specific coordonates";
+
+        public const string UNABLE_TO_RETRIEVE_ALL_VEHICULE = "Unable to retrieve all vehicule";
+
+        public const string UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE = "Unable to retrieve specific vehicule";
+
+        public const string UNABLE_TO_RETRIEVE_ALL_WEAPON = "Unable to retrieve all weapon";
+
+        public const string UNABLE_TO_RETRIEVE_SPECIFIC_WEAPON = "Unable to retrieve specific weapon";
+
     }
 }

@@ -1,5 +1,7 @@
-﻿using BrokenArrowApp.Data;
+﻿using AutoMapper;
+using BrokenArrowApp.Data;
 using BrokenArrowApp.Exceptions;
+using BrokenArrowApp.Models.Dtos.Responses;
 using BrokenArrowApp.Models.Entities;
 using BrokenArrowApp.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -7,16 +9,17 @@ using System.Data.Common;
 
 namespace BrokenArrowApp.Service.Impl
 {
-    public class BrokenArrowServiceImpl(BrokenArrowContext context) : IBrokenArrowService
+    public class BrokenArrowServiceImpl(BrokenArrowContext context, Mapper mapper) : IBrokenArrowService
     {
         private readonly BrokenArrowContext _context = context;
+        private readonly Mapper _mapper = mapper;
 
-        public async Task<IEnumerable<BrokenArrow>> RetrieveAllBrokenArrows()
+        public async Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsAsync()
         {
             try
             {
-                var brokenArrows = await _context.BrokenArrows.ToListAsync();
-                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrow>();
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows.ToListAsync();
+                return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
@@ -24,12 +27,12 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<IEnumerable<BrokenArrow>> RetrieveAllBrokenArrowsByCoordonate(Guid coordonate)
+        public async Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsByCoordonateAsync(Guid coordonate)
         {
             try
             {
-                var brokenArrows = await _context.BrokenArrows.Where(b => b.CoordonateId == coordonate).ToListAsync();
-                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrow>();
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows.Where(b => b.CoordonateId == coordonate).ToListAsync();
+                return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
@@ -37,12 +40,12 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<IEnumerable<BrokenArrow>> RetrieveBrokenArrowsByVehicule(Guid vehiculeId)
+        public async Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByVehiculeAsync(Guid vehiculeId)
         {
             try
             {
-                var brokenArrows = await _context.BrokenArrows.Where(b => b.VehiculeId == vehiculeId).ToListAsync();
-                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrow>();
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows.Where(b => b.VehiculeId == vehiculeId).ToListAsync();
+                return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
@@ -50,12 +53,12 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<IEnumerable<BrokenArrow>> RetrieveBrokenArrowsByWeapon(Guid weaponId)
+        public async Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByWeaponAsync(Guid weaponId)
         {
             try
             {
-                var brokenArrows = await _context.BrokenArrows.Where(b => b.WeaponId == weaponId).ToListAsync();
-                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrow>();
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows.Where(b => b.WeaponId == weaponId).ToListAsync();
+                return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
@@ -63,12 +66,12 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<IEnumerable<BrokenArrow>> RetrieveBrokenArrowsByYears(int year)
+        public async Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByYearsAsync(int year)
         {
             try
             {
-                var brokenArrows = await _context.BrokenArrows.Where(b => b.DisasterDate.Year == year).ToListAsync();
-                return brokenArrows.Count != 0 ? brokenArrows : Enumerable.Empty<BrokenArrow>();
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows.Where(b => b.DisasterDate.Year == year).ToListAsync();
+                return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
@@ -77,12 +80,12 @@ namespace BrokenArrowApp.Service.Impl
 
         }
 
-        public async Task<BrokenArrow?> RetrieveSpecificBrokenArrow(Guid brokenArrowId)
+        public async Task<BrokenArrowResponse?> GetSpecificBrokenArrowAsync(Guid brokenArrowId)
         {
             try
             {
-                var brokenArrow = await _context.BrokenArrows.SingleOrDefaultAsync(b => b.BrokenArrowId == brokenArrowId);
-                return brokenArrow;
+                BrokenArrow? brokenArrow = await _context.BrokenArrows.SingleOrDefaultAsync(b => b.BrokenArrowId == brokenArrowId);
+                return brokenArrow != null ? _mapper.Map<BrokenArrowResponse>(brokenArrow) : null;
             }
             catch (DbException ex)
             {

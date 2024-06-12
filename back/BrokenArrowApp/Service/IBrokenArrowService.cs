@@ -1,21 +1,21 @@
-﻿using BrokenArrowApp.Models.Entities;
+﻿using BrokenArrowApp.Models.Dtos.Responses;
 
 namespace BrokenArrowApp.Service
 {
     public interface IBrokenArrowService
     {
 
-        Task<IEnumerable<BrokenArrow>> RetrieveAllBrokenArrows();
+        Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsAsync();
 
-        Task<BrokenArrow?> RetrieveSpecificBrokenArrow(Guid brokenArrowId);
+        Task<BrokenArrowResponse?> GetSpecificBrokenArrowAsync(Guid brokenArrowId);
 
-        Task<IEnumerable<BrokenArrow>> RetrieveBrokenArrowsByYears(int year);
+        Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByYearsAsync(int year);
 
-        Task<IEnumerable<BrokenArrow>> RetrieveBrokenArrowsByWeapon(Guid weaponId);
+        Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByWeaponAsync(Guid weaponId);
 
-        Task<IEnumerable<BrokenArrow>> RetrieveAllBrokenArrowsByCoordonate(Guid coordonate);
+        Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsByCoordonateAsync(Guid coordonate);
 
-        Task<IEnumerable<BrokenArrow>> RetrieveBrokenArrowsByVehicule(Guid vehiculeId);
+        Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByVehiculeAsync(Guid vehiculeId);
 
     }
 }

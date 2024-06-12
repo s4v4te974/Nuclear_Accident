@@ -9,17 +9,18 @@ using System.Data.Common;
 
 namespace BrokenArrowApp.Service.Impl
 {
-    public class WeaponServiceImpl(BrokenArrowContext context, Mapper mapper) : IWeaponService
+    public class VehiculeServiceImpl(BrokenArrowContext context, Mapper mapper) : IVehiculeService
     {
         private readonly BrokenArrowContext _context = context;
         private readonly Mapper _mapper = mapper;
-        public async Task<IEnumerable<WeaponResponse>> GetAllWeaponAsync()
+
+        public async Task<IEnumerable<VehiculeResponse>> GetAllVehiculesAsync()
         {
             try
             {
-                List<Weapon> weapons = await _context.Weapons
+                List<Vehicule> vehicules = await _context.Vehicules
                     .Include(s => s.BrokenArrows).ToListAsync();
-                return weapons != null && weapons.Any() ? _mapper.Map<IEnumerable<WeaponResponse>>(weapons).ToList() : [];
+                return vehicules != null && vehicules.Any() ? _mapper.Map<IEnumerable<VehiculeResponse>>(vehicules) : [];
             }
             catch (DbException ex)
             {
@@ -27,12 +28,14 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<WeaponResponse?> GetSpecificWeaponAsync(Guid weaponId)
+        public async Task<VehiculeResponse?> GetSpecificVehiculeAsync(Guid vehiculeId)
         {
             try
             {
-                Weapon? weapon = await _context.Weapons.SingleOrDefaultAsync(s => s.WeaponId == weaponId);
-                return weapon != null ? _mapper.Map<WeaponResponse>(weapon) : null;
+                Vehicule? vehicule = await _context.Vehicules
+                    .Include(v => v.BrokenArrows)
+                    .SingleOrDefaultAsync(s => s.VehiculeId == vehiculeId);
+                return vehicule != null ? _mapper.Map<VehiculeResponse>(vehicule) : null;
             }
             catch (DbException ex)
             {
