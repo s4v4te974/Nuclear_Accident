@@ -44,13 +44,13 @@ namespace BrokenArrowApp.Data
 
         public DbSet<BrokenArrow> BrokenArrows { get; set; }
 
-        public DbSet<Coordonate> Coordonates { get; set; }
+        public DbSet<Coordonate> Coordonate { get; set; }
 
         public DbSet<Description> Description { get; set; }
 
-        public DbSet<Vehicule> Vehicules { get; set; }
+        public DbSet<Vehicule> Vehicule { get; set; }
 
-        public DbSet<Weapon> Weapons { get; set; }
+        public DbSet<Weapon> Weapon { get; set; }
 
 
     }
