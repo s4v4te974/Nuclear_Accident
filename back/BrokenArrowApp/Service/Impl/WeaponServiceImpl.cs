@@ -20,7 +20,7 @@ namespace BrokenArrowApp.Service.Impl
             {
                 List<Weapon> weapons = await _context.Weapon
                     .Include(s => s.BrokenArrows).ToListAsync();
-                return weapons != null && weapons.Any() ? _mapper.Map<IEnumerable<WeaponResponse>>(weapons).ToList() : [];
+                return weapons != null && weapons.Any() ? _mapper.Map<IEnumerable<WeaponResponse>>(weapons) : [];
             }
             catch (DbException ex)
             {
