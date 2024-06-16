@@ -1,57 +1,57 @@
-DROP TABLE IF EXISTS WEAPON CASCADE;
-DROP TABLE IF EXISTS VEHICULE CASCADE;
-DROP TABLE IF EXISTS COORDONATE CASCADE;
-DROP TABLE IF EXISTS FULL_DESCRIPTION CASCADE;
-DROP TABLE IF EXISTS BROKEN_ARROW CASCADE;
+DROP TABLE IF EXISTS Weapon CASCADE;
+DROP TABLE IF EXISTS Vehicule CASCADE;
+DROP TABLE IF EXISTS Coordonate CASCADE;
+DROP TABLE IF EXISTS Description CASCADE;
+DROP TABLE IF EXISTS BrokenArrows CASCADE;
 
-CREATE TABLE IF NOT EXISTS WEAPON(
-	weapon_id UUID primary key,
-	name varchar(50),
-	builder varchar(20),
-	weapon_description varchar(2000)
+CREATE TABLE IF NOT EXISTS Weapon(
+	WeaponId UUID primary key,
+	Name varchar(50),
+	Builder varchar(20),
+	WeaponDescription varchar(2000)
 );
 
-CREATE TABLE IF NOT EXISTS VEHICULE(
-	vehicule_id UUID primary key,
-	type varchar(50),
-	builder varchar(20),
-	name varchar(50),
-	vehicule_description varchar(3000)
+CREATE TABLE IF NOT EXISTS Vehicule(
+	VehiculeId UUID primary key,
+	Type varchar(50),
+	Builder varchar(20),
+	Name varchar(50),
+	VehiculeDescription varchar(3000)
 );
 
-CREATE TABLE IF NOT EXISTS COORDONATE(
-	coordonate_id UUID primary key,
-	country_name varchar(50),
-	position_lost varchar(50),
-	x_coordonate float,
-	y_coordonate float
+CREATE TABLE IF NOT EXISTS Coordonate(
+	CoordonateId UUID primary key,
+	CountryName varchar(50),
+	PositionLost varchar(50),
+	XCoordonate float,
+	YCoordonate float
 );
 
-CREATE TABLE IF NOT EXISTS FULL_DESCRIPTION (
-	full_description_id UUID primary key,
-	full_description VARCHAR(2000)
+CREATE TABLE IF NOT EXISTS Description (
+	FullDescriptionId UUID primary key,
+	FullDescription VARCHAR(2000)
 );
 
-CREATE TABLE IF NOT EXISTS BROKEN_ARROW (
-    broken_arrow_id UUID PRIMARY KEY,
-    coordonate_id UUID,
-    vehicule_id UUID,
-    weapon_id UUID,
-    full_description_id UUID,
-    disaster_date DATE,
-    short_description VARCHAR(2000),
-    bubble_description VARCHAR(500),
-    CONSTRAINT fk_country FOREIGN KEY (coordonate_id) REFERENCES COORDONATE(coordonate_id),
-    CONSTRAINT fk_vehicule FOREIGN KEY (vehicule_id) REFERENCES VEHICULE(vehicule_id),
-    CONSTRAINT fk_weapon FOREIGN KEY (weapon_id) REFERENCES WEAPON(weapon_id),
-    CONSTRAINT fk_full_desc FOREIGN KEY (full_description_id) REFERENCES FULL_DESCRIPTION(full_description_id)
+CREATE TABLE IF NOT EXISTS BrokenArrows (
+    BrokenArrowId UUID PRIMARY KEY,
+    CoordonateId UUID,
+    VehiculeId UUID,
+    WeaponId UUID,
+    FullDescriptionId UUID,
+    DisasterDate DATE,
+    ShortDescription VARCHAR(2000),
+    BubbleDescription VARCHAR(500),
+    CONSTRAINT fk_country FOREIGN KEY (CoordonateId) REFERENCES COORDONATE(CoordonateId),
+    CONSTRAINT fk_vehicule FOREIGN KEY (VehiculeId) REFERENCES VEHICULE(VehiculeId),
+    CONSTRAINT fk_weapon FOREIGN KEY (WeaponId) REFERENCES WEAPON(WeaponId),
+    CONSTRAINT fk_full_desc FOREIGN KEY (FullDescriptionId) REFERENCES Description(FullDescriptionId)
 );
 
 
 
 --- data insertion
 --- weapons
-INSERT INTO WEAPON (weapon_id, name, builder, weapon_description)
+INSERT INTO WEAPON (WeaponId, Name, Builder, WeaponDescription)
 values 
 ('65600023-bac7-454a-aef3-5de5459142a5', 'LGM-30 Minuteman', 'U.S', 'Le LGM-30 Minuteman est un missile balistique intercontinental (ICBM) 
 américain basé au sol, en service avec l''Air Force Global Strike Command. En 2024, le LGM-30G (Version 3) est le seul ICBM terrestre en service aux 
@@ -145,7 +145,7 @@ atmosphérique (NOAA). Ces charges utiles comprenaient le programme de satellite
 de la NOAA et les capsules spatiales Gemini de la NASA. Les lanceurs spatiaux Titan II modifiés ont été lancés depuis la base de l''US Air Force de Vandenberg, en Californie, jusqu''en 2003.');
 
 
-INSERT INTO VEHICULE (vehicule_id, type, builder, name, vehicule_description)
+INSERT INTO VEHICULE (VehiculeId, Type, Builder, Name, VehiculeDescription)
 values 
 ('eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', 'Bombardier stratégique', 'Convair', 'Convair B-36', 'Le Convair B-36 ''Peacemaker'' est un bombardier stratégique construit par Convair et 
 exploité par l''United States Air Force (USAF) de 1949 à 1959. 
@@ -333,7 +333,7 @@ marine américaine et le commandant du K-219, le capitaine de deuxième rang Igo
  en combustible du sous-marin à la baie de Chazhma, Dunay, Vladivostok. Il y a eu dix décès et 49 autres personnes ont subi des blessures par radiation. Le magazine Time 
 a identifié l''accident comme l''une des "pires catastrophes nucléaires" au monde.');
 
-INSERT INTO COORDONATE(coordonate_id, country_name, position_lost, x_coordonate, y_coordonate)
+INSERT INTO COORDONATE(CoordonateId, CountryName, PositionLost, XCoordonate, YCoordonate)
 values 
 ('5a0aae66-71a9-452e-b8a1-8fc35d942634', 'Canada', 'Quebec', '48.060991420591655', '-73.26900198962217'),
 ('cb075c10-967f-4c20-b431-b54b92012365', 'Canada', 'Colombie Britannique', '55.46232117554326', '-124.69336587565931'),
@@ -376,7 +376,7 @@ values
 ('834674f1-a714-4fbc-80d3-a4e56012fc75', 'Afrique', 'Sidi Slimane Air Base, Maroc', '34.28825555257046', '-5.926694948886283'),
 ('7fc5a702-bc63-4e96-997b-6bae686f976d', 'Asie', 'Osan Air Base, South Korea', '37.08499666599453', '127.0355036578654');
 
-INSERT INTO FULL_DESCRIPTION(full_description_id, full_description)
+INSERT INTO Description(FullDescriptionId, FullDescription)
 values 
 ('c1397711-f58e-44df-942b-ce03e048a8e0', 'Une bombe nucléaire simulée contenant du TNT et de l''uranium, mais sans le noyau fissile nécessaire pour créer une explosion nucléaire, 
 a été délibérément larguée dans l''océan Pacifique après que les moteurs d''un bombardier Convair B-36 ont pris feu lors d''un test de sa capacité à transporter des charges nucléaires. 
@@ -757,7 +757,7 @@ On pense qu''une défaillance de torpille a causé l''accident.
 Les niveaux de radiation sont normaux et le sous-marin ne transportait pas d''armes nucléaires.');
 
 
-INSERT INTO BROKEN_ARROW(broken_arrow_id, coordonate_id, vehicule_id, weapon_id, full_description_id, disaster_date, short_description, bubble_description)
+INSERT INTO BrokenArrows(BrokenArrowId, CoordonateId, VehiculeId, WeaponId, FullDescriptionId, DisasterDate, ShortDescription, BubbleDescription)
 values 
 ('71bececf-8815-4ec6-a572-26937c455021', 'cb075c10-967f-4c20-b431-b54b92012365', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', NULL, 'c1397711-f58e-44df-942b-ce03e048a8e0', '1950-02-13', 
 'Le B-36 était en route de la base aérienne d''Eielson à la base aérienne de Carswell dans le cadre d''une mission de profil de combat simulée. 
