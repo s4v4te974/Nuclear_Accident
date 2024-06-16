@@ -48,6 +48,15 @@
 
         public const string SPECIFIC_VEHICULE = "get-specific-vehicule/";
 
+        public const string ALL_COORDONATE_URL = "get-all-coordonate/";
+
+        public const string SPECIFIC_COORDONATE = "get-specific-coordonate/";
+
+        public const string ALL_WEAPON_URL = "get-all-weapon/";
+
+        public const string SPECIFIC_WEAPON = "get-specific-weapon/";
+
+
 
         #endregion
     }

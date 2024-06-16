@@ -10,6 +10,6 @@
 
         public string? WeaponDescription { get; set; }
 
-        public List<BrokenArrowResponse>? BrokenArrows { get; set; }
+        public List<BrokenArrowShortResponse>? BrokenArrows { get; set; }
     }
 }

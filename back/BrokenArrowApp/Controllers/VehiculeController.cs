@@ -8,22 +8,17 @@ namespace BrokenArrowApp.Controllers
 {
     [Route(ConstUtils.ROOT_URL)]
     [ApiController]
-    public class VehiculeController : ControllerBase
+    public class VehiculeController(IVehiculeService vehiculeService) : ControllerBase
     {
 
-        private readonly IVehiculeService _vehiculeService;
-
-        public VehiculeController(IVehiculeService vehiculeService)
-        {
-            _vehiculeService = vehiculeService;
-        }
+        private readonly IVehiculeService _vehiculeService = vehiculeService;
 
         [HttpGet(ConstUtils.ALL_VEHICULE_URL)]
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<IEnumerable<VehiculeResponse>>> GetAllVehicules()
         {
-            IEnumerable<VehiculeResponse> vehicules = await _vehiculeService.GetAllVehiculesAsync();
-            return vehicules == null || !vehicules.Any() ? NotFound() : Ok(vehicules);
+            IEnumerable<VehiculeResponse> vehiculesResponse = await _vehiculeService.GetAllVehiculesAsync();
+            return vehiculesResponse == null || !vehiculesResponse.Any() ? NotFound() : Ok(vehiculesResponse);
         }
 
         [HttpPost(ConstUtils.SPECIFIC_VEHICULE + "{id}")]

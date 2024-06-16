@@ -26,6 +26,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // add services
 builder.Services.AddScoped<AutoMapper.Mapper>();
 builder.Services.AddScoped<IVehiculeService, VehiculeServiceImpl>();
+builder.Services.AddScoped<ICoordonateService, CoordonateServiceImpl>();
+builder.Services.AddScoped<IWeaponService, WeaponServiceImpl>();
 
 
 // database connexion build the context
