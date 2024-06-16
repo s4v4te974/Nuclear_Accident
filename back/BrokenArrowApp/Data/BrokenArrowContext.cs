@@ -17,14 +17,14 @@ namespace BrokenArrowApp.Data
             modelBuilder.Entity<BrokenArrow>()
                 .HasOne(b => b.Description)
                 .WithOne(d => d.BrokenArrow)
-                .HasForeignKey<Description>(d => d.FullDescriptionId)
+                .HasForeignKey<BrokenArrow>(d => d.FullDescriptionId)
                 .IsRequired(false);
 
             // relation between BA and Coordonate (one-to-one)
             modelBuilder.Entity<BrokenArrow>()
                 .HasOne(b => b.Coordonate)
                 .WithOne(d => d.BrokenArrow)
-                .HasForeignKey<Coordonate>(d => d.CoordonateId)
+                .HasForeignKey<BrokenArrow>(d => d.CoordonateId)
                 .IsRequired(false);
 
             // relation between BA and Weapon (one to many)
