@@ -9,10 +9,11 @@ using System.Data.Common;
 
 namespace BrokenArrowApp.Service.Impl
 {
-    public class BrokenArrowServiceImpl(BrokenArrowContext context, Mapper mapper) : IBrokenArrowService
+    public class BrokenArrowServiceImpl(BrokenArrowContext context, Mapper mapper, ILogger<BrokenArrowServiceImpl> logger) : IBrokenArrowService
     {
         private readonly BrokenArrowContext _context = context;
         private readonly Mapper _mapper = mapper;
+        private readonly ILogger<BrokenArrowServiceImpl> _logger = logger;
 
         public async Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsAsync()
         {
@@ -23,6 +24,7 @@ namespace BrokenArrowApp.Service.Impl
             }
             catch (DbException ex)
             {
+                _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
                 throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
             }
         }
@@ -36,6 +38,7 @@ namespace BrokenArrowApp.Service.Impl
             }
             catch (DbException ex)
             {
+                _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
                 throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_COORDONATE, ex);
             }
         }
@@ -49,6 +52,7 @@ namespace BrokenArrowApp.Service.Impl
             }
             catch (DbException ex)
             {
+                _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
                 throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
             }
         }
@@ -62,6 +66,7 @@ namespace BrokenArrowApp.Service.Impl
             }
             catch (DbException ex)
             {
+                _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
                 throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, ex);
             }
         }
