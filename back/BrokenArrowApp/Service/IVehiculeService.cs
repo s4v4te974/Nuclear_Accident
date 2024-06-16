@@ -5,9 +5,9 @@ namespace BrokenArrowApp.Service
     public interface IVehiculeService
     {
 
-        Task<IEnumerable<VehiculeResponse>> GetAllVehiculesAsync();
+        Task<IEnumerable<VehiculeResponse>> GetVehiculesAsync();
 
-        Task<VehiculeResponse?> GetSpecificVehiculeAsync(Guid vehiculeId);
+        Task<VehiculeResponse?> GetSingleVehiculeAsync(Guid vehiculeId);
 
     }
 }

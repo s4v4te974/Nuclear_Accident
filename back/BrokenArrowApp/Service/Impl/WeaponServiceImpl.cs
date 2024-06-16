@@ -14,7 +14,7 @@ namespace BrokenArrowApp.Service.Impl
         private readonly BrokenArrowContext _context = context;
         private readonly Mapper _mapper = mapper;
         private readonly ILogger<WeaponServiceImpl> _logger = logger;
-        public async Task<IEnumerable<WeaponResponse>> GetAllWeaponAsync()
+        public async Task<IEnumerable<WeaponResponse>> GetWeaponAsync()
         {
             try
             {
@@ -29,7 +29,7 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<WeaponResponse?> GetSpecificWeaponAsync(Guid weaponId)
+        public async Task<WeaponResponse?> GetSingleWeaponAsync(Guid weaponId)
         {
             try
             {

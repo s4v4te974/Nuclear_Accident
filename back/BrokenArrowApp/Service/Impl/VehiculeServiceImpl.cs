@@ -15,7 +15,7 @@ namespace BrokenArrowApp.Service.Impl
         private readonly Mapper _mapper = mapper;
         private readonly ILogger<VehiculeServiceImpl> _logger = logger;
 
-        public async Task<IEnumerable<VehiculeResponse>> GetAllVehiculesAsync()
+        public async Task<IEnumerable<VehiculeResponse>> GetVehiculesAsync()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<VehiculeResponse?> GetSpecificVehiculeAsync(Guid vehiculeId)
+        public async Task<VehiculeResponse?> GetSingleVehiculeAsync(Guid vehiculeId)
         {
             try
             {

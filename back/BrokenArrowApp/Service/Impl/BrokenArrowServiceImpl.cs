@@ -15,7 +15,7 @@ namespace BrokenArrowApp.Service.Impl
         private readonly Mapper _mapper = mapper;
         private readonly ILogger<BrokenArrowServiceImpl> _logger = logger;
 
-        public async Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsAsync()
+        public async Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsAsync()
         {
             try
             {
@@ -29,7 +29,7 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<IEnumerable<BrokenArrowResponse>> GetAllBrokenArrowsByCoordonateAsync(Guid coordonate)
+        public async Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsByCoordonateAsync(Guid coordonate)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace BrokenArrowApp.Service.Impl
 
         }
 
-        public async Task<BrokenArrowResponse?> GetSpecificBrokenArrowAsync(Guid brokenArrowId)
+        public async Task<BrokenArrowResponse?> GetSingleBrokenArrowAsync(Guid brokenArrowId)
         {
             try
             {

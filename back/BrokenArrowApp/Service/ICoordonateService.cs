@@ -5,9 +5,9 @@ namespace BrokenArrowApp.Service
     public interface ICoordonateService
     {
 
-        Task<IEnumerable<CoordonateResponse>> GetAllCoordonatesAsync();
+        Task<IEnumerable<CoordonateResponse>> GetCoordonatesAsync();
 
-        Task<CoordonateResponse?> GetSpecificCoordonateAsync(Guid coordonateId);
+        Task<CoordonateResponse?> GetSingleCoordonateAsync(Guid coordonateId);
 
     }
 }

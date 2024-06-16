@@ -5,8 +5,8 @@ namespace BrokenArrowApp.Service
     public interface IWeaponService
     {
 
-        Task<IEnumerable<WeaponResponse>> GetAllWeaponAsync();
+        Task<IEnumerable<WeaponResponse>> GetWeaponAsync();
 
-        Task<WeaponResponse?> GetSpecificWeaponAsync(Guid weaponId);
+        Task<WeaponResponse?> GetSingleWeaponAsync(Guid weaponId);
     }
 }

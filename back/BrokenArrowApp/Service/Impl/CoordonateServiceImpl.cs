@@ -15,7 +15,7 @@ namespace BrokenArrowApp.Service.Impl
         private readonly Mapper _mapper = mapper;
         private readonly ILogger<CoordonateServiceImpl> _logger = logger;
 
-        public async Task<IEnumerable<CoordonateResponse>> GetAllCoordonatesAsync()
+        public async Task<IEnumerable<CoordonateResponse>> GetCoordonatesAsync()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace BrokenArrowApp.Service.Impl
             }
         }
 
-        public async Task<CoordonateResponse?> GetSpecificCoordonateAsync(Guid coordonateId)
+        public async Task<CoordonateResponse?> GetSingleCoordonateAsync(Guid coordonateId)
         {
             try
             {
