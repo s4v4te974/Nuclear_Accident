@@ -8,11 +8,10 @@ namespace BrokenArrowApp.Profiles
     {
         public WeaponProfile()
         {
-
             CreateMap<Weapon, WeaponResponse>()
                 .ForMember(dest => dest.BrokenArrows, opt => opt.MapFrom(src => src.BrokenArrows));
 
-            CreateMap<BrokenArrow, BrokenArrowResponse>();
+            CreateMap<BrokenArrow, BrokenArrowShortResponse>();
 
         }
     }

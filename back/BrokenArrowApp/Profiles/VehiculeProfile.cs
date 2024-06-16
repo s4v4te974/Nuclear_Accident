@@ -11,7 +11,7 @@ namespace BrokenArrowApp.Profiles
             CreateMap<Vehicule, VehiculeResponse>()
                  .ForMember(dest => dest.BrokenArrows, opt => opt.MapFrom(src => src.BrokenArrows));
 
-            CreateMap<BrokenArrow, BrokenArrowResponse>();
+            CreateMap<BrokenArrow, BrokenArrowShortResponse>();
         }
 
     }
