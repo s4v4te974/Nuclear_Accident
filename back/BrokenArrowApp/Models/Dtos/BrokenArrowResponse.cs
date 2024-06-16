@@ -1,4 +1,4 @@
-﻿namespace BrokenArrowApp.Models.Dtos.Responses
+﻿namespace BrokenArrowApp.Models.Dtos
 {
     public class BrokenArrowResponse
     {

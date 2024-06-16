@@ -1,4 +1,4 @@
-﻿using BrokenArrowApp.Models.Dtos.Responses;
+﻿using BrokenArrowApp.Models.Dtos;
 
 namespace BrokenArrowApp.Service
 {

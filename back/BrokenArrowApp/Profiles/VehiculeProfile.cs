@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BrokenArrowApp.Models.Dtos.Responses;
+using BrokenArrowApp.Models.Dtos;
 using BrokenArrowApp.Models.Entities;
 
 namespace BrokenArrowApp.Profiles

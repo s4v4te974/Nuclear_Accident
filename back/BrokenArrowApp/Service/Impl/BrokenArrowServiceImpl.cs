@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BrokenArrowApp.Data;
 using BrokenArrowApp.Exceptions;
-using BrokenArrowApp.Models.Dtos.Responses;
+using BrokenArrowApp.Models.Dtos;
 using BrokenArrowApp.Models.Entities;
 using BrokenArrowApp.Utils;
 using Microsoft.EntityFrameworkCore;
