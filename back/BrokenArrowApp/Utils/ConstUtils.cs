@@ -3,6 +3,7 @@
     public static class ConstUtils
     {
 
+        #region ErrorMessage
         public const string UNABLE_TO_RETRIEVE_ALL_BA = "Unable to retrieve all Broken Arrows";
 
         public const string UNABLE_TO_RETRIEVE_BA_BY_VEHICULE = "Unable to retrieve broken Arrows by vehicules";
@@ -27,5 +28,27 @@
 
         public const string UNABLE_TO_RETRIEVE_SPECIFIC_WEAPON = "Unable to retrieve specific weapon";
 
+        public const string ERROR_LOG_VEHICULE = "Erreur de base de données dans le service Vehicule";
+
+        public const string ERROR_LOG_WEAPON = "Erreur de base de données dans le service Weapon";
+
+        public const string ERROR_LOG_COORDONATE = "Erreur de base de données dans le service Coordonate";
+
+        public const string ERROR_LOG_BA = "Erreur de base de données dans le service Broken Arrow";
+
+        #endregion
+
+        #region apiroute
+
+        public const string ROOT_URL = "Broken-Arrow/";
+
+        public const string GENERAL_ID = "{id}";
+
+        public const string ALL_VEHICULE_URL = "get-all-vehicule/";
+
+        public const string SPECIFIC_VEHICULE = "get-specific-vehicule/";
+
+
+        #endregion
     }
 }
