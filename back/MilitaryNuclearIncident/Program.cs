@@ -1,9 +1,9 @@
-using BrokenArrowApp.Src.BrokenArrowApp.Data;
-using BrokenArrowApp.Src.BrokenArrowApp.Services.Implementation;
-using BrokenArrowApp.Src.BrokenArrowApp.Services.Interfaces;
-using BrokenArrowApp.Src.BrokenArrowApp.UI.Controllers.Handler;
-using BrokenArrowApp.Src.BrokenArrowApp.UI.Controllers.RouteConstraint;
 using Microsoft.EntityFrameworkCore;
+using MilitaryNuclearAccident.Src.Mna.Data;
+using MilitaryNuclearAccident.Src.Mna.Services.Implementation;
+using MilitaryNuclearAccident.Src.Mna.Services.Interfaces;
+using MilitaryNuclearAccident.Src.Mna.UI.Controllers.Handler;
+using MilitaryNuclearAccident.Src.Mna.UI.Controllers.RouteConstraint;
 
 var builder = WebApplication.CreateBuilder(args);
 
