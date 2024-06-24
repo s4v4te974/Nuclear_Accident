@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS Weapon CASCADE;
 DROP TABLE IF EXISTS Vehicule CASCADE;
-DROP TABLE IF EXISTS Coordonate CASCADE;
+DROP TABLE IF EXISTS Location CASCADE;
 DROP TABLE IF EXISTS Description CASCADE;
 DROP TABLE IF EXISTS BrokenArrows CASCADE;
 
@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS Vehicule(
 	VehiculeDescription varchar(3000)
 );
 
-CREATE TABLE IF NOT EXISTS Coordonate(
-	CoordonateId UUID primary key,
-	CountryName varchar(50),
+CREATE TABLE IF NOT EXISTS Location(
+	LocationId UUID primary key,
+	Name varchar(50),
 	PositionLost varchar(50),
 	XCoordonate float,
 	YCoordonate float
@@ -34,14 +34,14 @@ CREATE TABLE IF NOT EXISTS Description (
 
 CREATE TABLE IF NOT EXISTS BrokenArrows (
     BrokenArrowId UUID PRIMARY KEY,
-    CoordonateId UUID,
+    LocationId UUID,
     VehiculeId UUID,
     WeaponId UUID,
     FullDescriptionId UUID,
     DisasterDate DATE,
     ShortDescription VARCHAR(2000),
     BubbleDescription VARCHAR(500),
-    CONSTRAINT fk_country FOREIGN KEY (CoordonateId) REFERENCES COORDONATE(CoordonateId),
+    CONSTRAINT fk_country FOREIGN KEY (LocationId) REFERENCES LOCATION(LocationId),
     CONSTRAINT fk_vehicule FOREIGN KEY (VehiculeId) REFERENCES VEHICULE(VehiculeId),
     CONSTRAINT fk_weapon FOREIGN KEY (WeaponId) REFERENCES WEAPON(WeaponId),
     CONSTRAINT fk_full_desc FOREIGN KEY (FullDescriptionId) REFERENCES Description(FullDescriptionId)
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS BrokenArrows (
 --- weapons
 INSERT INTO WEAPON (WeaponId, Name, Builder, WeaponDescription)
 values 
-('65600023-bac7-454a-aef3-5de5459142a5', 'LGM-30 Minuteman', 'U.S', 'Le LGM-30 Minuteman est un missile balistique intercontinental (ICBM) 
+('65600023-bac7-454a-aef3-5de5459142a5', 'Minuteman', 'U.S', 'Le LGM-30 Minuteman est un missile balistique intercontinental (ICBM) 
 américain basé au sol, en service avec l''Air Force Global Strike Command. En 2024, le LGM-30G (Version 3) est le seul ICBM terrestre en service aux 
 États-Unis et représente la composante terrestre de la triade nucléaire américaine, aux côtés du missile balistique lancé par sous-marin Trident II et 
 des armes nucléaires transportées par des bombardiers stratégiques à long rayon d''action.
@@ -65,22 +65,22 @@ devenu le premier ICBM déployé avec des véhicules de rentrée à cibles multi
 Dans les années 1970, 1 000 missiles Minuteman étaient déployés. En septembre 2017, ce nombre a été réduit à 400 Minuteman III, déployés dans des 
 silos autour des bases aériennes de Malmstrom, Minot et Francis E. Warren. Le Minuteman III sera progressivement remplacé par le nouvel ICBM LGM-35 Sentinel, 
 construit par Northrop Grumman, à partir de 2030.'),
-('c9ecb03e-5daa-46b1-aa95-e40494ece2da', 'Mark 17', 'U.S', 'La Mark 17 était l''une des premières bombes à hydrogène produites en série et déployées par les 
+('c9ecb03e-5daa-46b1-aa95-e40494ece2da', 'Mark17', 'U.S', 'La Mark 17 était l''une des premières bombes à hydrogène produites en série et déployées par les 
 États-Unis. Une arme thermonucléaire, ou bombe à hydrogène (bombe H), est une arme nucléaire de deuxième génération. Sa sophistication accrue lui confère une 
 puissance destructrice bien supérieure à celle des bombes nucléaires de première génération, une taille plus compacte, une masse plus faible ou une combinaison 
 de ces avantages. Les caractéristiques des réactions de fusion nucléaire permettent d''utiliser de l''uranium appauvri non fissile comme principal combustible de 
 l''arme, permettant ainsi une utilisation plus efficace des matériaux fissiles rares tels que l''uranium-235 (235U) ou le plutonium-239 (239Pu). Le premier essai 
 thermonucléaire à grande échelle a été réalisé par les États-Unis en 1952 et ce concept a depuis été employé par la plupart des puissances 
 nucléaires mondiales dans la conception de leurs armes.'),
-('2957a217-cea8-492c-97d9-3f52116b4752', 'mark 15', 'U.S', 'La bombe nucléaire Mark 15, ou Mk-15, était une bombe thermonucléaire américaine des années 1950, 
+('2957a217-cea8-492c-97d9-3f52116b4752', 'mark15', 'U.S', 'La bombe nucléaire Mark 15, ou Mk-15, était une bombe thermonucléaire américaine des années 1950, 
 la première relativement légère (3 400 kg) créée par les États-Unis.),
 Un total de 1 200 bombes Mark 15 ont été produites de 1955 à 1957. Il y avait trois variantes de production : Mod 1, Mod 2 et Mod 3. La conception a été en service de 1955 à 1965.'),
-('cf5ca691-9179-4566-9c90-048296843a15', 'Mark 4', 'U.S', 'La bombe nucléaire Mark 4 était une bombe nucléaire américaine de type implosion basée sur la 
+('cf5ca691-9179-4566-9c90-048296843a15', 'Mark4', 'U.S', 'La bombe nucléaire Mark 4 était une bombe nucléaire américaine de type implosion basée sur la 
 conception précédente de la Mark 3 Fat Man, utilisée lors du test Trinity et lors du bombardement de Nagasaki. La Mark 3 nécessitant que chaque composant 
 soit assemblé à la main par des techniciens hautement qualifiés dans des conditions étroitement contrôlées, l''objectif de la Mark 4 était de produire 
 une arme atomique en tant que pièce d''artillerie pratique. La Mark 4 Mod 0 est entrée en service à partir du 19 mars 1949 et a été utilisée jusqu''en 1953. 
 Avec plus de 500 unités acquises, la Mark 4 a été la première arme nucléaire produite en série.'),
-('848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 'Mark 6', 'U.S', 'La bombe nucléaire Mark 6 était une bombe nucléaire américaine basée sur la conception précédente 
+('848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 'Mark6', 'U.S', 'La bombe nucléaire Mark 6 était une bombe nucléaire américaine basée sur la conception précédente 
 de la bombe nucléaire Mark 4 et son prédécesseur, la bombe nucléaire Fat Man de la Mark 3.
 La Mark 6 a été produite de 1951 à 1955 et a été en service jusqu''en 1962. Sept variantes et versions ont été produites, avec une production totale de toutes les modèles de 1100 bombes.
 La conception de base de la Mark 6 mesurait 61 pouces (150 cm) de diamètre et 128 pouces (330 cm) de long, les mêmes dimensions de base que la Mark 4. Divers modèles de la Mark 6 
@@ -88,8 +88,7 @@ La conception de base de la Mark 6 mesurait 61 pouces (150 cm) de diamètre et 1
 Les premiers modèles de la Mark 6 utilisaient le même concept de système d''implosion à 32 points que les précédentes Mark 4 et Mark 3 ; 
 la Mark 6 Mod 2 et les suivantes utilisaient un système d''implosion différent à 60 points.
 Divers modèles et options de cœur donnaient des rendements nucléaires de 18, 26, 80, 154 et 160 kilotonnes pour les modèles de la Mark 6.'),
-
-('8682cd74-b3ae-4523-a916-e280a48bbd08', 'Mark 39', 'U.S', 'La bombe nucléaire Mark 39 et la tête nucléaire W39 étaient des versions d''une arme thermonucléaire américaine, 
+('8682cd74-b3ae-4523-a916-e280a48bbd08', 'Mark39', 'U.S', 'La bombe nucléaire Mark 39 et la tête nucléaire W39 étaient des versions d''une arme thermonucléaire américaine, 
 en service de 1957 à 1966. La conception de la Mark 39 était une bombe thermonucléaire et avait une puissance de 3,8 mégatonnes. Elle pesait entre 2 950 et 
 3 060 kilogrammes et mesurait environ 3,556 mètres de long sur 89 centimètres de diamètre. La conception était une amélioration de la bombe nucléaire Mark 15. 
 La Mark 15 était la première bombe thermonucléaire légère américaine. La tête nucléaire W39 avait un diamètre de 89 centimètres et une longueur de 270 centimètres, 
@@ -100,8 +99,7 @@ a été développée pour être utilisée avec le missile Redstone. Des sources 
 Un total de 700 bombes Mark 39 (de trois variantes ''mod'') ont été produites entre février 1957 et mars 1959. Le retrait de la Mark 39 a commencé en janvier 1962 et s''est 
 terminé en novembre 1966. Soixante têtes nucléaires W39 ont été produites pour le missile Redstone et stockées entre 1958 et 1963, et 30 têtes nucléaires W39 ont été produites 
 pour le missile Snark en 1958 et retirées entre août 1962 et septembre 1965.'),
-
-('2b4d9ef8-430c-4331-99cc-6fb114f3e296', 'Mark 90', 'U.S', 'La bombe nucléaire Mark 90, surnommée ''Betty'', était une charge nucléaire de la guerre froide, développée par les États-Unis en 1952.
+('2b4d9ef8-430c-4331-99cc-6fb114f3e296', 'Mark90', 'U.S', 'La bombe nucléaire Mark 90, surnommée ''Betty'', était une charge nucléaire de la guerre froide, développée par les États-Unis en 1952.
 Elle mesurait 3,10 mètres de long, avait un diamètre de 0,80 mètre et pesait 564 kilogrammes. 
 Elle transportait une tête nucléaire Mark 7 d''une puissance de 32 kilotonnes. Son but était de servir d''arme anti-sous-marine pour la Marine des États-Unis.'),
 
@@ -129,7 +127,7 @@ les avions d''attaque et les bombardiers américains. De 1962 à 1972, dans le c
 avions Valiant et Canberra du Royal Air Force basés au Royaume-Uni et affectés à l''OTAN sous le commandement du SACEUR. De plus, certains avions d''attaque embarqués de 
 l''US Navy tels que le A3D (plus tard A-3B) Skywarrior, le A4D (plus tard A-4) Skyhawk et le A3J (plus tard A-5A) Vigilante étaient équipés pour transporter le B28.'),
 
-('e1cee907-cde0-4182-9615-3f47a717b230', 'Mark 45', 'U.S', 'La torpille anti-sous-marine Mark 45, également appelée ASTOR, 
+('e1cee907-cde0-4182-9615-3f47a717b230', 'Mark45', 'U.S', 'La torpille anti-sous-marine Mark 45, également appelée ASTOR, 
 était une torpille nucléaire guidée par câble lancée par sous-marin, conçue par la Marine américaine pour être utilisée contre les sous-marins ennemis à 
 grande vitesse et à plongée profonde. C''était l''une des plusieurs armes recommandées pour la mise en œuvre par le projet Nobska, une étude estivale de 
 1956 sur la guerre sous-marine. La torpille de 19 pouces (480 mm) de diamètre était équipée d''une tête nucléaire W34. La nécessité de maintenir un contrôle 
@@ -137,7 +135,7 @@ direct sur la tête nucléaire signifiait qu''une connexion par câble devait ê
 guidage par câble étaient associés à ce câble, et la torpille n''avait aucune capacité de recherche. La conception a été achevée en 1960, et 600 torpilles ont été 
 construites entre 1963 et 1976, date à laquelle ASTOR a été remplacée par la torpille Mark 48.'),
 
-('f3c55c85-1e06-4dd1-a3bc-c896d22f10db', 'Titan II', 'U.S', 'Le Titan II était un missile balistique intercontinental (ICBM) développé par la 
+('f3c55c85-1e06-4dd1-a3bc-c896d22f10db', 'Titan2', 'U.S', 'Le Titan II était un missile balistique intercontinental (ICBM) développé par la 
 société Glenn L. Martin à partir du précédent missile Titan I. Le Titan II était à l''origine conçu et utilisé comme ICBM, mais a ensuite été adapté en 
 tant que véhicule de lancement spatial à moyenne portée (ces adaptations étaient désignées Titan II GLV et Titan 23G) pour transporter des charges utiles en 
 orbite terrestre pour l''United States Air Force (USAF), la National Aeronautics and Space Administration (NASA) et l''Administration nationale océanique et 
@@ -156,7 +154,7 @@ Avec une portée de 10 000 milles (16 000 km) et une charge utile maximale de 87
 Entré en service en 1948, le B-36 était le principal vecteur de livraison d''armes nucléaires du Commandement aérien stratégique (SAC) 
 jusqu''à ce qu''il soit remplacé par le Boeing B-52 Stratofortress à réaction à partir de 1955. Tous sauf quatre avions ont été démantelés.'),
 
-('0a13cef9-3bc7-4b20-a8d8-d4206de9fc11','Porte Avion','U.S', 'USS John F. Kennedy', 'L’USS John F. Kennedy (CV-67) est un porte-avions de l''US Navy. 
+('0a13cef9-3bc7-4b20-a8d8-d4206de9fc11','Porte Avion','USNavy', 'USS John F. Kennedy', 'L’USS John F. Kennedy (CV-67) est un porte-avions de l''US Navy. 
 Il devait être le quatrième porte-avions de la classe Kitty Hawk, mais a subi tellement de modifications (propulsion nucléaire à 
 l''origine, pont plus court, puis retour à la propulsion classique, changement de cheminée) qu''il forme une classe à lui seul. 
 Il fut le dernier porte-avions à propulsion classique à avoir été construit pour l''US Navy1.
@@ -201,7 +199,7 @@ Le C-124 était le principal avion de transport de fret lourd de l''United State
 années 1950 et le début des années 1960, jusqu''à ce que le Lockheed C-141 Starlifter entre en service. Il a servi dans les unités de la réserve de l''Air Force et 
 de la Garde nationale aérienne jusqu''à sa retraite en 1974.'),
 
-('f41ab580-62d8-410c-8017-60801e70852e', 'chasseurs supersoniques', 'North American', 'F-100 Super Sabre', 'Le North American F-100 Super Sabre est un avion de chasse à 
+('f41ab580-62d8-410c-8017-60801e70852e', 'chasseurs supersoniques', 'NorthAmerican', 'F-100 Super Sabre', 'Le North American F-100 Super Sabre est un avion de chasse à 
 réaction supersonique américain conçu et produit par le fabricant d''aéronefs North American Aviation. Premier de la série des avions de chasse à réaction américains de 
 la série Century, il était le premier chasseur de l''United States Air Force (USAF) capable de voler en vitesse supersonique en vol horizontal.
 Le F-100 a été envisagé à la fin des années 1940 comme un successeur à plus haute performance du chasseur de supériorité aérienne F-86 Sabre. Initialement appelé Sabre 45,
@@ -261,7 +259,7 @@ américain a été déclaré opérationnel en 1959, mais avec un seul missile fo
 obsolète. Les désactivations ont commencé en 1969 et d''ici 1972, tous les sites Bomarc avaient été fermés. Un petit nombre a été utilisé comme drones cibles, et seulement 
 quelques-uns sont exposés aujourd''hui.'),
 
-('f285e904-35b7-4eaf-bee0-4f74102db8d5', 'Sous-marin', 'Marine soviétique.', 'K-19', 'Le K-19 était le premier sous-marin de la classe Projet 658, 
+('f285e904-35b7-4eaf-bee0-4f74102db8d5', 'Sous-marin', 'SovietMarine', 'K-19', 'Le K-19 était le premier sous-marin de la classe Projet 658, 
 également connue sous le nom de sous-marin de classe Hotel selon le nom de code de l''OTAN, la première génération de sous-marins nucléaires soviétiques 
 équipés de missiles balistiques nucléaires, en l''occurrence le SLBM R-13. Le bateau a été construit à la hâte par les Soviétiques en réponse aux développements
  américains dans les sous-marins nucléaires, dans le cadre de la course aux armements. Avant son lancement, 10 travailleurs civils et un marin sont morts dans 
@@ -307,19 +305,18 @@ guerre du Kippour. Pendant la guerre des Malouines, des Skyhawks de l''armée de
 et la frégate de type 21 Ardent. Des Skyhawks de l''armée de l''air koweïtienne ont participé à l''opération Desert Storm. En 2022, près de sept décennies après le premier vol de 
 l''avion en 1954, un certain nombre de Skyhawks restent en service dans l''armée de l''air argentine et l''aviation navale brésilienne.'),
 
-('e5a26f91-e3cc-49ec-a8dc-59401dbd70ed', 'Sous marin Nucléaire Attaque', 'US Navy', 'USS scorpion', 'L''USS Scorpion (SSN-589) était un sous-marin nucléaire 
+('e5a26f91-e3cc-49ec-a8dc-59401dbd70ed', 'Sous marin Nucléaire Attaque', 'USNavy', 'USS scorpion', 'L''USS Scorpion (SSN-589) était un sous-marin nucléaire 
 de classe Skipjack qui a servi dans la Marine des États-Unis, et le sixième navire, et le deuxième sous-marin, de l''US Navy à porter ce nom.
 On pense que le Scorpion a été perdu le 27 mai 1968. Elle est l''un des deux sous-marins nucléaires que la Marine américaine a perdus, l''autre étant 
 l''USS Thresher. Elle a été l''une des quatre disparitions de sous-marins en 1968, les autres étant le sous-marin israélien INS Dakar, le sous-marin français 
 Minerve et le sous-marin soviétique K-129.
 L''épave du navire se trouve dans l''océan Atlantique Nord avec tous ses armements et son réacteur nucléaire.'),
 
-('d6b7d88b-4fe0-40f5-8076-5ea4eac25085', 'Sous marin Nucléaire Attaque', 'Soviet Marine', 'K-171', 'Le K-171 était un sous-marin nucléaire lanceur 
+('d6b7d88b-4fe0-40f5-8076-5ea4eac25085', 'Sous marin Nucléaire Attaque', 'SovietMarine', 'K-171', 'Le K-171 était un sous-marin nucléaire lanceur 
 de missiles balistiques du projet 667B Murena (connu sous le nom de Delta I par l''OTAN) de la Marine soviétique. Le sous-marin a été lancé et mis en service en 1976.
  Il a été transféré de la Flotte du Nord soviétique à la Flotte du Pacifique plus tard cette année-là.'),
  
-('c1e3b054-bf99-4b1a-a091-546389201d68', 'Yankee-class submarine
-', 'Soviet Marine', 'K-219', 'Le K-219 était un sous-marin lanceur de missiles balistiques de classe Navaga du projet 667A (connu sous le nom de Yankee I par l''OTAN) de 
+('c1e3b054-bf99-4b1a-a091-546389201d68', 'Yankee-class submarine', 'SovietMarine', 'K-219', 'Le K-219 était un sous-marin lanceur de missiles balistiques de classe Navaga du projet 667A (connu sous le nom de Yankee I par l''OTAN) de 
 la Marine soviétique. Il transportait 16 missiles R-27U à carburant liquide alimentés par UDMH avec tétraoxyde d''azote (NTO). Le K-219 a été impliqué dans l''un des incidents 
 sous-marins les plus controversés de la guerre froide le vendredi 3 octobre 1986. Le navire de 15 ans, qui effectuait une patrouille de dissuasion nucléaire de routine lors de 
 la guerre froide dans l''Atlantique Nord à 1 090 kilomètres (680 mi) au nord-est des Bermudes, a subi une explosion et un incendie dans un tube de missile. En cours de route, un
@@ -328,12 +325,12 @@ pression, a fait éclater les réservoirs de carburant du missile, permettant au
 officielle n''ait été faite, l''Union soviétique a affirmé que la fuite était due à une collision avec le sous-marin USS Augusta. Bien que l''Augusta opérait dans la région, la 
 marine américaine et le commandant du K-219, le capitaine de deuxième rang Igor Britanov, nient qu''une collision ait eu lieu.'),
 
-('f109493d-4165-411e-a3c6-670ce7af55c0', 'Sous marin Nucléaire Attaque', 'Soviet Marine', 'K-431', 'Le K-431 (initialement le K-31) était un sous-marin nucléaire
+('f109493d-4165-411e-a3c6-670ce7af55c0', 'Sous marin Nucléaire Attaque', 'SovietMarine', 'K-431', 'Le K-431 (initialement le K-31) était un sous-marin nucléaire
  soviétique qui a connu un accident de réacteur le 10 août 1985. Il a été mis en service le 30 septembre 1965. L''explosion de 1985 s''est produite lors du ravitaillement
  en combustible du sous-marin à la baie de Chazhma, Dunay, Vladivostok. Il y a eu dix décès et 49 autres personnes ont subi des blessures par radiation. Le magazine Time 
 a identifié l''accident comme l''une des "pires catastrophes nucléaires" au monde.');
 
-INSERT INTO COORDONATE(CoordonateId, CountryName, PositionLost, XCoordonate, YCoordonate)
+INSERT INTO LOCATION(LocationId, Name, PositionLost, XCoordonate, YCoordonate)
 values 
 ('5a0aae66-71a9-452e-b8a1-8fc35d942634', 'Canada', 'Quebec', '48.060991420591655', '-73.26900198962217'),
 ('cb075c10-967f-4c20-b431-b54b92012365', 'Canada', 'Colombie Britannique', '55.46232117554326', '-124.69336587565931'),
@@ -757,7 +754,7 @@ On pense qu''une défaillance de torpille a causé l''accident.
 Les niveaux de radiation sont normaux et le sous-marin ne transportait pas d''armes nucléaires.');
 
 
-INSERT INTO BrokenArrows(BrokenArrowId, CoordonateId, VehiculeId, WeaponId, FullDescriptionId, DisasterDate, ShortDescription, BubbleDescription)
+INSERT INTO BrokenArrows(BrokenArrowId, LocationId, VehiculeId, WeaponId, FullDescriptionId, DisasterDate, ShortDescription, BubbleDescription)
 values 
 ('71bececf-8815-4ec6-a572-26937c455021', 'cb075c10-967f-4c20-b431-b54b92012365', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', NULL, 'c1397711-f58e-44df-942b-ce03e048a8e0', '1950-02-13', 
 'Le B-36 était en route de la base aérienne d''Eielson à la base aérienne de Carswell dans le cadre d''une mission de profil de combat simulée. 
@@ -803,7 +800,7 @@ et a disparu alors qu''il transportait deux capsules de matériau d''armes nucl�
 nucléaires de type Mark 6 à la RAF Lakenheath. Un expert en neutralisation des bombes a déclaré que c''était un miracle que les détonateurs exposés sur une des bombes 
 n''aient pas explosé, ce qui aurait probablement libéré du matériel nucléaire dans l''environnement.', 'Un B-47 de l''USAF s''est écrasé dans un igloo de stockage, 
 répandant du carburant en feu sur trois bombes nucléaires de type Mark 6 à la RAF Lakenheath aucune explosions.'),
-('62d30105-5f61-45fc-b2b5-5bf6a3c5f186', 'e0afe998-f6ee-4706-9ba3-8978cc566a50', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', '2957a217-cea8-492c-97d9-3f52116b4752', 
+('62d30105-5f61-45fc-b2b5-5bf6a3c5f186', 'e0afe998-f6ee-4706-9ba3-8978cc566a50', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', 'c9ecb03e-5daa-46b1-aa95-e40494ece2da', 
 '23f7629f-2899-4b63-9bc5-4933b2afabb9', '1957-05-22', 'Un B-36 transportant une arme nucléaire de la base aérienne de Biggs à la base aérienne de Kirtland a largué 
 une arme nucléaire lors de son approche de Kirtland. L''arme a frappé le sol à 4,5 miles au sud de la tour de contrôle de Kirtland et à 0,3 miles à l''ouest de la réserve de la base de Sandia. 
 L''arme a été complètement détruite par la détonation de son matériau explosif, créant un cratère de 12 pieds (3,7 m) de profondeur et 25 pieds (7,62 m) de diamètre. 
