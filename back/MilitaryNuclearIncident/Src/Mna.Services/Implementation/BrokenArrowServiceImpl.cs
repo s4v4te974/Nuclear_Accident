@@ -27,7 +27,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
             }
         }
 
@@ -43,7 +43,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             }
             catch (DbException ex)
             {
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
             }
 
         }
@@ -57,7 +57,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             }
             catch (DbException ex)
             {
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
             }
         }
     }

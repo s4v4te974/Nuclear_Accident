@@ -19,7 +19,7 @@ namespace MilitaryNuclearAccident.Src.Mna.UI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<IEnumerable<WeaponResponse>>> GetAllWeapons()
         {
-            IEnumerable<WeaponResponse> weaponsResponse = await _weaponService.GetWeaponAsync();
+            IEnumerable<WeaponResponse> weaponsResponse = await _weaponService.GetWeaponsAsync();
             return weaponsResponse == null || !weaponsResponse.Any() ? NotFound() : Ok(weaponsResponse);
         }
 

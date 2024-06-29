@@ -16,7 +16,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
         private readonly BrokenArrowContext _context = context;
         private readonly Mapper _mapper = mapper;
         private readonly ILogger<WeaponServiceImpl> _logger = logger;
-        public async Task<IEnumerable<WeaponResponse>> GetWeaponAsync()
+        public async Task<IEnumerable<WeaponResponse>> GetWeaponsAsync()
         {
             try
             {
@@ -27,7 +27,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_WEAPON);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
             }
         }
 
@@ -41,7 +41,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_WEAPON);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
             }
         }
 
@@ -65,7 +65,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, ex);
             }
         }
     }

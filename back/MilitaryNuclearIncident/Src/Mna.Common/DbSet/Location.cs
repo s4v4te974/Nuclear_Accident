@@ -11,8 +11,8 @@ namespace MilitaryNuclearAccident.Src.Mna.Common.DbSet
         [Column("locationid")]
         public Guid LocationId { get; set; }
 
-        [Column("name")]
-        public string? Name { get; set; }
+        [Column("country")]
+        public string? Country { get; set; }
 
         [Column("positionlost")]
         public string? PositionLost { get; set; }

@@ -10,7 +10,7 @@
 
         public string? Name { set; get; }
 
-        public string? VehiculeDescription { set; get; }
+        public string? Description { set; get; }
 
         public List<BrokenArrowShortResponse>? BrokenArrows { get; set; }
     }

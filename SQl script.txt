@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS Weapon(
 	WeaponId UUID primary key,
 	Name varchar(50),
 	Builder varchar(20),
-	WeaponDescription varchar(2000)
+	Description varchar(2000)
 );
 
 CREATE TABLE IF NOT EXISTS Vehicule(
@@ -16,12 +16,12 @@ CREATE TABLE IF NOT EXISTS Vehicule(
 	Type varchar(50),
 	Builder varchar(20),
 	Name varchar(50),
-	VehiculeDescription varchar(3000)
+	Description varchar(3000)
 );
 
 CREATE TABLE IF NOT EXISTS Location(
 	LocationId UUID primary key,
-	Name varchar(50),
+	Country varchar(50),
 	PositionLost varchar(50),
 	XCoordonate float,
 	YCoordonate float

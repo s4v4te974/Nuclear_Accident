@@ -8,7 +8,7 @@
 
         public string? Builder { get; set; }
 
-        public string? WeaponDescription { get; set; }
+        public string? Description { get; set; }
 
         public List<BrokenArrowShortResponse>? BrokenArrows { get; set; }
     }

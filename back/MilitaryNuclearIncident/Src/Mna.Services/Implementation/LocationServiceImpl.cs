@@ -29,7 +29,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_COORDONATE);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
             }
         }
 
@@ -45,7 +45,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_COORDONATE);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_LOCATION, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_LOCATION, ex);
             }
         }
 
@@ -56,7 +56,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
                 string? locationName = System.Enum.GetName(typeof(AvailableLocation), value: availableLocation);
                 if (locationName != null)
                 {
-                    List<Location> location = await _context.Locations.Where(l => l.Name != null && l.Name.ToLower() == locationName.ToLower())
+                    List<Location> location = await _context.Locations.Where(l => l.Country != null && l.Country.ToLower() == locationName.ToLower())
                         .Include(l => l.BrokenArrow)
                         .ToListAsync();
                     return location != null ? _mapper.Map<IEnumerable<LocationResponse>>(location) : [];
@@ -69,7 +69,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
             }
         }
     }

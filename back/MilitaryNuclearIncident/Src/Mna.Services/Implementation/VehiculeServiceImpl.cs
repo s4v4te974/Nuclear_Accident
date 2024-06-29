@@ -28,7 +28,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_VEHICULE);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
             }
         }
 
@@ -44,7 +44,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_VEHICULE);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
             }
         }
 
@@ -68,7 +68,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new BrokenArrowException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
             }
         }
     }

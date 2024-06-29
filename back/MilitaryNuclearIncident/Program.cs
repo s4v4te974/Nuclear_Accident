@@ -41,7 +41,7 @@ builder.Services.AddScoped<IBrokenArrowService, BrokenArrowServiceImpl>();
 
 // database connexion build the context
 builder.Services.AddDbContext<BrokenArrowContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("MyDatabase")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("MilitaryNuclearIncident")));
 
 var app = builder.Build();
 app.UseMiddleware<BrokenArrowHandler>();

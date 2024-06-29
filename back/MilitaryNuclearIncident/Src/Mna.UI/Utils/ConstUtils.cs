@@ -43,7 +43,7 @@
 
         #region apiroute
 
-        public const string ROOT_URL = "broken-arrow/";
+        public const string ROOT_URL = "military-nuclear-incident/";
 
         public const string ALL_BROKEN_ARROW = "all/";
 

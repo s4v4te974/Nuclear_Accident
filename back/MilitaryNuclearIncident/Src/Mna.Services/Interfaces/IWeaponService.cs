@@ -6,7 +6,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Interfaces
     public interface IWeaponService
     {
 
-        Task<IEnumerable<WeaponResponse>> GetWeaponAsync();
+        Task<IEnumerable<WeaponResponse>> GetWeaponsAsync();
 
         Task<WeaponResponse?> GetSingleWeaponAsync(Guid weaponId);
 
