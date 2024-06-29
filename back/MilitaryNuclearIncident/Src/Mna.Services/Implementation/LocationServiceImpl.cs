@@ -11,10 +11,10 @@ using System.Data.Common;
 
 namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
 {
-    public class LocationServiceImpl(BrokenArrowContext context, Mapper mapper, ILogger<LocationServiceImpl> logger) : ILocationService
+    public class LocationServiceImpl(BrokenArrowContext context, IMapper mapper, ILogger<LocationServiceImpl> logger) : ILocationService
     {
         private readonly BrokenArrowContext _context = context;
-        private readonly Mapper _mapper = mapper;
+        private readonly IMapper _mapper = mapper;
         private readonly ILogger<LocationServiceImpl> _logger = logger;
 
         public async Task<IEnumerable<LocationResponse>> GetLocationAsync()

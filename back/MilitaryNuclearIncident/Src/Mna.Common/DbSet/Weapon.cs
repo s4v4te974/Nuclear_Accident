@@ -17,8 +17,8 @@ namespace MilitaryNuclearAccident.Src.Mna.Common.DbSet
         [Column("builder")]
         public string? Builder { get; set; }
 
-        [Column("weapondescription")]
-        public string? WeaponDescription { get; set; }
+        [Column("description")]
+        public string? Description { get; set; }
 
         public List<BrokenArrow>? BrokenArrows { get; set; }
     }

@@ -11,10 +11,10 @@ using System.Data.Common;
 
 namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
 {
-    public class VehiculeServiceImpl(BrokenArrowContext context, Mapper mapper, ILogger<VehiculeServiceImpl> logger) : IVehiculeService
+    public class VehiculeServiceImpl(BrokenArrowContext context, IMapper mapper, ILogger<VehiculeServiceImpl> logger) : IVehiculeService
     {
         private readonly BrokenArrowContext _context = context;
-        private readonly Mapper _mapper = mapper;
+        private readonly IMapper _mapper = mapper;
         private readonly ILogger<VehiculeServiceImpl> _logger = logger;
 
         public async Task<IEnumerable<VehiculeResponse>> GetVehiculesAsync()

@@ -3,11 +3,11 @@
     public class BrokenArrowResponse
     {
         public Guid BrokenArrowId { get; set; }
-        public Guid? CoordonateId { get; set; }
+        public Guid? LocationId { get; set; }
 
         public Guid? FullDescriptionId { get; set; }
 
-        public Guid VehiculeId { get; set; }
+        public Guid? VehiculeId { get; set; }
 
         public Guid? WeaponId { get; set; }
 

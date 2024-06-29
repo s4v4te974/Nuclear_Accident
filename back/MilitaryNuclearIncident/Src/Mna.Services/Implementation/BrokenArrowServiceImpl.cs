@@ -11,10 +11,10 @@ using System.Data.Common;
 
 namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
 {
-    public class BrokenArrowServiceImpl(BrokenArrowContext context, Mapper mapper, ILogger<BrokenArrowServiceImpl> logger) : IBrokenArrowService
+    public class BrokenArrowServiceImpl(BrokenArrowContext context, IMapper mapper, ILogger<BrokenArrowServiceImpl> logger) : IBrokenArrowService
     {
         private readonly BrokenArrowContext _context = context;
-        private readonly Mapper _mapper = mapper;
+        private readonly IMapper _mapper = mapper;
         private readonly ILogger<BrokenArrowServiceImpl> _logger = logger;
 
         public async Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowsAsync()
