@@ -59,6 +59,10 @@
 
         public const string WEAPON_SPECIFIC_URL = "specific-weapon/{id}";
 
+        public const string STATS_URL = "stats/";
+
+
+
 
         #endregion
     }
