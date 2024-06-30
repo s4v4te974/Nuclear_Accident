@@ -37,11 +37,13 @@ builder.Services.AddScoped<IVehiculeService, VehiculeServiceImpl>();
 builder.Services.AddScoped<ILocationService, LocationServiceImpl>();
 builder.Services.AddScoped<IWeaponService, WeaponServiceImpl>();
 builder.Services.AddScoped<IBrokenArrowService, BrokenArrowServiceImpl>();
+builder.Services.AddScoped<IStatistiqueService, StatistiquesImpl>();
 
 
 // database connexion build the context
+
 builder.Services.AddDbContext<BrokenArrowContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("MilitaryNuclearIncident")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
 var app = builder.Build();
 app.UseMiddleware<BrokenArrowHandler>();
