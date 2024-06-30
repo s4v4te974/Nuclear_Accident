@@ -122,8 +122,6 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             ClearBrokenArrow();
         }
 
-
-
         [Fact]
         public async Task Test_GetSingleBrokenArrowAsync_ShouldReturnNull_WhenNoBrokenArrowExist()
         {
