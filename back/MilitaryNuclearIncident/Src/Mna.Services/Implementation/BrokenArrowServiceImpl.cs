@@ -21,7 +21,9 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
         {
             try
             {
-                List<BrokenArrow> brokenArrows = await _context.BrokenArrows.ToListAsync();
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows
+                    .Include(b => b.Weapon).Include(b => b.Vehicule)
+                    .Include(b => b.Location).Include(b => b.Description).ToListAsync();
                 return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
@@ -38,14 +40,14 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
                 int lastYear = year + 9;
                 List<BrokenArrow> brokenArrows = await _context.BrokenArrows
                     .Where(b => b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear)
-                    .ToListAsync();
+                    .Include(b => b.Weapon).Include(b => b.Vehicule)
+                    .Include(b => b.Location).ToListAsync();
                 return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<BrokenArrowResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
                 throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
             }
-
         }
 
         public async Task<BrokenArrowResponse?> GetSingleBrokenArrowAsync(Guid brokenArrowId)
