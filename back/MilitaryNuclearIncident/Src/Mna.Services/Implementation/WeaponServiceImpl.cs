@@ -27,7 +27,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_WEAPON);
-                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_WEAPON, ex);
             }
         }
 
@@ -41,7 +41,7 @@ namespace MilitaryNuclearAccident.Src.Mna.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_WEAPON);
-                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
+                throw new MilitaryNuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_WEAPON, ex);
             }
         }
 
