@@ -1,9 +1,12 @@
+using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using MilitaryNuclearAccident.Src.Mna.Data;
 using MilitaryNuclearAccident.Src.Mna.Services.Implementation;
 using MilitaryNuclearAccident.Src.Mna.Services.Interfaces;
 using MilitaryNuclearAccident.Src.Mna.UI.Controllers.Handler;
 using MilitaryNuclearAccident.Src.Mna.UI.Controllers.RouteConstraint;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,28 @@ builder.Services.AddCors(options =>
                       });
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
+// Ajouter AspNetCoreRateLimit
+builder.Services.AddRateLimiter(_ => _.AddSlidingWindowLimiter(policyName: "sliding", options =>
+{
+    options.PermitLimit = 15;
+    options.Window = TimeSpan.FromSeconds(10);
+    options.SegmentsPerWindow = 10;
+    options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    options.QueueLimit = 5;
+}));
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -23,7 +48,6 @@ builder.Services.AddControllers();
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.ConstraintMap.Add("AvailableYear", typeof(AvailableYearRouteConstraint));
-
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -47,6 +71,7 @@ builder.Services.AddDbContext<BrokenArrowContext>(options =>
 
 var app = builder.Build();
 app.UseMiddleware<BrokenArrowHandler>();
+app.UseRateLimiter();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -57,8 +82,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("localSwagger");
 
+app.UseIpRateLimiting();
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireRateLimiting("sliding");
 
 app.Run();
