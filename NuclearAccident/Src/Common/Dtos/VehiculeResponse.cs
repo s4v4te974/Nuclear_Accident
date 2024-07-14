@@ -1,4 +1,6 @@
-﻿namespace NuclearAccident.Src.Common.Dtos
+﻿using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+
+namespace NuclearIncident.Src.Common.Dtos
 {
     public class VehiculeResponse
     {

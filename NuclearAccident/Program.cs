@@ -1,13 +1,13 @@
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation.BrokenArrows;
-using NuclearAccident.Src.Services.Implementation.Common;
-using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
-using NuclearAccident.Src.Services.Interfaces.Common;
-using NuclearAccident.Src.UI.Controllers.Handler;
-using NuclearAccident.Src.UI.Controllers.RouteConstraint;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Implementation.BrokenArrows;
+using NuclearIncident.Src.Services.Implementation.Common;
+using NuclearIncident.Src.Services.Interfaces.BrokenArrows;
+using NuclearIncident.Src.Services.Interfaces.Common;
+using NuclearIncident.Src.UI.Controllers.Handler;
+using NuclearIncident.Src.UI.Controllers.RouteConstraint;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Dtos;
-using NuclearAccident.Src.Common.Exceptions;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Exceptions;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Interfaces.BrokenArrows;
 using System.Data.Common;
 
 
-namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
+namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
 {
     public class BrokenArrowsServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<BrokenArrowsServiceImpl> logger) : IbrokenArrowsService
     {
@@ -30,7 +30,7 @@ namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
             }
         }
 
@@ -40,14 +40,14 @@ namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
             {
                 int lastYear = year + 9;
                 List<Accident> Accidents = await _context.Accidents
-                    .Where(b => b.isBrokenArrow && (b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear))
+                    .Where(b => b.isBrokenArrow && b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear)
                     .Include(b => b.Weapon).Include(b => b.Vehicule)
                     .Include(b => b.Location).ToListAsync();
                 return Accidents != null && Accidents.Any() ? _mapper.Map<IEnumerable<AccidentResponse>>(Accidents) : [];
             }
             catch (DbException ex)
             {
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
             }
         }
 
@@ -60,7 +60,7 @@ namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
             }
             catch (DbException ex)
             {
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
             }
         }
     }

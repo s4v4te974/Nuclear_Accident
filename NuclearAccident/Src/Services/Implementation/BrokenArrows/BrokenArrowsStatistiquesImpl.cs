@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Dtos;
-using NuclearAccident.Src.Common.Exceptions;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Exceptions;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Interfaces.BrokenArrows;
 using System.Data.Common;
 
-namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
+namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
 {
     public class BrokenArrowsStatistiquesImpl(NuclearAccidentContext context, ILogger<BrokenArrowsStatistiquesImpl> logger) : IBrokenArrowsStatistiqueService
     {
         private readonly NuclearAccidentContext _context = context;
         private readonly ILogger<BrokenArrowsStatistiquesImpl> _logger = logger;
 
-        public async Task<StatsResponse> GetAllStatsAsync()
+        public async Task<BrokenArrowStatsResponse> GetAllStatsAsync()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
             }
         }
     }

@@ -1,15 +1,15 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Dtos;
-using NuclearAccident.Src.Common.Enum;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation.Common;
-using NuclearAccident.Src.UI.Profiles;
-using NuclearAccidentTest.Utils;
+using NuclearInccidentTest.Utils;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Enum;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Implementation.Common;
+using NuclearIncident.Src.UI.Profiles;
 
-namespace NuclearAccidentTest.Tests.Services.ServicesTests
+namespace NuclearInccidentTest.Tests.Services.ServicesTests
 {
     public class VehiculeServiceTest
     {

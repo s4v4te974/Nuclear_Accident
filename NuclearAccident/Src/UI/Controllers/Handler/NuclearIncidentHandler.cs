@@ -1,7 +1,7 @@
 ﻿using System.Data.Common;
 using System.Net;
 
-namespace NuclearAccident.Src.UI.Controllers.Handler
+namespace NuclearIncident.Src.UI.Controllers.Handler
 {
     public class NuclearIncidentHandler(RequestDelegate next)
     {

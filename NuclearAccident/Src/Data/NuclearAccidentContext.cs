@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NuclearAccident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.DbSet;
 
 
-namespace NuclearAccident.Src.Data
+namespace NuclearIncident.Src.Data
 {
     public class NuclearAccidentContext : DbContext
     {

@@ -1,4 +1,4 @@
-﻿namespace NuclearAccident.Src.Common.Dtos
+﻿namespace NuclearIncident.Src.Common.Dtos.BrokenArrow
 {
     public class BrokenArrowsShortResponse
     {

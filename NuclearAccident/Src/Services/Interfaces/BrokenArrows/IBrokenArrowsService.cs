@@ -1,6 +1,6 @@
-﻿using NuclearAccident.Src.Common.Dtos;
+﻿using NuclearIncident.Src.Common.Dtos.BrokenArrow;
 
-namespace NuclearAccident.Src.Services.Interfaces.BrokenArrows
+namespace NuclearIncident.Src.Services.Interfaces.BrokenArrows
 {
     public interface IbrokenArrowsService
     {

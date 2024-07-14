@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Enum;
-using NuclearAccident.Src.Common.Exceptions;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation.Common;
-using NuclearAccident.Src.Services.Interfaces.Common;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Enum;
+using NuclearIncident.Src.Common.Exceptions;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Implementation.Common;
+using NuclearIncident.Src.Services.Interfaces.Common;
 
-namespace NuclearAccidentTest.Tests.Services.ServicesException
+namespace NuclearInccidentTest.Tests.Services.ServicesException
 {
     public class LocationServiceExceptionTest
     {
@@ -35,9 +35,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetLocationAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Location>>();
-            mockSet.As<IQueryable<Location>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Location>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _locationService.GetLocationAsync());
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _locationService.GetLocationAsync());
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, exception.Message);
         }
@@ -46,9 +46,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetSingleLocationAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Location>>();
-            mockSet.As<IQueryable<Location>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Location>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _locationService.GetSingleLocationAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _locationService.GetSingleLocationAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_LOCATION, exception.Message);
         }
@@ -57,9 +57,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetAccidentsByLocationAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Location>>();
-            mockSet.As<IQueryable<Location>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Location>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _locationService.GetAccidentsByLocationAsync(AvailableLocation.CANADA));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _locationService.GetAccidentsByLocationAsync(AvailableLocation.CANADA));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, exception.Message);
         }

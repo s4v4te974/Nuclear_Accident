@@ -1,6 +1,6 @@
-﻿using NuclearAccident.Src.Data;
+﻿using NuclearIncident.Src.Data;
 
-namespace NuclearAccidentTest.Utils
+namespace NuclearInccidentTest.Utils
 {
     internal static class DataInitializer
     {

@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Dtos;
-using NuclearAccident.Src.Common.Enum;
-using NuclearAccident.Src.Common.Exceptions;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces.Common;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Enum;
+using NuclearIncident.Src.Common.Exceptions;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Interfaces.Common;
 using System.Data.Common;
 
-namespace NuclearAccident.Src.Services.Implementation.Common
+namespace NuclearIncident.Src.Services.Implementation.Common
 {
     public class VehiculeServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<VehiculeServiceImpl> logger) : IVehiculeService
     {
@@ -28,7 +28,7 @@ namespace NuclearAccident.Src.Services.Implementation.Common
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_VEHICULE);
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
             }
         }
 
@@ -44,7 +44,7 @@ namespace NuclearAccident.Src.Services.Implementation.Common
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_VEHICULE);
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
             }
         }
 
@@ -68,7 +68,7 @@ namespace NuclearAccident.Src.Services.Implementation.Common
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
+                throw new NuclearIncidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
             }
         }
     }

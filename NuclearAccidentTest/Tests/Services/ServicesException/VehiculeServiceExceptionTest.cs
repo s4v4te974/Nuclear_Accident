@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Enum;
-using NuclearAccident.Src.Common.Exceptions;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation.Common;
-using NuclearAccident.Src.Services.Interfaces.Common;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Enum;
+using NuclearIncident.Src.Common.Exceptions;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Implementation.Common;
+using NuclearIncident.Src.Services.Interfaces.Common;
 
-namespace NuclearAccidentTest.Tests.Services.ServicesException
+namespace NuclearInccidentTest.Tests.Services.ServicesException
 {
     public class VehiculeServiceExceptionTest
     {
@@ -35,9 +35,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetVehiculesAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Vehicule>>();
-            mockSet.As<IQueryable<Vehicule>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Vehicule>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _vehiculeService.GetVehiculesAsync());
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _vehiculeService.GetVehiculesAsync());
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, exception.Message);
         }
@@ -46,9 +46,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetSingleVehiculeAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Vehicule>>();
-            mockSet.As<IQueryable<Vehicule>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Vehicule>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _vehiculeService.GetSingleVehiculeAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _vehiculeService.GetSingleVehiculeAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, exception.Message);
         }
@@ -57,9 +57,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetAccidentsByVehiculeAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Vehicule>>();
-            mockSet.As<IQueryable<Vehicule>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Vehicule>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _vehiculeService.GetAccidentsByVehiculeAsync(AvailableVehicule.CONVAIR));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _vehiculeService.GetAccidentsByVehiculeAsync(AvailableVehicule.CONVAIR));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, exception.Message);
         }

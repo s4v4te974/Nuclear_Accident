@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
 
-namespace NuclearAccident.Src.UI.Profiles
+namespace NuclearIncident.Src.UI.Profiles
 {
     public class WeaponProfile : Profile
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NuclearAccident.Src.Common.Dtos;
-using NuclearAccident.Src.Common.Enum;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Services.Interfaces.Common;
+using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Enum;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Services.Interfaces.Common;
 using System.Net.Mime;
 
-namespace NuclearAccident.Src.UI.Controllers
+namespace NuclearIncident.Src.UI.Controllers
 {
 
     [Route(ConstUtils.LOCATION_ROOT_URL)]

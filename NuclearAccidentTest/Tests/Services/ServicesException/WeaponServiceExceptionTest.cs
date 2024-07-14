@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Enum;
-using NuclearAccident.Src.Common.Exceptions;
-using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation.Common;
-using NuclearAccident.Src.Services.Interfaces.Common;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Enum;
+using NuclearIncident.Src.Common.Exceptions;
+using NuclearIncident.Src.Common.Utils;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Implementation.Common;
+using NuclearIncident.Src.Services.Interfaces.Common;
 
-namespace NuclearAccidentTest.Tests.Services.ServicesException
+namespace NuclearInccidentTest.Tests.Services.ServicesException
 {
     public class WeaponServiceExceptionTest
     {
@@ -35,9 +35,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetWeaponsAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Weapon>>();
-            mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _weaponService.GetWeaponsAsync());
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _weaponService.GetWeaponsAsync());
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_ALL_WEAPON, exception.Message);
         }
@@ -46,9 +46,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetSingleWeaponAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Weapon>>();
-            mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _weaponService.GetSingleWeaponAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _weaponService.GetSingleWeaponAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_WEAPON, exception.Message);
         }
@@ -57,9 +57,9 @@ namespace NuclearAccidentTest.Tests.Services.ServicesException
         public async Task GetAccidentsByWeaponAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Weapon>>();
-            mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, exception.Message);
         }

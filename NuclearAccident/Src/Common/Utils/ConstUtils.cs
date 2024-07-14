@@ -1,4 +1,4 @@
-﻿namespace NuclearAccident.Src.Common.Utils
+﻿namespace NuclearIncident.Src.Common.Utils
 
 {
     public static class ConstUtils

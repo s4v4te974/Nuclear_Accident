@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NuclearAccident.Src.Common.DbSet;
-using NuclearAccident.Src.Common.Dtos;
-using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation.BrokenArrows;
-using NuclearAccident.Src.UI.Profiles;
-using NuclearAccidentTest.Utils;
+using NuclearInccidentTest.Utils;
+using NuclearIncident.Src.Common.DbSet;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Data;
+using NuclearIncident.Src.Services.Implementation.BrokenArrows;
+using NuclearIncident.Src.UI.Profiles;
 
-namespace NuclearAccidentTest.Tests.Services.ServicesTests
+namespace NuclearInccidentTest.Tests.Services.ServicesTests
 {
     public class AccidentServiceTest
     {

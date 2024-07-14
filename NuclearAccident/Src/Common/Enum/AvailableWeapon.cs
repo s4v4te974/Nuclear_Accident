@@ -1,4 +1,4 @@
-﻿namespace NuclearAccident.Src.Common.Enum
+﻿namespace NuclearIncident.Src.Common.Enum
 {
     public enum AvailableWeapon
     {
