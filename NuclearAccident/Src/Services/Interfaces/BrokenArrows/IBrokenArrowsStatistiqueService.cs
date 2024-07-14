@@ -1,9 +1,9 @@
-﻿using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+﻿using NuclearIncident.Src.Common.Dtos;
 
 namespace NuclearIncident.Src.Services.Interfaces.BrokenArrows
 {
     public interface IBrokenArrowsStatistiqueService
     {
-        Task<BrokenArrowStatsResponse> GetAllStatsAsync();
+        Task<AccidentStatsResponse> GetAllStatsAsync();
     }
 }

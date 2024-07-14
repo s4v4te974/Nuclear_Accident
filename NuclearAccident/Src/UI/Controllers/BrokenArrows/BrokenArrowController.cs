@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Dtos;
 using NuclearIncident.Src.Common.Enum;
 using NuclearIncident.Src.Common.Utils;
 using NuclearIncident.Src.Services.Interfaces.BrokenArrows;

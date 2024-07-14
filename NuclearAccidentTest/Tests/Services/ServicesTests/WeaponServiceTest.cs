@@ -138,8 +138,8 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
                 Description = weaponOneDescription,
                 Accidents =
                     [
-                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                     ]
             };
             Weapon weaponTwo = new()
@@ -150,8 +150,8 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
                 Description = weaponTwoDescription,
                 Accidents =
                     [
-                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                 ]
             };
             return [weapon, weaponTwo];

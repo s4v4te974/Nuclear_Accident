@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using NuclearIncident.Src.Common.DbSet;
-using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Dtos;
 
 namespace NuclearIncident.Src.UI.Profiles
 {

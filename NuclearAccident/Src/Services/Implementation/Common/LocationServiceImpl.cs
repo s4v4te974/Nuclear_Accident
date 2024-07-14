@@ -22,7 +22,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 List<Location> locations = await _context.Locations
-                    .Include(l => l.BrokenArrows)
+                    .Include(l => l.Accidents)
                     .ToListAsync();
                 return locations != null && locations.Any() ? _mapper.Map<IEnumerable<LocationResponse>>(locations).ToList() : [];
             }
@@ -38,7 +38,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 Location? location = await _context.Locations
-                    .Include(l => l.BrokenArrows)
+                    .Include(l => l.Accidents)
                     .SingleOrDefaultAsync(l => l.LocationId == locationId);
                 return location != null ? _mapper.Map<LocationResponse>(location) : null;
             }
@@ -57,7 +57,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
                 if (locationName != null)
                 {
                     List<Location> location = await _context.Locations.Where(l => l.Country != null && l.Country.ToLower() == locationName.ToLower())
-                        .Include(l => l.BrokenArrows)
+                        .Include(l => l.Accidents)
                         .ToListAsync();
                     return location != null ? _mapper.Map<IEnumerable<LocationResponse>>(location) : [];
                 }

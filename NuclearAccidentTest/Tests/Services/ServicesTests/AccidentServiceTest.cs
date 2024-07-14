@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NuclearInccidentTest.Utils;
 using NuclearIncident.Src.Common.DbSet;
-using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Dtos;
 using NuclearIncident.Src.Data;
 using NuclearIncident.Src.Services.Implementation.BrokenArrows;
 using NuclearIncident.Src.UI.Profiles;
@@ -144,7 +144,7 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         {
             Accident AccidentOne = new()
             {
-                Brokenarrowid = AccidentOneId,
+                AccidentId = AccidentOneId,
                 LocationId = locationOneId,
                 VehiculeId = vehiculeOneId,
                 WeaponId = weaponOneId,
@@ -154,7 +154,7 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
             };
             Accident AccidentTwo = new()
             {
-                Brokenarrowid = AccidentTwoId,
+                AccidentId = AccidentTwoId,
                 LocationId = locationTwoId,
                 VehiculeId = vehiculeTwoId,
                 WeaponId = weaponTwoId,

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NuclearIncident.Src.Common.DbSet;
-using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Dtos;
 using NuclearIncident.Src.Common.Exceptions;
 using NuclearIncident.Src.Common.Utils;
 using NuclearIncident.Src.Data;
@@ -14,7 +14,7 @@ namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
         private readonly NuclearAccidentContext _context = context;
         private readonly ILogger<BrokenArrowsStatistiquesImpl> _logger = logger;
 
-        public async Task<BrokenArrowStatsResponse> GetAllStatsAsync()
+        public async Task<AccidentStatsResponse> GetAllStatsAsync()
         {
             try
             {

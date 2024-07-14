@@ -1,6 +1,6 @@
-﻿namespace NuclearIncident.Src.Common.Dtos.BrokenArrow
+﻿namespace NuclearIncident.Src.Common.Dtos
 {
-    public class BrokenArrowStatsResponse
+    public class AccidentStatsResponse
     {
 
         public Dictionary<string, int> AccidentByVehiculeBuilder { get; set; } = new();

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NuclearIncident.Src.Common.DbSet;
-using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+using NuclearIncident.Src.Common.Dtos;
 using NuclearIncident.Src.Common.Exceptions;
 using NuclearIncident.Src.Common.Utils;
 using NuclearIncident.Src.Data;
@@ -22,9 +22,11 @@ namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
             try
             {
                 List<Accident> brokenArrows = await _context.Accidents
-                    .Where(b => b.isBrokenArrow)
-                    .Include(b => b.Weapon).Include(b => b.Vehicule)
-                    .Include(b => b.Location).ToListAsync();
+                    .Where(b => b.IsBrokenArrow)
+                    .Include(b => b.Weapon)
+                    .Include(b => b.Vehicule)
+                    .Include(b => b.Location)
+                    .ToListAsync();
                 return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<AccidentResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
@@ -40,7 +42,7 @@ namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
             {
                 int lastYear = year + 9;
                 List<Accident> Accidents = await _context.Accidents
-                    .Where(b => b.isBrokenArrow && b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear)
+                    .Where(b => b.IsBrokenArrow && b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear)
                     .Include(b => b.Weapon).Include(b => b.Vehicule)
                     .Include(b => b.Location).ToListAsync();
                 return Accidents != null && Accidents.Any() ? _mapper.Map<IEnumerable<AccidentResponse>>(Accidents) : [];
@@ -55,7 +57,7 @@ namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
         {
             try
             {
-                Accident? accident = await _context.Accidents.SingleOrDefaultAsync(b => b.Brokenarrowid == AccidentId);
+                Accident? accident = await _context.Accidents.SingleOrDefaultAsync(b => b.AccidentId == AccidentId);
                 return accident != null ? _mapper.Map<AccidentResponse>(accident) : null;
             }
             catch (DbException ex)

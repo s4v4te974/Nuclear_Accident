@@ -1,6 +1,6 @@
 ﻿using NuclearIncident.Src.Common.DbSet;
 
-namespace NuclearIncident.Src.Common.Dtos.BrokenArrow
+namespace NuclearIncident.Src.Common.Dtos
 {
     public class AccidentResponse
     {
@@ -19,6 +19,5 @@ namespace NuclearIncident.Src.Common.Dtos.BrokenArrow
 
         public string? FullDescription { get; set; }
 
-        public bool IsPowerPlant { get; set; }
     }
 }

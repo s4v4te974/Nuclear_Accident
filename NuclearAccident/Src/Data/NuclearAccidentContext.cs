@@ -16,7 +16,7 @@ namespace NuclearIncident.Src.Data
             // relation between BA and Coordonate (one-to-one)
             modelBuilder.Entity<Accident>()
                 .HasOne(b => b.Location)
-                .WithMany(d => d.BrokenArrows)
+                .WithMany(d => d.Accidents)
                 .HasForeignKey(d => d.LocationId)
                 .IsRequired(false);
 
