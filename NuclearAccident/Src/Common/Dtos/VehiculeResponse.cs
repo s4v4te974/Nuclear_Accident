@@ -1,4 +1,6 @@
-﻿namespace NuclearIncident.Src.Common.Dtos
+﻿using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+
+namespace NuclearIncident.Src.Common.Dtos
 {
     public class VehiculeResponse
     {
@@ -12,6 +14,6 @@
 
         public string? Description { set; get; }
 
-        public List<AccidentShortResponse>? Accidents { get; set; }
+        public List<BrokenArrowShortResponse>? BrokenArrowss { get; set; }
     }
 }

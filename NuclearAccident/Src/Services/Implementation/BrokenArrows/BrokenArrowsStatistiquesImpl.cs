@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NuclearIncident.Src.Common.DbSet;
-using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
 using NuclearIncident.Src.Common.Exceptions;
 using NuclearIncident.Src.Common.Utils;
 using NuclearIncident.Src.Data;
@@ -9,16 +9,16 @@ using System.Data.Common;
 
 namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
 {
-    public class BrokenArrowsStatistiquesImpl(NuclearAccidentContext context, ILogger<BrokenArrowsStatistiquesImpl> logger) : IBrokenArrowsStatistiqueService
+    public class BrokenArrowsStatistiquesImpl(NuclearBrokenArrowsContext context, ILogger<BrokenArrowsStatistiquesImpl> logger) : IBrokenArrowsStatistiqueService
     {
-        private readonly NuclearAccidentContext _context = context;
+        private readonly NuclearBrokenArrowsContext _context = context;
         private readonly ILogger<BrokenArrowsStatistiquesImpl> _logger = logger;
 
-        public async Task<AccidentStatsResponse> GetAllStatsAsync()
+        public async Task<BrokenArrowStatsResponse> GetAllStatsAsync()
         {
             try
             {
-                List<Accident> brokenArrows = await _context.Accidents
+                List<BrokenArrow> brokenArrows = await _context.BrokenArrows
                     .Include(b => b.Weapon).Include(b => b.Vehicule)
                     .Include(b => b.Location).ToListAsync();
 
@@ -26,24 +26,29 @@ namespace NuclearIncident.Src.Services.Implementation.BrokenArrows
                 {
                     return new()
                     {
-                        AccidentByVehiculeBuilder = brokenArrows
+                        BrokenArrowsByVehiculeBuilder = brokenArrows
                     .Where(b => b.Vehicule != null && b.Vehicule.Builder != null)
                     .GroupBy(b => b.Vehicule!.Builder!)
                     .ToDictionary(g => g.Key, g => g.Count()),
 
-                        AccidentByVehiculesType = brokenArrows
+                        BrokenArrowsByVehiculesType = brokenArrows
                     .Where(b => b.Vehicule != null && b.Vehicule.Type != null)
                     .GroupBy(b => b.Vehicule!.Type!)
                     .ToDictionary(g => g.Key, g => g.Count()),
 
-                        AccidentByLocations = brokenArrows
-                    .Where(b => b.Location != null && b.Location.Country != null)
-                    .GroupBy(b => b.Location!.Country!)
+                        BrokenArrowsByLocations = brokenArrows
+                    .Where(b => b.Location != null && b.Location.Continent != null)
+                    .GroupBy(b => b.Location!.Continent!)
                     .ToDictionary(g => g.Key, g => g.Count()),
 
-                        AccidentByWeaponsName = brokenArrows
+                        BrokenArrowsByWeaponsName = brokenArrows
                     .Where(b => b.Weapon != null && b.Weapon.Name != null)
                     .GroupBy(b => b.Weapon!.Name!)
+                    .ToDictionary(g => g.Key, g => g.Count()),
+
+                        BrokenArrowByElement = brokenArrows
+                    .Where(b => b.Weapon != null && b.Weapon.Name != null)
+                    .GroupBy(b => b.Seal!)
                     .ToDictionary(g => g.Key, g => g.Count())
                     };
                 }

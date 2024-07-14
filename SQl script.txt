@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS Weapon CASCADE;
 DROP TABLE IF EXISTS Vehicule CASCADE;
 DROP TABLE IF EXISTS Location CASCADE;
-DROP TABLE IF EXISTS Description CASCADE;
-DROP TABLE IF EXISTS Accident CASCADE;
+DROP TABLE IF EXISTS BrokenArrow CASCADE;
+DROP TABLE IF EXISTS CloseCall CASCADE;
 
 CREATE TABLE IF NOT EXISTS Weapon(
 	WeaponId UUID primary key,
@@ -21,21 +21,18 @@ CREATE TABLE IF NOT EXISTS Vehicule(
 
 CREATE TABLE IF NOT EXISTS Location(
 	LocationId UUID primary key,
-	Country varchar(50),
-	PositionLost varchar(100),
+	Continent varchar(50),
+	LostLocation varchar(100),
 	XCoordonate float,
 	YCoordonate float
 );
 
-
-CREATE TABLE IF NOT EXISTS Accident (
-    AccidentId UUID PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS BrokenArrow (
+    BrokenArrowId UUID PRIMARY KEY,
     LocationId UUID,
     VehiculeId UUID,
     WeaponId UUID,
 	seal varchar(10),
-	isBrokenArrow BOOLEAN,
-	isCloseCall BOOLEAN,
     DisasterDate DATE,
     ShortDescription VARCHAR(2000),
     BubbleDescription VARCHAR(500),
@@ -43,6 +40,15 @@ CREATE TABLE IF NOT EXISTS Accident (
     CONSTRAINT fk_country FOREIGN KEY (LocationId) REFERENCES LOCATION(LocationId),
     CONSTRAINT fk_vehicule FOREIGN KEY (VehiculeId) REFERENCES VEHICULE(VehiculeId),
     CONSTRAINT fk_weapon FOREIGN KEY (WeaponId) REFERENCES WEAPON(WeaponId)
+);
+
+CREATE TABLE IF NOT EXISTS CloseCall (
+	ClosecallId UUID,
+	LocationId UUID,
+	CloseCallDate DATE,
+	Cause VARCHAR(200),
+	Description VARCHAR(3000),
+	CONSTRAINT fk_country FOREIGN KEY (LocationId) REFERENCES LOCATION(LocationId)
 );
 
 --- data insertion
@@ -371,31 +377,30 @@ en plongée maximale. Malgré leurs remarquables caractéristiques, ces sous-mar
 leur utilité tactique fut vite contestée, même au niveau des instances soviétiques. Ceci limita leur rôle à un emploi presque expérimental qui prit fin au début des années 1990. 
 De nos jours, il n''existe plus qu''un seul exemplaire, non opérationnel, de ces navires, le K-373, stocké à la base navale de Zapadnaïa Litsa, tous les autres ayant été démolis.');
 
-
-INSERT INTO LOCATION(LocationId, Country, PositionLost, XCoordonate, YCoordonate)
+INSERT INTO LOCATION(LocationId, Continent, LostLocation, XCoordonate, YCoordonate)
 values 
 ('5a0aae66-71a9-452e-b8a1-8fc35d942634', 'Canada', 'Quebec', '48.060991420591655', '-73.26900198962217'),
 ('cb075c10-967f-4c20-b431-b54b92012365', 'Canada', 'Colombie Britannique', '55.46232117554326', '-124.69336587565931'),
-('b82944d4-3a43-4519-8a87-37f62bf01db1', 'US', 'Manzano Base, Nouveau Mexique', '34.64414619428519', '-106.34396824157199'),
-('b74af9df-0823-4ab1-b24d-463a782c2ea3', 'US', 'Lebanon, Ohio', '39.43072434011488', '-84.20431428641108'),
-('e0afe998-f6ee-4706-9ba3-8978cc566a50', 'US', 'Kirtland AFB, Nouveau Mexique', '36.75140128416968', '-108.33195198448044'),
-('6bc6873b-0383-4fc5-abca-4d792d98824b', 'US', 'Fairfield Suisun-AFB. Californie', '38.27953260314395', '-121.95832957752532'),
-('2ecc35a6-b415-4780-a480-da9238d46c82', 'US', 'New Egypt, New Jersey, US', '40.06528805690022', '-74.53207957552085'),
-('c92091cf-0e8a-4448-94f1-01db18dfc16d', 'US', 'Homestead AFB, Floride', '25.482950407697523', '-80.4207473231067'),
-('3faa58b9-ae1e-4e2b-bf99-479370fbaf05', 'US', 'Savannah River, Georgie', '32.09063232126431', '-81.0993416122285'),
-('caf8794f-b0f1-467d-8401-04eb92b4fae6', 'US', 'Florence, Caroline du sud', '34.20146430611757', '-79.75374459304484'),
-('6946917e-98a9-4934-aa97-8d2f135305d8', 'US', 'Dress AFB, Texas', '31.78729716264151', '-97.72576832496856'),
-('2e84a913-5e6a-4985-acb8-3c6f033917c3', 'US', 'Chennault AFB, Louisiane', '30.21426366751035', '-93.1547172095452'),
-('f86a3f49-86c8-49d2-9980-c12eaf1557a3', 'US', 'Barksdale AFB, Louisiane', '32.5104194446055', '-93.54942003720345'),
-('3c8ee5a7-2c90-45c7-9f01-b93e8c1ed85d', 'US', 'Off Whidbey Island, Washington', '48.02578160876247', '-122.46195803970372'),
-('af823dba-7bb8-4de1-96d6-c7c09f3db832', 'US', 'Hardinsburg, Kentucky', '37.77545006527044', '-86.44784486543323'),
-('84511857-fe56-4adb-84af-4dcb2ede87e4', 'US', 'Goldsboro, Caroline du nord', '35.382086088906036', '-77.92487960138652'),
-('539a0106-5af7-410d-8cc6-a401fc4f2717', 'US', 'Yuba City, Californie', '39.132806722221105', '-121.61991655316848'),
-('a8f562a2-a679-4457-af3f-f1e23a7816c9', 'US', 'Cumberland, Maryland', '39.6507809742293', '-78.74943294246296'),
-('3976bf8e-5687-4849-8e73-ba0d457fdead', 'US', 'Ellsworth AFB, Dakota du Sud', '45.126644540392405', '-98.41245878724182'),
-('7f54a225-4b8d-4ef9-b20e-f830d9e3b32e', 'US', 'Bunker Hill (Now Grissom) AFB, Indiana', '40.661743480621006', '-86.0968434526764'),
-('0b6c9363-7982-4403-b087-c8bdda1d17f8', 'US', 'Wright-Patterson AFB, Ohio', '39.81526311273887', '-84.03303910316848'),
-('5925b33b-c553-4ebd-9f2b-13c440676a71', 'US', 'Damascus. Arkansas', '35.369858683772044', '-92.39631949589737'),
+('b82944d4-3a43-4519-8a87-37f62bf01db1', 'America', 'Manzano Base, Nouveau Mexique', '34.64414619428519', '-106.34396824157199'),
+('b74af9df-0823-4ab1-b24d-463a782c2ea3', 'America', 'Lebanon, Ohio', '39.43072434011488', '-84.20431428641108'),
+('e0afe998-f6ee-4706-9ba3-8978cc566a50', 'America', 'Kirtland AFB, Nouveau Mexique', '36.75140128416968', '-108.33195198448044'),
+('6bc6873b-0383-4fc5-abca-4d792d98824b', 'America', 'Fairfield Suisun-AFB. Californie', '38.27953260314395', '-121.95832957752532'),
+('2ecc35a6-b415-4780-a480-da9238d46c82', 'America', 'New Egypt, New Jersey, US', '40.06528805690022', '-74.53207957552085'),
+('c92091cf-0e8a-4448-94f1-01db18dfc16d', 'America', 'Homestead AFB, Floride', '25.482950407697523', '-80.4207473231067'),
+('3faa58b9-ae1e-4e2b-bf99-479370fbaf05', 'America', 'Savannah River, Georgie', '32.09063232126431', '-81.0993416122285'),
+('caf8794f-b0f1-467d-8401-04eb92b4fae6', 'America', 'Florence, Caroline du sud', '34.20146430611757', '-79.75374459304484'),
+('6946917e-98a9-4934-aa97-8d2f135305d8', 'America', 'Dress AFB, Texas', '31.78729716264151', '-97.72576832496856'),
+('2e84a913-5e6a-4985-acb8-3c6f033917c3', 'America', 'Chennault AFB, Louisiane', '30.21426366751035', '-93.1547172095452'),
+('f86a3f49-86c8-49d2-9980-c12eaf1557a3', 'America', 'Barksdale AFB, Louisiane', '32.5104194446055', '-93.54942003720345'),
+('3c8ee5a7-2c90-45c7-9f01-b93e8c1ed85d', 'America', 'Off Whidbey Island, Washington', '48.02578160876247', '-122.46195803970372'),
+('af823dba-7bb8-4de1-96d6-c7c09f3db832', 'America', 'Hardinsburg, Kentucky', '37.77545006527044', '-86.44784486543323'),
+('84511857-fe56-4adb-84af-4dcb2ede87e4', 'America', 'Goldsboro, Caroline du nord', '35.382086088906036', '-77.92487960138652'),
+('539a0106-5af7-410d-8cc6-a401fc4f2717', 'America', 'Yuba City, Californie', '39.132806722221105', '-121.61991655316848'),
+('a8f562a2-a679-4457-af3f-f1e23a7816c9', 'America', 'Cumberland, Maryland', '39.6507809742293', '-78.74943294246296'),
+('3976bf8e-5687-4849-8e73-ba0d457fdead', 'America', 'Ellsworth AFB, Dakota du Sud', '45.126644540392405', '-98.41245878724182'),
+('7f54a225-4b8d-4ef9-b20e-f830d9e3b32e', 'America', 'Bunker Hill (Now Grissom) AFB, Indiana', '40.661743480621006', '-86.0968434526764'),
+('0b6c9363-7982-4403-b087-c8bdda1d17f8', 'America', 'Wright-Patterson AFB, Ohio', '39.81526311273887', '-84.03303910316848'),
+('5925b33b-c553-4ebd-9f2b-13c440676a71', 'America', 'Damascus. Arkansas', '35.369858683772044', '-92.39631949589737'),
 ('0075a48f-922c-4dad-ab7d-bbe924db9086', 'Ocean', 'Mer Méditerranée', '40.398177018274374', '4.813578937051075'),
 ('4da5af20-5a6b-4713-8e44-e03e49de6caf', 'Ocean', 'Océan Atlantique', '46.75618741812224', '-34.825092861135005'),
 ('bf10f987-9639-47d7-b389-eaefa460f4b8', 'Ocean', 'Océan pacifique', '40.61173524261595', '-155.56847153971464'),
@@ -418,32 +423,226 @@ values
 ('43e95dc8-e13f-451e-b390-46225d9156f7', 'Afrique', 'Desert du Sahara, Algerie', '27.13195979637619', '3.462808104774782'),
 ('7fc5a702-bc63-4e96-997b-6bae686f976d', 'Asie', 'Osan Air Base, South Korea', '37.08499666599453', '127.0355036578654'),
 ('0c2933cc-edcd-4bee-84d4-89966d311da9', 'Asie', 'Nyonoksa, Russie', '64.62651279034111', '39.17905697927455'),
-('568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', 'US', 'Los Alamos National Laboratory, Los Alamos, New Mexico', '35.88990418629021', '-106.29776600836936'),
-('f9540ab5-36c6-42e6-88dd-32d6583f60de', 'US', 'Rocky Flats Plant, Golden, Colorado', '39.67990638609749', '-104.90551960658279'),
-('af0219b6-f262-494f-9de6-c37ee03b6748', 'US', 'Idaho', '44.20580976071356', '-114.54963986543937'),
-('0006438b-363a-4332-b0b6-aa3bec0525f6', 'US', 'Johnson Island, Ohio', '35.95658864399996', '-84.2935255684257'),
-('ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', 'US', 'Oak Ridge, Tennessee', '41.4947408326367', '-82.73252103293339'),
-('1ecc3524-c813-4ada-9729-ccb8f341d3d6', 'US', 'Livermore, Californie', '37.68812033245711', '-121.79141433856904'),
-('a9082acc-9412-48f4-ae2d-573c0f9ac14b', 'US', 'New London, Connecticut', '41.34891338346034', '-72.1052350344881'),
-('83289d68-05d2-4717-95bd-0446508288a0', 'US', 'Pawling, New York', '41.565879197275436', '-73.59980824758193'),
-('d6d1516d-8651-41f6-bb40-6aa3f796a059', 'US', 'Benton County, Washington', '46.21929964657827', '-119.43928122029955'),
-('409fbeb9-be90-49cb-aa88-72a8b9aa192b', 'US', 'Near Puget Sound, Washington', '47.756280596884096', '-123.348321817552'),
-('a94978d4-bda1-4ab2-9430-48c40fe53315', 'US', 'Hanford Site, Washington', '46.55082405957561', '-119.48868442436738'),
+('568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', 'America', 'Los Alamos National Laboratory, Los Alamos, New Mexico', '35.88990418629021', '-106.29776600836936'),
+('f9540ab5-36c6-42e6-88dd-32d6583f60de', 'America', 'Rocky Flats Plant, Golden, Colorado', '39.67990638609749', '-104.90551960658279'),
+('af0219b6-f262-494f-9de6-c37ee03b6748', 'America', 'Idaho', '44.20580976071356', '-114.54963986543937'),
+('0006438b-363a-4332-b0b6-aa3bec0525f6', 'America', 'Johnson Island, Ohio', '35.95658864399996', '-84.2935255684257'),
+('ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', 'America', 'Oak Ridge, Tennessee', '41.4947408326367', '-82.73252103293339'),
+('1ecc3524-c813-4ada-9729-ccb8f341d3d6', 'America', 'Livermore, Californie', '37.68812033245711', '-121.79141433856904'),
+('a9082acc-9412-48f4-ae2d-573c0f9ac14b', 'America', 'New London, Connecticut', '41.34891338346034', '-72.1052350344881'),
+('83289d68-05d2-4717-95bd-0446508288a0', 'America', 'Pawling, New York', '41.565879197275436', '-73.59980824758193'),
+('d6d1516d-8651-41f6-bb40-6aa3f796a059', 'America', 'Benton County, Washington', '46.21929964657827', '-119.43928122029955'),
+('409fbeb9-be90-49cb-aa88-72a8b9aa192b', 'America', 'Near Puget Sound, Washington', '47.756280596884096', '-123.348321817552'),
+('a94978d4-bda1-4ab2-9430-48c40fe53315', 'America', 'Hanford Site, Washington', '46.55082405957561', '-119.48868442436738'),
 ('5d342ca9-ca87-4de1-b95e-c1ba1c66141d', 'Asie', 'Peninsule de Kola, Russie', '67.29965896984213', '37.55147700456798'),
 ('9fd55656-c3ab-42f8-89d4-ea3357499a10', 'Europe', 'Leipzig, Nazi Germany', '51.343514160554214', '12.357174056994547'), 
 ('2be85f7e-c5ee-4120-8023-f45e816faf87', 'Europe', 'Sellafield, Cumbria, UK', '54.418650513025256', '-3.497503150300012'),
 ('a18f67fb-039a-4a32-b691-9747aa2c968e', 'Asie', 'Severodvinsk, Russie', '64.56837452632732', '39.81449159141385'),
 ('0230b4fd-4317-4e14-89ed-951d7dffc25f', 'Asie', 'Kyshtym, Russie', '55.71265591531909', '60.54919619653164'),
-('f35e61f5-168c-4af6-bc27-74e1b1d7216a', 'US', 'Apra Harbor, Guam', '13.44769456194467', '144.6457101515287'),
-('db5fb3c5-59e5-4af0-a47a-7c0b354ec2cb', 'US', 'Nevada Test Site, Nevada', '37.11908253737819', '-116.18246148232117'),
+('f35e61f5-168c-4af6-bc27-74e1b1d7216a', 'America', 'Apra Harbor, Guam', '13.44769456194467', '144.6457101515287'),
+('db5fb3c5-59e5-4af0-a47a-7c0b354ec2cb', 'America', 'Nevada Test Site, Nevada', '37.11908253737819', '-116.18246148232117'),
 ('01f05c85-8983-4c59-a975-01cfc5d63d06', 'Asie', 'Kyshtym, Russie', '55.71265591531909', '60.54919619653164'),
-('62133a9f-eb5b-47de-bf53-0f2bef431b86', 'US', 'Bikini Attols Republic of the Marshall Islands', '11.610715908237381', '165.3483389711716'),
-('325ce705-85a1-446b-9dfc-2af6e20112ae', 'US', 'Northwest Territories, Canada', '68.94167848763797', '-126.50326578226941'),
-('12f04aff-9634-4611-9440-cb4aa501dd0c', 'US', 'unknwow', '1.255951941674578', '0.1074082539266308');
+('62133a9f-eb5b-47de-bf53-0f2bef431b86', 'America', 'Bikini Attols Republic of the Marshall Islands', '11.610715908237381', '165.3483389711716'),
+('325ce705-85a1-446b-9dfc-2af6e20112ae', 'America', 'Northwest Territories, Canada', '68.94167848763797', '-126.50326578226941'),
+('281792a8-9c62-444f-b14f-a58879683ea0', 'Afrique', 'Canal de Suez', '30.569170301207365', '32.35323726441604'),
+('6569f562-ca0d-4ad0-8bba-4d3d10e0f538', 'America', 'Offutt Air Force Base', '41.11983361550142', '-95.91319657769985'),
+('12f04aff-9634-4611-9440-cb4aa501dd0c', 'Caraibes', 'Cuba', '21.67021005730692', '-78.69835020587688'),
+('e33da9a3-3c11-437b-85c1-ee0ad405b053', 'America', 'US', '37.27625443024635', '-94.12315490402622'),
+('3ea09a72-5e5c-4950-a83d-e53308680dcc', 'Europe', 'France', '47.53141772998028', '3.085487617954552'),
+('4527e5ea-1c7f-4233-b1a4-b9d2c771562b', 'America', 'Peterson Space Force Base, Colorado', '38.81402046225805', '-104.67955699523489'),
+('be62509b-5c00-4068-acc9-acc7dc634139', 'Asie', 'Iles Kouriles, Russie', '47.6838310567915', '150.8253935616619'),
+('141a971b-ca5e-4065-90aa-de9cf6c10850', 'Asie', 'Moscou, Russie', '55.66802985774045', '37.52232389789328'),
+('dc0ce91a-c0f4-4759-842c-50927ba6174a', 'Europe', 'Pologne', '52.41851867384152', '19.540863343225737'),
+('d086f782-98f4-4122-b713-876a9ebed4f0', 'Europe', 'Norvège', '61.87036987509178', '11.112533253205733'),
+('15e210f3-f8d8-4fa8-8aa4-d02af54be77d', 'Asie', 'Detroit de Taiwan', '25.330441015634655', '120.49676129738651'),
+('f76993e6-66b3-4a01-9469-fcba6d161a9e', 'Asie', 'Corée du Nord', '39.868477259089914', '126.28593280324'),
+('8e8a5d9f-7e7c-4396-99e5-3b4891e81fca', 'Asie', 'Israel', '30.727349549285478', '34.89468449076802'),
+('429c028f-e613-4bdb-b41d-49d999cb976f', 'Asie', 'Irak', '33.71036568055393', '42.85595952088639'),
+('953cf52b-0bc6-48c5-9795-4f818b9a257e', 'America', 'Wyoming', '43.28563614615514', '-108.46189977201455'),
+('7e90ea55-0f57-4887-8124-dc37660174a8', 'America', 'Dakota', '48.41802031202549', '-101.33064275332076');
 
-INSERT INTO Accident(AccidentId, LocationId, VehiculeId, WeaponId, seal, isBrokenArrow, isCloseCall, DisasterDate, ShortDescription, BubbleDescription, FullDescription)
+INSERT INTO CloseCall (ClosecallId, LocationId, CloseCallDate, Cause, Description)
+Values 
+('a6075fdc-643b-4a27-9c80-918ecc3a521e', '281792a8-9c62-444f-b14f-a58879683ea0', '1956-11-05', 
+'Crise du Canal de Suez',
+'Au cours de la crise de Suez, le NORAD a reçu simultanément une série de rapports incluant des aéronefs non identifiés au dessus de la Turquie, 
+des chasseurs soviétiques MiG-15 au dessus de la Syrie, un bombardier britannique Canberra abattu et des manœuvres navales surprises effectuées par la Flotte 
+de la mer Noire à travers le détroit des Dardanelles ; cela est apparu comme le signal d''une offensive soviétique. 
+Considérant les précédentes menaces soviétiques à utiliser des armes conventionnelles contre la France et le Royaume-Uni, 
+les États-Unis étaient d''avis que ces événements pourraient déclencher une frappe nucléaire de l''OTAN contre l''Union soviétique. 
+En fait, tous les rapports concernant les actions soviétiques se sont révélés erronés, mal interprétés ou exagérés. 
+La perception de la menace est due à une combinaison fortuite d''événements, comprenant des cygnes en formation de vol sur la Turquie, 
+un chasseur d''escorte pour le président syrien de retour de Moscou, un bombardier anglais ayant subi des problèmes mécaniques, et des exercices prévus de la flotte de l''Union soviétique.'),
+
+('43c352c2-2969-4a97-a983-aa977432d818', '6d7d79ca-8ccb-48db-b5b3-968134ebb131', '1960-10-05', 
+'Lever de Lune à Thulé',
+'L''équipement radar, nouvellement installé, de la base aérienne de Thulé au Groenland a interprété à tort un lever de lune sur la Norvège comme un lancement massif 
+de missiles soviétiques. Après avoir reçu un rapport de la prétendue attaque, le NORAD s''est placé en alerte générale. Cependant, l''authenticité de l''attaque a été mise en doute, 
+car le dirigeant soviétique Nikita Khrouchtchev était présent à New York en tant que chef de la délégation de l''URSS aux Nations Unies.'),
+
+('49ceaca6-5d40-47d8-ae94-56054c0d383e', '6569f562-ca0d-4ad0-8bba-4d3d10e0f538', '1961-11-24', 
+'Défaillance de station relais',
+'Le personnel du quartier général du Strategic Air Command a simultanément perdu le contact avec le NORAD et plusieurs sites du Système d''Alerte avancé de missiles balistiques. 
+Puisque ces lignes de communication ont été conçues pour être redondantes et indépendantes les unes des autres, ce défaut de communication a été interprété comme une coïncidence 
+improbable ou une attaque coordonnée. Le SAC a préparé la totalité de la force d''action rapide pour le décollage avant que les avions déjà en vol confirment ne voir aucune attaque. 
+Plus tard, il fut constaté que la défaillance d''une seule station de relais dans le Colorado a été la seule cause du problème de communication.'),
+
+('a1d13a82-ea50-42c8-a799-e1f3fc861eb9', '12f04aff-9634-4611-9440-cb4aa501dd0c', '1962-10-27', 
+'Crise des missiles de Cuba',
+'Au plus fort de la crise des missiles de Cuba, un sous-marin patrouilleur soviétique B-59, alors harcelé par les forces navales américaines, 
+a été sur le point de lancer une torpille équipée d''une tête nucléaire. L''un des submersibles soviétiques fut encerclé par les destroyers américains près de Cuba et 
+a plongé afin d''éviter d''être repéré mais fut incapable de communiquer avec Moscou durant plusieurs jours7. L''USS Beale a commencé par larguer des grenades anti-sous-marines, 
+normalement destinées à l’entraînement, dans le but de signaler au B-59 de faire surface. Cependant, le sous-marin soviétique a pris ces explosions comme 
+provenant de véritables charges de profondeur8. Avec un niveau de batteries faible, affectant les systèmes de support de vie du sous-marin et sans ordre de Moscou, 
+le commandant du B-59 crut que la guerre avait peut-être déjà débuté et a ordonné l''utilisation d''une torpille nucléaire de dix kilotonnes contre la flotte américaine. 
+L''officier politique du sous-marin a donné son accord mais l''officier de la sous-flottille Vassili Arkhipov a pu persuader le commandant de faire surface et d''attendre les ordres.
+Le même jour, un avion espion américain U-2 a été abattu au-dessus de Cuba, et un autre U-2 piloté par le capitaine Charles Maultsby de l''United States Air Force 
+s''est égaré de 300 milles (482,8032 km) à l''intérieur de l''espace aérien soviétique. Malgré les ordres d''éviter l''espace aérien soviétique d''au moins 100 milles (160,9344 km), 
+une erreur de navigation a porté le U-2 au dessus de la péninsule de Tchoukotka, provoquant l''intervention des intercepteurs soviétiques MiG qui se sont lancés à sa poursuite. 
+Des avions intercepteurs américains F-102A, armés de missiles air-air nucléaires GAR-11 Falcon (chacun d''une capacité de 0,25 kilotonne) ont alors été rapidement envoyés pour escorter 
+le U-2 vers un espace aérien ami12. Les pilotes avaient la capacité individuelle d''armer et de lancer leurs missiles.'),
+
+('e8f5c986-31f5-4e3e-8a4d-4acce3d3b814', 'e33da9a3-3c11-437b-85c1-ee0ad405b053', '1965-11-09', 
+'Panne de courant',
+'Le Centre de commandement de l''Office de la gestion des secours d''urgence 
+fut placé en état d''alerte après une gigantesque panne d''électricité dans le nord-est des États-Unis. 
+Plusieurs détecteurs de bombe nucléaire (utilisés pour distinguer les pannes de courant « normales » des pannes de courant causées par une explosion nucléaire) 
+à proximité des grandes villes des États-Unis se sont révélés défectueux en raison d''erreurs de circuits électriques, créant l''illusion d''une attaque nucléaire.'),
+
+('81217eef-0bb8-4ed6-8c8a-c27bc7cb5b11', '3ea09a72-5e5c-4950-a83d-e53308680dcc', '1966-01-01', 
+'Orage',
+'Au début des Forces aériennes stratégiques françaises, des transmissions électriques sont perturbées à cause d’un orage, ce qui provoque l''affichage d''un ordre de décollage de guerre. 
+L''armée de l''air fait décoller un Mirage IV avec une bombe atomique AN-11. L''équipage fut rappelé par radio, mais ne répondit pas, conformément aux procédures. 
+Arrivé dans sa zone de ravitaillement, il ne trouva pas d''avion ravitailleur, ce qui le contraint à avorter sa mission, à faire demi-tour et à atterrir.'),
+
+('523de147-8395-411d-952d-748beaeef250', '6d7d79ca-8ccb-48db-b5b3-968134ebb131', '1967-05-23', 
+'Eruption Solaire',
+'Une puissante éruption solaire accompagnée d''une éjection de masse coronale ont interféré avec les radars du Ballistic Missile Early Warning System du NORAD de l''hémisphère nord. 
+Cette interférence avait été initialement interprétée comme un brouillage intentionnel des radars par les soviétiques, un acte considéré comme un acte de guerre. 
+Des bombardiers nucléaires de contre-attaque furent sur le point d''être lancés par les États-Unis.'),
+
+('ea2b8719-9e90-4f57-b6e3-62b83075ec12', '4527e5ea-1c7f-4233-b1a4-b9d2c771562b', '1979-11-09', 
+'Message d''erreur Informatique',
+'Un message d''erreur informatique au quartier général du NORAD a conduit au déclenchement d''une alarme et à la préparation complète contre une inexistante attaque soviétique à large échelle. 
+Le NORAD a prévenu le conseiller à la sécurité nationale, Zbigniew Brzezinski, que l''Union soviétique avait lancé 250 missiles balistiques vers les États-Unis, 
+en indiquant que la décision de riposter devait être prise par le président dans les trois à sept minutes. Les ordinateurs du NORAD ont ensuite indiqué que le nombre de missiles lancés était de 2 20015. 
+Le SAC fut prévenu, les bombardiers nucléaires préparés au décollage et les équipes des missiles balistiques intercontinentaux furent placés en alerte. 
+Dans les six à sept minutes de la réponse initiale, les systèmes de satellites et de radars ont été capables de confirmer que l''attaque était une fausse alerte. 
+Il a été démontré qu''un scénario d’entraînement avait été chargé par inadvertance dans le système informatique opérationnel. 
+Commentant l''incident, le conseiller au département d''État, Marshall Shulman, déclara que « Les fausses alarmes de ce type ne sont pas rares. 
+Il y a une complaisance sur la façon dont elles sont traitées qui me dérange. ». Dans les mois qui suivirent cet incident, on dénombra trois fausses alarmes supplémentaires au NORAD, 
+deux d''entre elles étant causées par du matériel informatique défectueux.'),
+
+('bc4cfded-1596-407b-80ea-4f5af5fb7550', 'be62509b-5c00-4068-acc9-acc7dc634139', '1980-03-15', 
+'Trajectoire suspecte',
+'Lors d''un exercice, un des quatre missiles soviétiques lancés depuis un sous-marin près des Îles Kouriles 
+fut détecté par un capteur d''alerte avancé américain comme ayant pris une trajectoire vers les États-Unis.'),
+
+('0f707f87-8687-4d58-bc92-935f27b9a44d', '141a971b-ca5e-4065-90aa-de9cf6c10850', '1983-09-26', 
+'Fausse Alarme',
+'Plusieurs semaines après la destruction en vol du vol 007 de la Korean Air Lines dans l''espace aérien soviétique, 
+un satellite du système d''alerte avancé, près de Moscou, a rapporté le lancement d''un missile Minuteman américain. 
+Peu de temps après, le système signale que cinq missiles avaient été lancés. Convaincu qu''une véritable offensive américaine nécessiterait beaucoup plus de missiles, 
+le lieutenant-colonel Stanislav Petrov de la force de défense anti-aérienne soviétique a refusé de reconnaître la menace comme étant légitime et 
+a pu convaincre ses supérieurs qu''il s''agissait d''une fausse alarme jusqu''à ce que cela puisse être effectivement confirmé par radar terrestre.'),
+
+('a93112f2-0a2e-4384-b0bd-dfca49b847e4', 'dc0ce91a-c0f4-4759-842c-50927ba6174a', '1983-11-07', 
+'Exercice de l''OTAN',
+'Entre le 7 et le 11 novembre 1983, l’OTAN procède à un exercice de gestion des procédures nucléaires nommé Autumn Forge-83, 
+dont la phase finale est Able Archer-83. Cet exercice d’ampleur plus important qu’à l’accoutumée est accompagné par des communications soutenues entre chefs d''État occidentaux 
+et par un état d’alerte des forces américaines élevé en raison d''attaques terroristes à Beyrouth. 
+Certains à Moscou interprètent ainsi Able Archer-83 comme une couverture possible pour une attaque surprise et une dizaine de 
+bombardiers stationnés en Europe de l''Est sont mis en alerte. Deux rapports du renseignement américain de 1984 et 1990 ainsi 
+qu''un documentaire britannique de 2008 dramatisent cet épisode en suggérant que le monde est passé tout près de la catastrophe. 
+Cependant, les documents déclassifiés du renseignement soviétique ainsi que les affirmations d''un transfuge soviétique et les 
+avis de deux experts occidental et soviétique tendent à démontrer que l''URSS savait qu''il s''agissait d''un exercice militaire et 
+qu''elle ne craignait pas réellement en une attaque alliée.'),
+
+('99a2d12f-f318-43a7-913a-0ffc2f6bebe7', 'd086f782-98f4-4122-b713-876a9ebed4f0', '1995-01-25', 
+'Fausse Alarme',
+'Le président russe, Boris Eltsine, est devenu le premier chef d''État au monde à activer une mallette de tir nucléaire après que les systèmes de radar russes ont détecté le lancement d''une Black Brant,
+ fusée norvégienne de recherche pour étudier les aurores boréales. Les sous-marins nucléaires lanceurs d''engins russes ont été mis en état d''alerte en prévision d''une possible frappe de représailles. 
+ Quand il est devenu clair que la fusée n''était pas une menace pour la Russie et ne faisait pas partie d''une vaste attaque, l''alarme a été annulée. 
+ La Russie avait été en fait l''un des pays précédemment informés du lancement ; toutefois, l''information n''avait pas atteint les opérateurs des radars russes.'),
+
+('e6e87689-5b4a-44b4-b824-a2793b4c05ac', 'd086f782-98f4-4122-b713-876a9ebed4f0', '1995-01-25', 
+'Fausse Alarme',
+'Le président russe, Boris Eltsine, est devenu le premier chef d''État au monde à activer une mallette de tir nucléaire après que les systèmes de radar russes ont détecté le lancement d''une Black Brant,
+ fusée norvégienne de recherche pour étudier les aurores boréales. Les sous-marins nucléaires lanceurs d''engins russes ont été mis en état d''alerte en prévision d''une possible frappe de représailles. 
+ Quand il est devenu clair que la fusée n''était pas une menace pour la Russie et ne faisait pas partie d''une vaste attaque, l''alarme a été annulée. 
+ La Russie avait été en fait l''un des pays précédemment informés du lancement ; toutefois, l''information n''avait pas atteint les opérateurs des radars russes.'),
+
+('5b660090-692d-4a56-9c2b-4fc25c10be60', '953cf52b-0bc6-48c5-9795-4f818b9a257e', '2010-10-23', 
+'Perte de controle temporaire',
+'Les commandants de la base de l''Armée de l''air américaine dans le Wyoming ont perdu la plupart des formes de commandement, 
+de contrôle et de surveillance de la sécurité de plus de cinquante missiles balistiques nucléaires durant environ 45 minutes. 
+Les missiles ont été mis hors ligne après que l''on a soupçonné un problème matériel causant de multiples erreurs sur les ordinateurs de contrôle. 
+Bien que des représentants de l''armée maintiennent que les missiles étaient restés sous contrôle et n''étaient pas exposés à des tentatives de prise de contrôle extérieur, 
+l''ancien officier de lancement de l''Armée de l''air, Bruce G. Blair, a exprimé ses inquiétudes selon lesquelles, dans ce cas de figure, les missiles pourraient être vulnérables à 
+des tentatives de lancement par des pirates informatiques ou des équipes de missiles corrompues.'),
+
+('2e05e77f-5e5b-4ab4-aa15-c8534fa9f7ef', '15e210f3-f8d8-4fa8-8aa4-d02af54be77d', '1958-09-23', 
+'Test de défense militaire',
+'Le secrétaire d''État américain Christian Herter a qualifié la deuxième crise du détroit de Taiwan de "première crise nucléaire sérieuse". 
+Dans ce conflit, la République populaire de Chine (RPC) a bombardé les îles de Kinmen (Quemoy) et les îles Matsu le long de la côte est de la Chine continentale 
+(dans le détroit de Taiwan) pour tester l''étendue de la défense militaire des États-Unis du territoire souverain de Taiwan. 
+Il s''agissait d''une frappe préventive finalement échouée avant une tentative d''invasion de Taiwan, où les forces militaires 
+et les appareils politiques de la République de Chine (ROC), connus sous le nom de Kuomintang (KMT), avaient été exilés depuis 
+la fin de la guerre civile chinoise en 1949. Une bataille navale a également eu lieu autour de l''île de Dongding lorsque la marine de la 
+ROC a repoussé une tentative de débarquement amphibie de la marine de la RPC.'),
+
+('b895a2b6-6453-48da-b8f6-50512c886f2e', 'f76993e6-66b3-4a01-9469-fcba6d161a9e', '1969-04-15', 
+'Représailles',
+'Un avion de détection et de commandement aérien avancé Lockheed EC-121 Warning Star des États-Unis a été abattu par un MiG-21 de la République populaire démocratique de Corée 
+(RPDC, Corée du Nord), tuant les 31 militaires à bord. Les chasseurs-bombardiers F-4 Phantom de la base aérienne de Kunsan ont reçu l''ordre de charger des bombes nucléaires B61 
+et ont commencé les préparatifs pour une frappe nucléaire contre la RPDC. L''attaque devait inclure l''aérodrome d''où les Nord-Coréens avaient attaqué l''avion américain. 
+Après quelques heures, l''ordre d''annuler a été donné et les avions n''ont jamais décollé. Selon les rapports, 
+le président Richard Nixon était ivre lorsqu''il a donné l''ordre d''une attaque nucléaire contre la RPDC. 
+L''ordre d''annuler a été donné sur les conseils du secrétaire d''État Henry Kissinger.'),
+
+('cc967a42-a53d-4682-9143-208239e01313', '8e8a5d9f-7e7c-4396-99e5-3b4891e81fca', '1973-10-01', 
+'Guerre du Yom Kippour',
+'Pendant la guerre du Yom Kippour, les responsables israéliens ont paniqué à l''idée que la force d''invasion arabe envahisse Israël après que l''armée syrienne ait presque réussi à percer dans le Golan,
+ et le gouvernement américain a rejeté la demande israélienne pour un pont aérien d''urgence. Selon un ancien responsable de la CIA, le ministre de la Défense Moshe Dayan a demandé et 
+ obtenu l''autorisation du Premier ministre israélien Golda Meir d''armer 13 missiles Jericho et 8 chasseurs F-4 Phantom II avec des ogives nucléaires. Les lanceurs de missiles étaient 
+ situés à la base aérienne de Sdot Micha, tandis que les chasseurs étaient placés en état d''alerte 24 heures sur 24 à la base aérienne de Tel Nof. Les missiles étaient censés être dirigés 
+ vers les quartiers généraux militaires arabes au Caire et à Damas.
+Les États-Unis ont découvert le déploiement nucléaire d''Israël après qu''un avion de reconnaissance Lockheed SR-71 Blackbird ait repéré les missiles, et ils ont commencé un pont aérien le même jour. 
+Après que le Conseil de sécurité de l''ONU ait imposé un cessez-le-feu, le conflit a repris lorsque les Forces de défense israéliennes ont tenté d''encercler la troisième armée égyptienne. 
+Selon d''anciens responsables du département d''État américain, le secrétaire général Leonid Brejnev a menacé de déployer les forces aéroportées soviétiques contre les forces israéliennes, 
+et les forces armées américaines ont été placées en état d''alerte DEFCON 3. Israël a également redéployé ses armes nucléaires. Alors que l''état d''alerte DEFCON 3 était toujours en vigueur, 
+des mécaniciens réparant le système d''alarme à la base aérienne de Kincheloe dans le Michigan l''ont accidentellement activé, ce qui a failli faire décoller les bombardiers B-52 de la 
+base avant que l''officier de service ne déclare une fausse alerte. La crise a finalement pris fin lorsque le Premier ministre Meir a arrêté toute action militaire. 
+Des documents israéliens déclassifiés n''ont pas confirmé ces allégations directement, mais ont confirmé qu''Israël était prêt à utiliser des "moyens drastiques" pour gagner la guerre.'),
+
+('a9c7b232-cc4e-460f-8319-dd127d828bb6', '429c028f-e613-4bdb-b41d-49d999cb976f', '1991-06-01', 
+'Guerre du Golfe',
+'Pendant la guerre du Golfe, l''Irak baassiste a lancé des missiles Scud sur l''Arabie saoudite et Israël et possédait un grand stock d''armes de destruction massive. 
+Cela, ainsi que la menace précédente de Saddam Hussein de "brûler la moitié d''Israël" avec des armes chimiques, a conduit à des craintes que Saddam Hussein ordonne 
+l''utilisation des armes chimiques contre la coalition dirigée par les États-Unis ou contre Israël (voir les relations Irak-Israël jusqu''à la guerre d''Irak de 2003). 
+Le Premier ministre israélien Yitzhak Shamir et le commandant en chef de l''armée de l''air israélienne Avihu Ben-Nun ont tous deux averti qu''une attaque chimique 
+irakienne déclencherait une "représailles massives", laissant entendre qu''Israël riposterait avec des armes nucléaires. En même temps, le secrétaire à la Défense 
+des États-Unis Dick Cheney, le général Norman Schwarzkopf Jr., et le Premier ministre britannique Margaret Thatcher ont tous souligné que l''utilisation d''armes de 
+destruction massive contre les forces de la coalition entraînerait une attaque nucléaire contre l''Irak.
+Le secrétaire d''État américain James Baker a directement averti son homologue Tariq Aziz que les États-Unis avaient "les moyens de se venger" en cas de recours 
+irakien aux armes de destruction massive. Après la guerre, la Defense Intelligence Agency a attribué ces menaces à la dissuasion de l''Irak de lancer des attaques 
+chimiques sur les forces de la coalition. Néanmoins, Saddam Hussein avait un plan de contingence pour lancer des ogives armées de WMD contre Tel Aviv dans le cas 
+où il serait coupé de la direction des forces armées irakiennes ou si le gouvernement irakien était sur le point de s''effondrer, ce qui aurait presque certainement
+ déclenché une réponse nucléaire de la part d''Israël. Saddam n''a finalement jamais jugé cette option nécessaire car il n''a jamais senti que son gouvernement était sur le point de s''effondrer.'),
+
+('936d8da2-7db6-4a41-a167-7e4a077d1cb9', '7e90ea55-0f57-4887-8124-dc37660174a8', '2007-08-29', 
+'Transport d''armes nucléaires',
+'Le 29 août 2007, six missiles de croisière AGM-129 ACM armés de têtes nucléaires ont été chargés par erreur sur un bombardier lourd B-52H de l''US Air Force (USAF) 
+à la base aérienne de Minot, dans le Dakota du Nord, et transportés à la base aérienne de Barksdale, en Louisiane. Les ogives nucléaires des missiles étaient 
+censées avoir été retirées avant que les missiles ne soient sortis de leur bunker de stockage. Les missiles avec les ogives nucléaires n''ont pas été signalés 
+comme manquants et sont restés montés sur l''avion à la fois à Minot et à Barksdale pendant 36 heures. Pendant cette période, les ogives n''ont pas été protégées 
+par les diverses précautions de sécurité obligatoires pour les armes nucléaires, et le gouvernement n''était pas au courant de leur emplacement. L''incident était 
+le premier de ce genre en quarante ans aux États-Unis et a été décrit plus tard par les médias comme "l''une des pires violations de la sécurité des armes nucléaires 
+aux États-Unis depuis des décennies".');
+
+INSERT INTO BrokenArrow(BrokenArrowId, LocationId, VehiculeId, WeaponId, seal, DisasterDate, ShortDescription, BubbleDescription, FullDescription)
 values 
-('71bececf-8815-4ec6-a572-26937c455021', 'cb075c10-967f-4c20-b431-b54b92012365', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', NULL, 'AIR', True, False, '1950-02-13', 
+('71bececf-8815-4ec6-a572-26937c455021', 'cb075c10-967f-4c20-b431-b54b92012365', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', NULL, 'AIR',  '1950-02-13', 
 'Le B-36 était en route de la base aérienne d''Eielson à la base aérienne de Carswell dans le cadre d''une mission de profil de combat simulée. 
 L''arme à bord de l''avion avait une capsule factice installée. 
 Après six heures de vol, l''avion a développé de graves problèmes mécaniques, rendant nécessaire l''arrêt de trois moteurs. 
@@ -471,7 +670,7 @@ l''arme a été larguée dans l''océan Pacifique depuis une hauteur de 8 000 pi
 Les explosifs de l''arme ont explosé à l''impact avec une vive lumière visible. 
 Les seize membres d''équipage et un passager ont tous pu sauter en parachute depuis l''avion et douze ont ensuite été secourus de l''île Princess Royal.'),
 
-('50503eb1-2487-422c-b68d-e2d24fa471a5', 'b82944d4-3a43-4519-8a87-37f62bf01db1', '17b07385-af78-4a3f-be0b-4e4aea923023', NULL,  'AIR', True, False, '1950-04-11', 
+('50503eb1-2487-422c-b68d-e2d24fa471a5', 'b82944d4-3a43-4519-8a87-37f62bf01db1', '17b07385-af78-4a3f-be0b-4e4aea923023', NULL,  'AIR',  '1950-04-11', 
 'Trois minutes après le départ de la base aérienne de Kirtland à Albuquerque, un Boeing B-29 Superfortress de l''USAF s''est écrasé contre une montagne sur la base de Manzano environ 
 trois minutes plus tard, tuant l''équipage. 
 Des détonateurs étaient installés dans la bombe à bord de l''avion. 
@@ -488,7 +687,7 @@ Cependant, selon le Département de la Défense, les quatre détonateurs de rech
 Il n''y a eu aucun problème de contamination ou de récupération. Les composants récupérés de l''arme ont été retournés à la Commission de l''énergie atomique. 
 L''arme et la capsule de matériau nucléaire étaient à bord de l''avion mais la capsule n''a pas été insérée pour des raisons de sécurité. Une détonation nucléaire n''était pas possible.'),
 
-('6b97893b-08b8-4c0e-8c75-16927d80d052', 'b74af9df-0823-4ab1-b24d-463a782c2ea3', '4c09a7af-2ada-4b52-ad03-794f4ec0d5f4', NULL, 'AIR', True, False, '1950-07-13', 
+('6b97893b-08b8-4c0e-8c75-16927d80d052', 'b74af9df-0823-4ab1-b24d-463a782c2ea3', '4c09a7af-2ada-4b52-ad03-794f4ec0d5f4', NULL, 'AIR',  '1950-07-13', 
 'Un avion B-50 de l''USAF en mission d''entraînement depuis la base aérienne de Biggs avec une arme nucléaire (sans noyau nucléaire) s''est écrasé au sol, entraînant une détonation 
 de haute intensité d''explosifs, mais aucune explosion nucléaire.', 'Un B-50 en mission d''entraînement avec une arme nucléaire s''est écrasé au sol.', 
 'Le B-50 effectuait une mission d''entraînement depuis la base aérienne de Biggs, au Texas. L''avion volait à 7 000 pieds par 
@@ -496,7 +695,7 @@ temps clair. L''avion a piqué vers le sol et s''est écrasé, tuant quatre offi
 Aucune capsule nucléaire n''était à bord de l''avion.'),
 
 ('1bbab815-df84-4d02-a23f-5d7dc2637c25', '6bc6873b-0383-4fc5-abca-4d792d98824b', '17b07385-af78-4a3f-be0b-4e4aea923023', 'cf5ca691-9179-4566-9c90-048296843a15', 
-'AIR', True, False, '1950-08-5', 'Un B-29 transportant une arme mais sans capsule a connu deux hélices incontrôlables et des difficultés de rétraction 
+'AIR',  '1950-08-5', 'Un B-29 transportant une arme mais sans capsule a connu deux hélices incontrôlables et des difficultés de rétraction 
 du train d''atterrissage lors du décollage de Fairfield-Suisun AF9 (aujourd''hui Travis AFB). L''avion a tenté un atterrissage d''urgence et s''est écrasé et a pris feu. 
 Le feu a été combattu pendant 12 à 15 minutes avant que le matériau explosif de la bombe ne détonne. Dix-neuf membres de l''équipage et du personnel de secours ont été 
 tués dans le crash et/ou la détonation qui a suivi, y compris le général Travis.', 'Un B-29 s''est écrasé après des problèmes techniques, explosant et tuant dix-neuf 
@@ -507,7 +706,7 @@ d''urgence à Fairfield Suisun-AFB. Dans l''incendie qui a suivi, le matériau e
 Le brigadier général Robert F. Travis, pilote commandant du bombardier, était parmi les morts.'),
 
 ('d25de8c5-c721-467f-9452-4c95bb540e78', '5a0aae66-71a9-452e-b8a1-8fc35d942634', '4c09a7af-2ada-4b52-ad03-794f4ec0d5f4', 'cf5ca691-9179-4566-9c90-048296843a15', 
-'AIR', True, False, '1950-11-10', 'Un B-50 a largué une bombe de type Mark 4 sur le fleuve Saint-Laurent près de Rivière-du-Loup, à environ 
+'AIR',  '1950-11-10', 'Un B-50 a largué une bombe de type Mark 4 sur le fleuve Saint-Laurent près de Rivière-du-Loup, à environ 
 300 miles au nord-est de Montréal. Les explosifs haute puissance de la bombe ont explosé à l''impact. Bien qu''elle ne contienne pas son cœur de plutonium essentiel, 
 l''explosion a dispersé près de 100 livres (45 kg) d''uranium. L''avion a ensuite atterri en toute sécurité sur une base de l''US Air Force dans le Maine.', 
 'Un B-50 a largué une bombe Mark 4 au-dessus du fleuve Saint-Laurent près de Rivière-du-Loup, explosant à l''impact. L''avion a ensuite atterri en toute sécurité.', 
@@ -516,7 +715,7 @@ problèmes de moteur et a largué l''arme à 10 500 pieds (3 200 m). L''équipag
 L''explosion a secoué les résidents de la région et a dispersé près de 100 livres (45 kg) d''uranium (U-238) utilisé dans la chemise de la bombe. Aucun noyau fissile n''était installé dans la bombe.
 '),
 
-('21447942-7e89-4116-bc31-eccd30988904', '0075a48f-922c-4dad-ab7d-bbe924db9086', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL,  'AIR', True, False, 
+('21447942-7e89-4116-bc31-eccd30988904', '0075a48f-922c-4dad-ab7d-bbe924db9086', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL,  'AIR',  
 '1956-03-10', 'Un B-47 Stratojet de l''USAF, en mission sans escale de la base aérienne de MacDill, en Floride, vers une base à l''étranger, a pénétré dans une formation
 nuageuse à 14 000 pieds au-dessus de la Méditerranée en préparation d''un ravitaillement en vol et a disparu alors qu''il transportait deux capsules de matériau d''armes nucléaires 
 dans des étuis de transport ; une détonation nucléaire n''était pas possible.', 'Un B-47 Stratojet de l''USAF  a pénétré dans une formation nuageuse au-dessus de la Méditerranée 
@@ -533,7 +732,7 @@ position connue. L''avion a été perdu alors qu''il volait à travers des nuage
 '),
 
 ('cdecbe08-5abb-4b81-a8a6-4bbd9b470a78', '25d37526-63cb-4fa9-a478-8f4c9127113a', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', '848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 
- 'AIR', True, False, '1956-07-27', 'Un B-47 de l''USAF s''est écrasé dans un igloo de stockage, répandant du carburant en feu sur trois bombes 
+ 'AIR',  '1956-07-27', 'Un B-47 de l''USAF s''est écrasé dans un igloo de stockage, répandant du carburant en feu sur trois bombes 
 nucléaires de type Mark 6 à la RAF Lakenheath. Un expert en neutralisation des bombes a déclaré que c''était un miracle que les détonateurs exposés sur une des bombes 
 n''aient pas explosé, ce qui aurait probablement libéré du matériel nucléaire dans l''environnement.', 'Un B-47 de l''USAF s''est écrasé dans un igloo de stockage, 
 répandant du carburant en feu sur trois bombes nucléaires de type Mark 6 à la RAF Lakenheath aucune explosions.', 'Un avion B-47 sans armes à bord effectuait une 
@@ -544,7 +743,7 @@ contamination ou de nettoyage n''a été signalé. Les armes endommagées et les
 '), 
 
 ('62d30105-5f61-45fc-b2b5-5bf6a3c5f186', 'e0afe998-f6ee-4706-9ba3-8978cc566a50', 'eb6b2205-2fbb-4e01-8113-c1fd6fa05e64', 'c9ecb03e-5daa-46b1-aa95-e40494ece2da', 
- 'AIR', True, False, '1957-05-22', 'Un B-36 transportant une arme nucléaire de la base aérienne de Biggs à la base aérienne de Kirtland a largué 
+ 'AIR',  '1957-05-22', 'Un B-36 transportant une arme nucléaire de la base aérienne de Biggs à la base aérienne de Kirtland a largué 
 une arme nucléaire lors de son approche de Kirtland. L''arme a frappé le sol à 4,5 miles au sud de la tour de contrôle de Kirtland et à 0,3 miles à l''ouest de la réserve de la base de Sandia. 
 L''arme a été complètement détruite par la détonation de son matériau explosif, créant un cratère de 12 pieds (3,7 m) de profondeur et 25 pieds (7,62 m) de diamètre. 
 La contamination radioactive au bord du cratère s''élevait à 0,5 milliroentgen.', 'Une arme nucléaire est accidentellement larguée lors de l''approche de la base aérienne de Kirtland, 
@@ -560,7 +759,7 @@ du cratère, à ce niveau, la concentration était de 0,5 milliroentgens. Aucun 
  bord de l''avion mais la capsule n''était pas insérée pour des raisons de sécurité et une détonation nucléaire n''était pas possible.
 '),
 
-('6eac2f24-e79d-46e1-8918-b770ee8136e9', '4da5af20-5a6b-4713-8e44-e03e49de6caf', 'da108b16-8696-43f0-ad7a-81f95b2cbf51', NULL, 'AIR', True, False, '1957-07-28', 
+('6eac2f24-e79d-46e1-8918-b770ee8136e9', '4da5af20-5a6b-4713-8e44-e03e49de6caf', 'da108b16-8696-43f0-ad7a-81f95b2cbf51', NULL, 'AIR',  '1957-07-28', 
 'Un avion C-124 de l''USAF en provenance de la base aérienne de Dover, dans le Delaware, transportait trois armes et une capsule nucléaire à bord à ce moment-là. Aucun composant nucléaire
 n''était installé dans les armes. En survolant l''océan Atlantique, l''avion a connu une perte de puissance. Par souci de leur propre sécurité, l''équipage a largué deux bombes qui
 n''ont jamais été retrouvées.', 'Un avion C-124 de l''USAF transportant des armes nucléaires a subi une perte de puissance au-dessus de l''Atlantique. L''équipage a largué deux bombes, 
@@ -577,7 +776,7 @@ avec la surface de l''océan. Il est également présumé que les deux armes ont
 La profondeur de l''océan varie dans la zone des largages. Le C-124 a atterri sur un terrain d''aviation à proximité d''Atlantic City, dans le New Jersey, 
 avec l''arme restante et la capsule nucléaire à bord. Une recherche des armes ou des débris a donné des résultats négatifs.'),
 
-('c52334b2-2642-44c5-be64-58ab88f717eb', 'c92091cf-0e8a-4448-94f1-01db18dfc16d', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'AIR', True, False, '1957-10-11', 
+('c52334b2-2642-44c5-be64-58ab88f717eb', 'c92091cf-0e8a-4448-94f1-01db18dfc16d', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'AIR',  '1957-10-11', 
 'Un avion B-47 s''est écrasé lors du décollage après qu''une roue ait explosé, résultant à un crash.
 L''avion transportait une arme en configuration de transport et une capsule nucléaire.
 L''arme était enveloppée de flammes pendant environ quatre heures entrainant deux détonations de faible puissance 
@@ -592,7 +791,7 @@ de haute explosivité ont eu lieu pendant la combustion. La capsule nucléaire e
 ont été récupérés intacts et légèrement endommagés par la chaleur. Environ la moitié de l''arme est restée. 
 Tous les composants principaux étaient endommagés mais identifiables et comptabilisés.'),
 
-('1c7bd784-8888-4310-9616-4594970dc5cd', '834674f1-a714-4fbc-80d3-a4e56012fc75', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'AIR', True, False, '1958-01-31', 
+('1c7bd784-8888-4310-9616-4594970dc5cd', '834674f1-a714-4fbc-80d3-a4e56012fc75', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'AIR',  '1958-01-31', 
 'Lors d''un décollage simulé, une défaillance du moulage de la roue a provoqué le contact de la queue d''un B-47 de l''USAF transportant une arme nucléaire armée avec la piste, 
 entraînant la rupture d''un réservoir de carburant et déclenchant un incendie. Une certaine contamination a été détectée immédiatement après l''accident.', 
 'Un B-47 transportant une arme nucléaire, a eu un accident lors d''un décollage simulé en raison d''une défaillance de la roue, entraînant un incendie et une contamination détectée après.', 
@@ -612,7 +811,7 @@ légère contamination alpha jusqu''à ce qu''ils soient lavés.
 les roues des B-47 ont été vérifiées pour détecter d''éventuels défauts.'),
 
 ('36b2e00c-9fd7-46a7-999c-01fe3e2d8aec', '3faa58b9-ae1e-4e2b-bf99-479370fbaf05', '17b07385-af78-4a3f-be0b-4e4aea923023', '2957a217-cea8-492c-97d9-3f52116b4752', 
- 'AIR', True, False, '1958-02-05', 'Un bombardier B-47 de l''USAF a largué une bombe nucléaire Mark 15 Mod 0 (la capsule nucléaire 
+ 'AIR',  '1958-02-05', 'Un bombardier B-47 de l''USAF a largué une bombe nucléaire Mark 15 Mod 0 (la capsule nucléaire 
 n''était pas à bord de l''avion ; la bombe contenait une capsule simulée de 150 livres (68 kg) en plomb) au-dessus de l''océan Atlantique après une collision
  en plein vol avec un F-86 Sabre de l''USAF lors d''une mission de combat simulée depuis la base aérienne de Homestead, en Floride. Le pilote du F-86 
 s''est éjecté et a sauté en parachute en toute sécurité. L''USAF a affirmé que le B-47 avait tenté d''atterrir à la base aérienne de Hunter, en Géorgie, 
@@ -637,7 +836,7 @@ après une collision en plein vol.', 'Le B-47 effectuait une mission de combat s
  L''arme était considérée comme irrémédiablement perdue.'),
 
 ('ac79b072-178a-4615-9830-5e6ad2bea835', '7847da43-50df-4873-8b15-d1dc3a587ec3', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', 'afb2411a-3a4b-4f7f-9d53-880ab8122073', 
- 'AIR', True, False, '1958-02-28', 'Un B-47 basé à la base aérienne américaine de Greenham Common, en Angleterre, aurait été chargé d''une arme 
+ 'AIR',  '1958-02-28', 'Un B-47 basé à la base aérienne américaine de Greenham Common, en Angleterre, aurait été chargé d''une arme 
 nucléaire lorsqu''il a pris feu et a complètement brûlé. En 1960, des signes de contamination radioactive de haut niveau ont été détectés autour de la base par un 
 groupe de scientifiques travaillant à l''Atomic Weapons Research Establishment (AWRE). Le gouvernement américain n''a jamais confirmé si l''accident impliquait une 
 ogive nucléaire.', 'bubble : Un B-47 basé à Greenham Common, en Angleterre, a pris feu en 1960, entraînant des signes de contamination radioactive détectés autour de la base.
@@ -654,7 +853,7 @@ frappé le sol à 65 pieds (20 m) derrière un B-47E garé. L''avion stationné,
  stationné et qu''aucun incendie n''était impliqué.'),
  
  ('3a6b8e2f-0840-406a-9dd9-c72e9f005591', 'caf8794f-b0f1-467d-8401-04eb92b4fae6', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', '848d8b24-fd4b-43b4-a08d-8cf03de9f5fe', 
- 'AIR', True, False, '1958-03-11', 'Le 11 mars 1958, à 15h53 HNE, un B-47E a décollé de la base aérienne de Hunter, en Géorgie, en tant que troisième 
+ 'AIR',  '1958-03-11', 'Le 11 mars 1958, à 15h53 HNE, un B-47E a décollé de la base aérienne de Hunter, en Géorgie, en tant que troisième 
 appareil d''un vol de quatre en route vers une base à l''étranger. Après avoir atteint une altitude de 15 000 pieds, l''avion a accidentellement largué une arme nucléaire 
 non armée qui a impacté une zone peu peuplée à 6½ miles à l''est de Florence, en Caroline du Sud. Le matériau explosif de haute puissance de la bombe a explosé à l''impact. 
 La détonation a causé des dommages matériels et plusieurs blessures au sol. L''avion est retourné à la base sans autre incident. Aucune capsule de matériaux nucléaires 
@@ -672,7 +871,7 @@ Une maison à proximité a été détruite et plusieurs personnes ont été bles
 Une détonation nucléaire n''était pas possible car, à bord, le cœur de l''arme n''était pas dans
  l''arme pour des raisons de sécurité.'),
 
-('b7206684-7c06-4fb0-ad0f-ea45c4a7c44a', '6946917e-98a9-4934-aa97-8d2f135305d8', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'AIR', True, False, '1958-11-04', 
+('b7206684-7c06-4fb0-ad0f-ea45c4a7c44a', '6946917e-98a9-4934-aa97-8d2f135305d8', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL, 'AIR',  '1958-11-04', 
 'Un bombardier B-47 de l''USAF a pris feu peu après le décollage et s''est écrasé avec une arme nucléaire à bord depuis une altitude de 1 500 pieds (460 m). 
 La détonation du matériau explosif de haute puissance dans la bombe a créé un cratère de 6 pieds (1,8 m) de profondeur et 35 pieds (10,7 m) de diamètre. 
 Trois membres de l''équipage ont réussi à s''échapper, et un a été tué.', 'Un B-47 de l''USAF s''est écrasé peu après le décollage avec une arme nucléaire à bord.
@@ -683,14 +882,14 @@ l''un a été tué lorsque l''avion s''est écrasé d''une altitude de 1 500 pie
  diamètre (10,7 m) et six pieds de profondeur (1,8 m). Des matériaux nucléaires ont été récupérés
  près du site de l''accident.'),
  
- ('7869563e-856c-4db1-b632-9a1db95f974f', '2e84a913-5e6a-4985-acb8-3c6f033917c3', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL,  'LAND', True, False,
+ ('7869563e-856c-4db1-b632-9a1db95f974f', '2e84a913-5e6a-4985-acb8-3c6f033917c3', 'e3189ecb-a196-4b5d-94ea-9d5f3fb2a0e1', NULL,  'LAND', 
 '1958-11-26', 'Un B-47 a pris feu au sol. L''unique arme nucléaire à bord a été détruite par le feu. La contamination s''est limitée à la proximité immédiate des résidus 
 de l''arme dans les débris de l''avion.', 'Un B-47 a pris feu au sol. L''unique arme nucléaire à bord a été détruite par le feu.', 'Un bombardier B-47 de 
 l''USAF avec une arme nucléaire à bord a pris feu au sol. 
 Les débris de l''avion et le site de l''accident ont été contaminés après une explosion 
 limitée de matériaux non nucléaires.'),
 
-('873e7e01-a47e-47a0-9beb-d3ebcb10981f', '7fc5a702-bc63-4e96-997b-6bae686f976d', 'f41ab580-62d8-410c-8017-60801e70852e', NULL, 'AIR', True, False, 
+('873e7e01-a47e-47a0-9beb-d3ebcb10981f', '7fc5a702-bc63-4e96-997b-6bae686f976d', 'f41ab580-62d8-410c-8017-60801e70852e', NULL, 'AIR',  
 '1959-01-18', 'Un F-100C Super Sabre de l''USAF garé, chargé d''une arme nucléaire, a pris feu après que ses réservoirs de carburant externes aient été largués et 
 aient explosé lors d''une alerte d''entraînement. L''incendie qui en a résulté a été éteint en sept minutes et il n''y a pas eu d''explosion nucléaire. 
 Lorsqu''il a été initialement divulgué en 1980, l''emplacement a été initialement identifié comme étant sur une base de la région du Pacifique. 
@@ -705,7 +904,7 @@ La capsule n''était pas à proximité de l''avion et n''était pas impliquée d
 Il n''y a eu aucun problème de contamination ou de nettoyage.'), 
 
 ('bbbda961-99bc-4808-a96f-0fc9bc55ca75', 'f86a3f49-86c8-49d2-9980-c12eaf1557a3', 'da108b16-8696-43f0-ad7a-81f95b2cbf51', '8682cd74-b3ae-4523-a916-e280a48bbd08', 
- 'AIR', True, False, '1959-07-05', 'Un C-124 de l''USAF transportant trois armes nucléaires scellées de type Mark 39 Mod 2 s''est écrasé et 
+ 'AIR',  '1959-07-05', 'Un C-124 de l''USAF transportant trois armes nucléaires scellées de type Mark 39 Mod 2 s''est écrasé et 
 a pris feu lors du décollage. Les explosifs de haute puissance n''ont pas explosé, mais une arme a été complètement détruite par le feu, 
 et les deux autres ont subi des dommages dus à la chaleur et à des fuites de tritium. La zone des débris a connu une contamination limitée.', 
 'Un C-124 transportant trois armes nucléaires s''est écrasé et a pris feu lors du décollage.', 'Un C-124 en mission de mouvement logistique nucléaire s''est écrasé au décollage. 
@@ -716,7 +915,7 @@ limitée était présente sur une très petite zone immédiatement sous l''arme 
 Cette contamination n''a pas entravé les opérations de sauvetage ou de lutte contre l''incendie.'),
 
 ('becf3693-5cbd-4ead-a845-951cf7aa6af8', '3c8ee5a7-2c90-45c7-9f01-b93e8c1ed85d', '4e674f2f-d87b-462a-b8e2-a4f06ed48dcf', '2b4d9ef8-430c-4331-99cc-6fb114f3e296', 
- 'SEA', True, False, '1959-09-25', 'Un avion anti sous-marin de l''US Navy P5M, en patrouille depuis la base aéronavale de NAS Whidbey Island avec
+ 'SEA',  '1959-09-25', 'Un avion anti sous-marin de l''US Navy P5M, en patrouille depuis la base aéronavale de NAS Whidbey Island avec
 un boîtier de charge nucléaire sous-marine Mark 90 non armé à bord, s''est écrasé dans l''océan Pacifique, à environ 100 miles (160 km) à l''ouest de la frontière entre Washington 
 et l''Oregon. Le boîtier n''a pas été récupéré.', 'Un P5M en patrouille s''est écrasé dans l''océan Pacifique. Le boîtier n''a pas été récupéré.', 
 'Un avion de la marine américaine de type P5M s''est écrasé dans le Puget Sound au large 
@@ -724,7 +923,7 @@ de l''île de Whidbey, dans l''océan Pacifique, à environ 100 miles (160 km) �
 entre Washington et l''Oregon. Il transportait une arme anti-sous-marine 
 nucléaire non armée ne contenant pas de matériau nucléaire. L''arme n''a pas été récupérée.'),
 
-('24eeaeec-9951-4da6-9a8a-d67db0a5b978', 'af823dba-7bb8-4de1-96d6-c7c09f3db832', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, 'AIR', True, False, 
+('24eeaeec-9951-4da6-9a8a-d67db0a5b978', 'af823dba-7bb8-4de1-96d6-c7c09f3db832', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, 'AIR',  
 '1959-12-15', 'Après le décollage des deux avions de la base aérienne de Columbus dans le Mississippi, un B-52F-100-BO de l''USAF (n°57-036), avec deux armes nucléaires, 
 est entré en collision à 32 000 pieds (9 754 m) avec un avion ravitailleur KC-135 (n°57-1513), pendant une procédure de ravitaillement en vol près de Hardinsburg, Kentucky. 
 Les deux avions se sont écrasés, tuant huit membres d''équipage. Une arme nucléaire non armée a été partiellement endommagée, mais aucune contamination n''en a résulté.', 
@@ -745,7 +944,7 @@ quitter le B-52. Les quatre membres d''équipage du KC-135 ont été mortellemen
  L''une d''elles avait été partiellement brûlée, mais cela n''a pas entraîné 
  la dispersion de matériau nucléaire ou d''autres contaminations.'),
 
-('79886cc2-0b31-44c2-bfdb-35ef3e474e03', '2ecc35a6-b415-4780-a480-da9238d46c82', '2f93905f-4492-4ef7-9e20-dce0420581fe', NULL, 'LAND', True, False, 
+('79886cc2-0b31-44c2-bfdb-35ef3e474e03', '2ecc35a6-b415-4780-a480-da9238d46c82', '2f93905f-4492-4ef7-9e20-dce0420581fe', NULL, 'LAND',  
 '1960-06-07', 'Un réservoir d''hélium a explosé et a rompu les réservoirs de carburant d''un missile surface-air BOMARC-A de l''USAF à la base aérienne de McGuire, 
 dans le New Jersey. Le feu a détruit le missile et a contaminé la zone directement en dessous et adjacente au missile.', 'Un réservoir d''hélium a explosé et a rompu les réservoirs de carburant 
 d''un missile surface-air BOMARC-A.', 'À la base aérienne de McGuire, dans le New Jersey, un missile de défense 
@@ -759,7 +958,7 @@ guerre a également été détruite par le feu bien que l''explosif de haute
  écoulement d''eau d''extinction des incendies.'),
  
  ('d15b8954-d7de-469c-878e-e41e68da17ae', '84511857-fe56-4adb-84af-4dcb2ede87e4', '02c75786-ae90-4690-bb47-44e99b822c90', '8682cd74-b3ae-4523-a916-e280a48bbd08', 
- 'AIR', True, False, '1960-01-24', 'Lors d''une mission d''alerte en vol du B-52, une défaillance structurelle de l''aile droite a entraîné la 
+ 'AIR',  '1960-01-24', 'Lors d''une mission d''alerte en vol du B-52, une défaillance structurelle de l''aile droite a entraîné la 
 séparation de deux armes de l''avion lors de la désintégration de l''aéronef à une altitude de 2 000 à 10 000 pieds. Un parachute de bombe s''est déployé et 
 l''arme a subi peu de dommages à l''impact. L''autre bombe est tombée librement et s''est brisée à l''impact. Aucune explosion ne s''est produite. 
 Cinq des huit membres d''équipage ont survécu. Une partie d''une arme, contenant de l''uranium, n''a pas pu être récupérée malgré l''excavation dans les terres agricoles 
@@ -786,7 +985,7 @@ La plupart de l''étage thermonucléaire, contenant de l''uranium, est restée s
 On estime qu''elle se trouve à environ 55 pieds (17 m) sous terre. L''US Air Force a acheté le terrain et l''a clôturé pour 
 empêcher toute perturbation, et il est régulièrement testé pour la contamination, bien qu''aucune n''ait été trouvée jusqu''à présent.'),
 
-('185cf919-c639-4598-a324-628737808aa2', '539a0106-5af7-410d-8cc6-a401fc4f2717', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, 'AIR', True, False, 
+('185cf919-c639-4598-a324-628737808aa2', '539a0106-5af7-410d-8cc6-a401fc4f2717', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, 'AIR',  
 '1961-03-14', 'Un bombardier B-52 de l''USAF a quitté la base aérienne de Mather, en Californie, et a subi un événement de décompression qui l''a contraint à voler en 
 dessous de 10 000 pieds. La consommation de carburant accrue qui en a résulté a entraîné une épuisement du carburant ; l''avion s''est écrasé près de Yuba City, en Californie,
  avec deux bombes nucléaires, qui n''ont pas déclenché d''explosion nucléaire.', 'Suite à une décompression forçant un avion transportant 2 bombes nucléaires à voler bas,
@@ -799,7 +998,7 @@ accrue a entraîné une épuisement du carburant avant le rendez-vous avec un av
  puissance n''ont pas explosé. Les dispositifs de sécurité ont fonctionné comme prévu et 
  il n''y a eu aucune contamination nucléaire.'),
  
- ('5b753ed6-a4dd-49e2-9e84-89b0447b162a', '747a7569-a8c8-47ca-bb59-d2004fa78529', 'f285e904-35b7-4eaf-bee0-4f74102db8d5', NULL, 'SEA', True, False, 
+ ('5b753ed6-a4dd-49e2-9e84-89b0447b162a', '747a7569-a8c8-47ca-bb59-d2004fa78529', 'f285e904-35b7-4eaf-bee0-4f74102db8d5', NULL, 'SEA',  
 '1961-07-04', 'Un système de refroidissement a échoué, contaminant les membres d''équipage, les missiles et certaines parties d''un sous-marin à missiles balistiques 
 nucléaires de classe K-19 "Hotel" soviétique au large de la Norvège. L''un des deux réacteurs du sous-marin a atteint 800 degrés Celsius et menacé de faire fondre 
 les barres de combustible du réacteur. Plusieurs décès ont été signalés.', 'Dysfonctionnement du système de refroidissement du cœur du réacteur nucléaire.', 
@@ -811,7 +1010,7 @@ son système de refroidissement. Les températures du cœur du réacteur ont att
  missiles balistiques à bord et l''équipage, entraînant plusieurs décès.'),
 
 ('b3a75ceb-aa02-49cb-b4f5-54f12fb976bb', 'a8f562a2-a679-4457-af3f-f1e23a7816c9', '02c75786-ae90-4690-bb47-44e99b822c90', 'cf5ca691-9179-4566-9c90-048296843a15', 
- 'AIR', True, False, '1964-01-13', 'Un B-52 de l''USAF en alerte aérienne a rencontré une violente tempête hivernale et des turbulences extrêmes, 
+ 'AIR',  '1964-01-13', 'Un B-52 de l''USAF en alerte aérienne a rencontré une violente tempête hivernale et des turbulences extrêmes, 
 se désintégrant finalement en plein vol au-dessus du sud de la Pennsylvanie. Seuls les deux pilotes ont survécu. Un membre de l''équipage n''a pas réussi à sauter
 en parachute et les autres ont succombé à leurs blessures ou à l''exposition aux conditions météorologiques hivernales rigoureuses. Une recherche des armes manquantes a
  été lancée, et la récupération a été effectuée à partir de parties de l''épave sur une ferme au nord-ouest de Frostburg, dans le Maryland.', 'Un B-52 à été désintégré 
@@ -834,7 +1033,7 @@ extrême et des vents violents. Les deux armes sont restées dans l''avion jusqu
 et étaient relativement intactes dans le centre approximatif de la zone des débris.'),
 
 ('5d3f3999-3611-4053-b4a1-f9053f216b9c', '3976bf8e-5687-4849-8e73-ba0d457fdead', NULL, '65600023-bac7-454a-aef3-5de5459142a5',
-  'LAND', True, False, '1964-12-05', 'La tête nucléaire s''est séparée dans le tube de lancement en raison d''un court-circuit électrique et est tombée au fond du tube. Au site de lancement 
+  'LAND',  '1964-12-05', 'La tête nucléaire s''est séparée dans le tube de lancement en raison d''un court-circuit électrique et est tombée au fond du tube. Au site de lancement 
  Lima-02 près de Vale, Dakota du Sud. Le site de lancement faisait partie de l''ancienne 44e escadre de missiles à la base aérienne d''Ellsworth, Dakota du Sud.', 
 'La tête nucléaire s''est séparée dans le tube de lancement et est tombée au fond du tube.', 'Le missile LGM 30 Minuteman I était en alerte stratégique au Launch Facility (LF) L-02, 
 à la base aérienne d''Ellsworth, dans le Dakota du Sud. Deux aviateurs ont été envoyés
@@ -849,7 +1048,7 @@ et étaient relativement intactes dans le centre approximatif de la zone des dé
  radioactive.'),
  
  ('c2218be2-52eb-4706-870b-71046548dccc', '7f54a225-4b8d-4ef9-b20e-f830d9e3b32e', 'b0bdc2c3-4ae4-4ab4-9dcf-52c4693a3e8e', 'fb5f9adb-6902-499a-ba53-d70442cd3c5b', 
- 'AIR', True, False, '1964-12-08', 'Un avion B-58 de l''USAF transportant une bombe nucléaire B53 à l''intérieur et quatre bombes nucléaires B43 
+ 'AIR',  '1964-12-08', 'Un avion B-58 de l''USAF transportant une bombe nucléaire B53 à l''intérieur et quatre bombes nucléaires B43 
 à l''extérieur a pris feu lorsqu''il roulait après l''effondrement de son train d''atterrissage. La B53 a brûlé, provoquant une contamination de la zone de l''accident. 
 Deux des B43 ont causé une certaine contamination au plutonium et à l''uranium.', 'Un avion B-58 de l''USAF transportant des bombes nucléaires a pris feu lorsqu''il roulait suite 
 l''effondrement de son train d''atterrissage.', 'Les avions de la SAC roulaient lors d''un exercice d''alerte. 
@@ -868,7 +1067,7 @@ l''avion devant a augmenté la puissance. En raison de la combinaison de la pous
  Des parties des cinq armes nucléaires à bord ont brûlé ; la contamination était limitée à 
  la zone immédiate de l''accident et a été ensuite éliminée.'),
  
- ('d0473640-9d8f-4b75-b9f6-7988295d21d5', '0b6c9363-7982-4403-b087-c8bdda1d17f8', NULL, NULL, 'LAND', True, False, '1965-10-11', 
+ ('d0473640-9d8f-4b75-b9f6-7988295d21d5', '0b6c9363-7982-4403-b087-c8bdda1d17f8', NULL, NULL, 'LAND',  '1965-10-11', 
 'Un incendie à Rocky Flats a exposé un équipage de 25 personnes à jusqu''à 17 fois la limite légale de radiation.', 'Un incendie a exposé un équipage à de fortes radiation.', 
 'L''avion était en train d''être ravitaillé en préparation d''une mission logistique de routine 
 lorsqu''un incendie s''est déclaré à l''extrémité arrière de la remorque de ravitaillement. 
@@ -879,7 +1078,7 @@ trouvée sur l''avion, le fret et les vêtements du personnel de déminage et de
 l''incendie, et a été éliminée par un nettoyage normal.'),
 
 ('3c1d19cc-88df-4484-8967-137d539b9b22', 'd083b8e3-9288-4ca5-834e-a152b385fcdd', '2cff1fc6-f2b7-4521-8d72-5949fdf17ef2', 'bc08bf58-4ba9-4b5e-8080-176662a112fd', 
- 'AIR', True, False, '1965-12-05', 'Un avion d''attaque A-4E Skyhawk chargé d''une bombe nucléaire B43 a dérapé du pont de l''USS Ticonderoga. 
+ 'AIR',  '1965-12-05', 'Un avion d''attaque A-4E Skyhawk chargé d''une bombe nucléaire B43 a dérapé du pont de l''USS Ticonderoga. 
 Le pilote, l''avion et l''arme n''ont jamais été retrouvés. L''incident s''est produit à plus de 500 miles des côtes.', 'Un avion d''attaque A-4E Skyhawk chargé d''une bombe 
 nucléaire B43 a dérapé du pont de l''USS Ticonderoga. ', 'Un avion A-4E Skyhawk de l''US Navy avec une bombe nucléaire B43 à bord est tombé 
 du porte-avions USS Ticonderoga dans 16 200 pieds (4 900 m) d''eau alors que le navire se 
@@ -890,13 +1089,13 @@ l''accident aurait eu lieu à 68 miles (59 nmi ; 109 km) de l''île de Kikai, pr
 Les documents de l''US Navy montrent plus tard qu''il s''est produit à environ 80 miles (130 km) des îles 
 Ryukyu et à 200 miles (320 km) d''Okinawa.'),
 
-('d14b7e95-a2d5-4726-84f3-ca3372494797', 'ffe3bcbc-5619-496d-a823-a87c71f0b0c7', NULL, NULL, 'SEA', True, False, '1960-06-15', 
+('d14b7e95-a2d5-4726-84f3-ca3372494797', 'ffe3bcbc-5619-496d-a823-a87c71f0b0c7', NULL, NULL, 'SEA',  '1960-06-15', 
 'Le brise-glace nucléaire soviétique Lénine a été contraint de larguer ses réacteurs dans la mer de Kara. Selon certains récits, le Lénine aurait subi une fusion de 
 réacteur.', 'Le brise-glace nucléaire a été contraint de larguer ses réacteurs dans la mer de Kara ', 'Le brise-glace nucléaire soviétique Lénine a été contraint de 
 larguer ses réacteurs dans la mer de Kara. 
 Selon certains récits, le Lénine aurait subi une fusion de réacteur.'),
 
-('3e04326e-07e2-4e8c-87f8-ec5102e29399', '9de586dd-dc28-4dfe-9b6c-362d6623f9a7', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, 'AIR', True, False, 
+('3e04326e-07e2-4e8c-87f8-ec5102e29399', '9de586dd-dc28-4dfe-9b6c-362d6623f9a7', '02c75786-ae90-4690-bb47-44e99b822c90', NULL, 'AIR',  
 '1966-01-17', 'Le B-52 et le KC-135 sont entrés en collision lors d''une opération de ravitaillement en vol à haute altitude routinière. Les deux avions se sont écrasés 
 près de Palomares, en Espagne. Quatre des onze membres d''équipage ont survécu. Le B-52 transportait quatre armes nucléaires. Une a été récupérée sur terre, et une autre 
 a été récupérée en mer le 7 avril, après d''importants efforts de recherche et de récupération. Deux des explosifs à haut rendement des armes ont explosé à l''impact avec le sol, 
@@ -921,7 +1120,7 @@ dans celui du plongeur de l''USN, le chef principal Billy Sunday, contenait un r
 récupération de la quatrième bombe.'),
 
 ('7dfeca96-bab8-4c4c-88ae-d83426e7b936', '6d7d79ca-8ccb-48db-b5b3-968134ebb131', '02c75786-ae90-4690-bb47-44e99b822c90', 'afb2411a-3a4b-4f7f-9d53-880ab8122073', 
- 'AIR', True, False, '1968-01-21', 'Un B-52 de la base aérienne de Plattsburgh, dans l''État de New York, s''est écrasé et a brûlé à environ sept 
+ 'AIR',  '1968-01-21', 'Un B-52 de la base aérienne de Plattsburgh, dans l''État de New York, s''est écrasé et a brûlé à environ sept 
 miles au sud-ouest de la piste à la base de Thule, au Groenland, alors qu''il s''approchait de la base pour atterrir. Six des sept membres d''équipage ont survécu. 
 Le bombardier transportait quatre armes nucléaires, toutes détruites par le feu. Une certaine contamination radioactive s''est produite dans la zone de l''accident, 
 qui était sur la glace de mer. Environ 237 000 pieds cubes de glace, de neige et d''eau contaminées, avec des débris de l''accident, ont été enlevés vers un site de 
@@ -941,7 +1140,7 @@ Amarillo, au Texas. L''incident a provoqué l''indignation et des manifestations
 le Groenland étant une possession danoise, et le Danemark interdisant les armes nucléaires 
 sur son territoire.'),
 
-('215c3ff0-777d-4690-b2c1-1c60f669c499', 'bf10f987-9639-47d7-b389-eaefa460f4b8', 'c1e3b054-bf99-4b1a-a091-546389201d68', NULL, 'SEA', True, False, 
+('215c3ff0-777d-4690-b2c1-1c60f669c499', 'bf10f987-9639-47d7-b389-eaefa460f4b8', 'c1e3b054-bf99-4b1a-a091-546389201d68', NULL, 'SEA',  
 '1968-03-08', 'Le sous-marin nucléaire soviétique K-129 a coulé avec un équipage de 98 personnes à la suite d''une explosion de cause inconnue. L''Agence internationale de 
 l''énergie atomique a déclaré que deux ogives nucléaires du K-129 ont été localisées dans le Pacifique à 1 230 miles de Kamtchatka aux coordonnées 40°6''N et 179°57''E, à une profondeur 
 de 6 000 mètres (20 000 pieds), et les répertorie comme récupérées.', 'Le sous-marin nucléaire soviétique K-129 a coulé à la suite d''une explosion de cause inconnue.', 
@@ -951,7 +1150,7 @@ a déclaré que deux ogives nucléaires du K-129 ont été localisées dans le P
 1 230 miles de Kamtchatka aux coordonnées 40°6''N et 179°57''E, à une profondeur de 6 000 mètres 
 (20 000 pieds), et les répertorie comme récupérées.'),
 
-('335ce885-78e8-4aac-b84e-77d7dea11bf4', '46d08f51-c536-41b4-8974-9446c798a7ff', 'e5a26f91-e3cc-49ec-a8dc-59401dbd70ed', 'e1cee907-cde0-4182-9615-3f47a717b230', 'SEA', True, False,
+('335ce885-78e8-4aac-b84e-77d7dea11bf4', '46d08f51-c536-41b4-8974-9446c798a7ff', 'e5a26f91-e3cc-49ec-a8dc-59401dbd70ed', 'e1cee907-cde0-4182-9615-3f47a717b230', 'SEA', 
 '1968-05-22', 'Le sous-marin américain USS Scorpion a coulé en route de Rota, en Espagne, à Norfolk, en Virginie, aux États-Unis. 
 La cause du naufrage reste inconnue ; les 99 officiers et hommes à bord ont été tués. La révision complète initiale du Scorpion a été réduite en
  ampleur. Des travaux SUBSAFE depuis longtemps prévus, tels qu''un nouveau système de commande de valve central, n''ont pas été réalisés. Les débris du 
@@ -965,12 +1164,12 @@ tels qu''un nouveau système de commande de valve central, n''ont pas été réa
 Les débris du sous-marin, son réacteur nucléaire S5W et ses deux torpilles Mark 45 
 avec des têtes nucléaires W34, restent au fond de la mer dans plus de 3 000 mètres (9 800 pieds) d''eau.'),
 
-('bec83840-d90b-4983-8020-c93c162da1e4', 'a9d0c174-7192-4401-bb43-226b0410ad20', NULL, NULL, 'SEA', True, False, '1969-11-15', 
+('bec83840-d90b-4983-8020-c93c162da1e4', 'a9d0c174-7192-4401-bb43-226b0410ad20', NULL, NULL, 'SEA',  '1969-11-15', 
 'Le sous-marin nucléaire américain Gato aurait heurté un sous-marin soviétique le 14 ou 15 novembre 1969, près de l''entrée de la mer Blanche.', 
 'Collision de 2 sous marins (américain et soviétique).', 'Le sous-marin nucléaire américain Gato aurait heurté un sous-marin soviétique le 14 ou 15 novembre 1969,
 près de l''entrée de la mer Blanche.'),
 
-('86cd5c0c-e630-469a-9c64-bafcad50e372', '4da5af20-5a6b-4713-8e44-e03e49de6caf', '4a68c69a-69c8-49ab-a141-11c5e14c933c', NULL, 'SEA', True, False, '1970-04-12', 
+('86cd5c0c-e630-469a-9c64-bafcad50e372', '4da5af20-5a6b-4713-8e44-e03e49de6caf', '4a68c69a-69c8-49ab-a141-11c5e14c933c', NULL, 'SEA',  '1970-04-12', 
 'Le sous-marin d''attaque de classe soviétique de novembre, le K-8, a sombré lors de sa récupération avec 52 marins à bord après avoir subi des 
 incendies dans deux compartiments simultanément. Les deux réacteurs ont été arrêtés. L''équipage a tenté d''attacher une ligne de remorquage à un 
 navire marchand du bloc de l''Est, mais a finalement échoué.', 'Le sous-marin d''attaque soviétique a sombré après avoir subi des incendies dans deux compartiments 
@@ -979,7 +1178,7 @@ apparent de propulsion nucléaire dans l''océan Atlantique, à environ 300 mile
 Bien qu''une tentative ait été faite pour attacher une ligne de remorquage depuis un navire marchand 
 du bloc soviétique, le sous-marin a apparemment coulé, entraînant la mort de 52 personnes.'),
 
-('f183fdf8-27f2-4dfd-ba48-8fd72f20eec4', '19b19107-af22-4e78-aba4-92b7050ecdbb', '0a13cef9-3bc7-4b20-a8d8-d4206de9fc11', NULL, 'SEA', True, False, 
+('f183fdf8-27f2-4dfd-ba48-8fd72f20eec4', '19b19107-af22-4e78-aba4-92b7050ecdbb', '0a13cef9-3bc7-4b20-a8d8-d4206de9fc11', NULL, 'SEA',  
 '1975-11-22', 'Le porte-avions USS John F. Kennedy et le croiseur USS Belknap sont entrés en collision par mer agitée pendant la nuit lors d''exercices. Bien qu''il ait 
 été déclaré comme "un possible accident impliquant des armes nucléaires", aucune contamination nucléaire ultérieure n''a été découverte lors des opérations de lutte contre 
 l''incendie et de secours.', 'Collision de 2 Bateaux américains.', 'Le porte-avions USS John F. Kennedy et le croiseur USS Belknap sont entrés en
@@ -987,12 +1186,12 @@ l''incendie et de secours.', 'Collision de 2 Bateaux américains.', 'Le porte-av
  comme ''un possible accident impliquant des armes nucléaires'', aucune contamination 
  nucléaire ultérieure n''a été découverte lors des opérations de lutte contre l''incendie et de secours.'),
 
-('21316338-08e7-486c-8dc7-bea0db865bf0', '3f8f177c-e620-4421-bfc3-321ef75554d1', 'd6b7d88b-4fe0-40f5-8076-5ea4eac25085', NULL, 'SEA', True, False, 
+('21316338-08e7-486c-8dc7-bea0db865bf0', '3f8f177c-e620-4421-bfc3-321ef75554d1', 'd6b7d88b-4fe0-40f5-8076-5ea4eac25085', NULL, 'SEA',  
 '1977-06-15', 'Le sous-marin soviétique K-171 a accidentellement libéré une ogive nucléaire. L''ogive a été récupérée après une recherche impliquant des dizaines de navires
 et d''aéronefs.', 'Le sous-marin soviétique K-171 a accidentellement libéré une ogive nucléaire.', 'Le sous-marin soviétique K-171 a accidentellement libéré une ogive nucléaire. 
 L''ogive a été récupérée après une recherche impliquant des dizaines de navires et d''aéronefs.'),
 
-('21620073-a1ad-4338-950e-3ca1b448615c', '5925b33b-c553-4ebd-9f2b-13c440676a71', NULL, 'f3c55c85-1e06-4dd1-a3bc-c896d22f10db', 'AIR', True, False, 
+('21620073-a1ad-4338-950e-3ca1b448615c', '5925b33b-c553-4ebd-9f2b-13c440676a71', NULL, 'f3c55c85-1e06-4dd1-a3bc-c896d22f10db', 'AIR',  
 '1980-09-19', 'Vers 18h30, un aviateur effectuant une maintenance sur un missile Titan II de l''USAF sur le complexe de lancement 374-7 de la base aérienne de Little Rock, 
 situé à Southside (comté de Van Buren), juste au nord de Damascus, dans l''Arkansas, a laissé tomber une douille de neuf livres (4 kg) d''une clé à douille, qui est tombée 
 d''une hauteur d''environ 80 pieds (24 m) avant de percer la paroi externe du réservoir de carburant du premier étage de la fusée, provoquant une fuite. 
@@ -1014,7 +1213,7 @@ le véhicule de rentrée du missile, qui abritait une tête nucléaire, est rest
 été récupéré avec succès. Heureusement, il n''y a eu aucune contamination radioactive 
 résultant de l''incident.'),
 
-('9aeaad73-2f39-427e-9fab-fd60e5e627bf', '4da5af20-5a6b-4713-8e44-e03e49de6caf', NULL, NULL, 'SEA', True, False, '1986-10-03', 
+('9aeaad73-2f39-427e-9fab-fd60e5e627bf', '4da5af20-5a6b-4713-8e44-e03e49de6caf', NULL, NULL, 'SEA',  '1986-10-03', 
 'Un sous-marin nucléaire de classe "Yankee I" soviétique a subi une explosion et un incendie dans l''un de ses tubes lance-missiles à 480 miles à l''est des Bermudes. 
 Le sous-marin a coulé alors qu''il était remorqué le 6 octobre dans 18 000 pieds d''eau. Deux réacteurs nucléaires et environ 34 armes nucléaires étaient à bord.', 
 'Un sous-marin nucléaire soviétique a subi une explosion et un incendie dans 
@@ -1026,7 +1225,7 @@ au président américain Ronald Reagan avant de reconnaître publiquement l''inc
 Deux jours plus tard, le 6 octobre, le sous-marin a coulé dans l''océan Atlantique alors qu''il 
 était remorqué à une profondeur de 18 000 pieds (5 500 mètres).'),
 
-('0362a35a-b723-4c5d-baf9-03c39802b66b', '4da5af20-5a6b-4713-8e44-e03e49de6caf', '17b07385-af78-4a3f-be0b-4e4aea923023', NULL, 'SEA', True, False, 
+('0362a35a-b723-4c5d-baf9-03c39802b66b', '4da5af20-5a6b-4713-8e44-e03e49de6caf', '17b07385-af78-4a3f-be0b-4e4aea923023', NULL, 'SEA',  
 '1989-04-07', 'À environ 300 miles au nord de la côte norvégienne, le Komsomolets, un sous-marin d''attaque nucléaire soviétique, a pris feu et a coulé. 
 Le réacteur nucléaire du navire, deux torpilles armées de têtes nucléaires et 42 des 69 membres d''équipage ont été perdus.', 'Un sous-marin d''attaque nucléaire 
 soviétique, a pris feu et a coulé.',  'À environ 300 miles au nord de la côte norvégienne, le Komsomolets, 
@@ -1034,7 +1233,7 @@ un sous-marin d''attaque nucléaire soviétique, a pris feu et a coulé.
 Le réacteur nucléaire du navire, deux torpilles armées de têtes nucléaires et
  42 des 69 membres d''équipage ont été perdus.'),
  
- ('b15918d6-9186-4b89-8241-658d091763fb', '562f8f12-e576-4505-9aea-80ae77cb880c', 'f109493d-4165-411e-a3c6-670ce7af55c0', NULL, 'SEA', True, False, 
+ ('b15918d6-9186-4b89-8241-658d091763fb', '562f8f12-e576-4505-9aea-80ae77cb880c', 'f109493d-4165-411e-a3c6-670ce7af55c0', NULL, 'SEA',  
 '1985-08-10', 'À environ 35 miles (56 km) de Vladivostok, dans la baie de Chazhma, le sous-marin soviétique de classe Echo, K-431, a subi une explosion de réacteur, 
 produisant des niveaux de radioactivité mortellement élevés. Dix hommes ont été tués, mais le nuage de radioactivité mortelle n''a pas atteint Vladivostok.', 
 'Le sous-marin soviétique, le K-431, a subi une explosion de réacteur.', 'Pendant son séjour à l''installation de réparation de la baie de Chazhma,
@@ -1042,20 +1241,20 @@ produisant des niveaux de radioactivité mortellement élevés. Dix hommes ont �
  a subi une explosion de réacteur. L''explosion a libéré un nuage de radioactivité en 
  direction de Vladivostok mais n''a pas atteint la ville. Dix officiers ont été tués dans l''explosion.'),
 
-('b0a2431d-a18e-423e-8a98-8c7ac958dea4', 'a9d0c174-7192-4401-bb43-226b0410ad20', NULL, NULL, 'SEA', True, False, '1991-09-27', 
+('b0a2431d-a18e-423e-8a98-8c7ac958dea4', 'a9d0c174-7192-4401-bb43-226b0410ad20', NULL, NULL, 'SEA',  '1991-09-27', 
 'Un dysfonctionnement du lancement d''un missile s''est produit lors d''un essai sur 
 un sous-marin nucléaire lanceur de missiles de classe Typhoon.', 'Dysfonctionnement lors d''un esai de lancement de missile.', 'Un dysfonctionnement du lancement 
 d''un missile s''est produit lors d''un 
 essai sur un sous-marin nucléaire lanceur de missiles de classe Typhoon.'),
 
-('6093c400-4731-4d07-8bd4-916c2b8fc2c7', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'SEA', True, False, '1993-03-20', 
+('6093c400-4731-4d07-8bd4-916c2b8fc2c7', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'SEA',  '1993-03-20', 
 'Le sous-marin nucléaire américain Grayling est entré en collision avec un sous-marin nucléaire lanceur de missiles balistiques de classe Delta III russe. 
 Les deux navires ont apparemment subi des dommages mineurs.', 'Collision de 2 sous marins (américain et soviétique).', 'Le sous-marin nucléaire américain Grayling 
 est entré en collision avec un sous-marin nucléaire 
 lanceur de missiles balistiques de classe Delta III russe. Les deux navires ont apparemment 
 subi des dommages mineurs.'),
 
-('f93347fe-dc8f-4484-9e97-bb33388fc565', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'SEA', True, False, '1992-02-11', 
+('f93347fe-dc8f-4484-9e97-bb33388fc565', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'SEA',  '1992-02-11', 
 'Une collision entre un sous-marin d''attaque à propulsion nucléaire de classe Sierra de la Communauté des États indépendants (CEI) et le sous-marin d''attaque à 
 propulsion nucléaire américain Baton Rouge a eu lieu. Les deux navires ont apparemment subi des dommages mineurs. Il y a un différend sur l''emplacement de l''incident, dans
 ou à l''extérieur des eaux territoriales russes.', 'Collision de 2 sous marins américains.', 'Une collision entre un sous-marin d''attaque à propulsion nucléaire de classe 
@@ -1064,7 +1263,7 @@ propulsion nucléaire américain Baton Rouge a eu lieu. Les deux navires ont app
 subi des dommages mineurs. Il y a un différend sur l''emplacement de l''incident, 
 dans ou à l''extérieur des eaux territoriales russes.'),
 
-('4cdf34ba-faf6-427e-a9d8-9271fa380c92', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'SEA', True, False, '2000-08-12', 
+('4cdf34ba-faf6-427e-a9d8-9271fa380c92', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', NULL, NULL, 'SEA',  '2000-08-12', 
 'Le sous-marin de classe "Oscar II" de la Communauté des États indépendants (CEI), le Koursk, coule après une explosion massive à bord. Les tentatives de sauver
  les 118 hommes échouent. On pense qu''une défaillance de torpille a causé l''accident. Les niveaux de radiation sont normaux et le sous-marin ne transportait pas 
 d''armes nucléaires.', 'Le sous-marin Koursk coule après une explosion massive à bord.', 'Le sous-marin de classe "Oscar II" de la Communauté des États indépendants (CEI), 
@@ -1073,7 +1272,7 @@ Les tentatives de sauver les 118 hommes échouent.
 On pense qu''une défaillance de torpille a causé l''accident. 
 Les niveaux de radiation sont normaux et le sous-marin ne transportait pas d''armes nucléaires.'),
 
-('671af1ca-f7f1-4f20-b7e0-fee0716a2ca6', '9fd55656-c3ab-42f8-89d4-ea3357499a10', NULL, NULL, 'LAND', True, False, 
+('671af1ca-f7f1-4f20-b7e0-fee0716a2ca6', '9fd55656-c3ab-42f8-89d4-ea3357499a10', NULL, NULL, 'LAND',  
 '1942-06-01', 'L''accident de l''expérience Leipzig L-IV a été causé par une fuite d''air lors d''une inspection pour une éventuelle fuite d''eau lourde. 
 Cela a provoqué l''inflammation de la poudre d''uranium, faisant exploser le réacteur sous la pression de la vapeur, dispersant de l''uranium en combustion et 
 déclenchant un incendie dans le laboratoire.',
@@ -1084,14 +1283,14 @@ déclenchant un incendie dans le laboratoire.',
  poudre d''uranium à l''intérieur. L''uranium en combustion a fait bouillir la chemise d''eau, générant suffisamment de pression de vapeur pour 
  faire exploser le réacteur. La poudre d''uranium brûlant s''est dispersée dans le laboratoire, provoquant un incendie plus important dans l''installation.'),
  
-('75c5b626-9f3b-4ed1-bfa2-3a4b11a0945f', '568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', NULL, NULL, 'LAND', True, False, 
+('75c5b626-9f3b-4ed1-bfa2-3a4b11a0945f', '568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', NULL, NULL, 'LAND',  
 '1945-08-01', 'Harry Daghlian a laissé tomber une brique de carbure de tungstène sur un cœur de plutonium, créant involontairement une masse critique sur le site Omega de Los Alamos. 
 Il a rapidement retiré la brique, mais a été mortellement irradié et est décédé le 15 septembre.',
  'Une brique de carbure de tungstène est tombé sur un cœur de plutonium, créant involontairement une masse critique sur le site Omega de Los Alamos',
  'Harry Daghlian a laissé tomber une brique de carbure de tungstène sur un cœur de plutonium, créant involontairement une masse critique sur le site Omega de Los Alamos. 
 Il a rapidement retiré la brique, mais a été mortellement irradié et est décédé le 15 septembre.'),
 
-('08c5603e-ee96-46b6-859a-d56f44565cc3', '568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', NULL, NULL, 'LAND', True, False, 
+('08c5603e-ee96-46b6-859a-d56f44565cc3', '568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', NULL, NULL, 'LAND',  
 '1946-05-21', 'Louis Slotin, un physicien canadien à Los Alamos, a accidentellement provoqué une réaction critique en assemblant manuellement une masse de plutonium, causant une irradiation mortelle. 
 Il est décédé le 30 mai des suites de l''exposition à une dose élevée de radiation. Le "demon core", le même cœur de bombe utilisé par Slotin et Harry Daghlian, 
 a été ensuite fondu et intégré à du matériel militaire existant après ces incidents tragiques.',
@@ -1101,7 +1300,7 @@ a été ensuite fondu et intégré à du matériel militaire existant après ces
  soit 10 gray (Gy). Sept observateurs, ayant reçu des doses aussi élevées que 166 rads, ont survécu, mais trois sont décédés quelques décennies plus tard de conditions supposées liées à l''irradiation.
 Slotin travaillait avec le même cœur de bombe que Daghlian, qui est devenu connu sous le nom de "demon core". Il a ensuite été fondu et combiné avec du matériel grade militaire existant.'),
 
-('64f71cbe-7384-42d5-9772-669e951c1282', '62133a9f-eb5b-47de-bf53-0f2bef431b86', NULL, '0f0ab46d-8b47-4f5c-9de0-87c193187a26', 'LAND', True, False,
+('64f71cbe-7384-42d5-9772-669e951c1282', '62133a9f-eb5b-47de-bf53-0f2bef431b86', NULL, '0f0ab46d-8b47-4f5c-9de0-87c193187a26', 'LAND', 
 '1946-05-21', 'Pendant le test de Castle Bravo, la première bombe à hydrogène déployable, une erreur de calcul a provoqué une explosion deux fois plus grande que prévue, 
 avec une force de 15 mégatonnes de TNT. 
 La fission de l''uranium naturel a généré une importante quantité de retombées radioactives, qui se sont propagées de manière inattendue en raison d''un changement de vent.',
@@ -1116,14 +1315,14 @@ depuis souffert de brûlures dues aux radiations, de contamination par la poussi
 voire aucune compensation du gouvernement fédéral. Ce test a provoqué une indignation internationale et ravivé les préoccupations japonaises concernant les radiations, 
 notamment en ce qui concerne la contamination possible des poissons. Des témoignages personnels des habitants de Rongelap sont visibles dans le documentaire "Children of Armageddon"'),
 
-('3c65ccc9-8347-409d-8198-60782fac4f27', 'af0219b6-f262-494f-9de6-c37ee03b6748', NULL, NULL, 'LAND', True, False, 
+('3c65ccc9-8347-409d-8198-60782fac4f27', 'af0219b6-f262-494f-9de6-c37ee03b6748', NULL, NULL, 'LAND',  
 '1955-11-29', 'Une erreur opérationnelle a provoqué une fusion partielle du cœur dans le réacteur expérimental EBR-I à neutrons rapides, entraînant temporairement des 
 niveaux élevés de radioactivité dans le bâtiment du réacteur et nécessitant d''importantes réparations.',
  'Une erreur opérationnelle a provoqué une fusion partielle du cœur d''un réacteur',
  'Une erreur opérationnelle a provoqué une fusion partielle du cœur dans le réacteur expérimental EBR-I à neutrons rapides, entraînant temporairement 
  des niveaux élevés de radioactivité dans le bâtiment du réacteur et nécessitant d''importantes réparations.'),
 
- ('98b4e506-3545-4f1e-b86e-5845236d73f9', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL, 'LAND', True, False,
+ ('98b4e506-3545-4f1e-b86e-5845236d73f9', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL, 'LAND', 
 '1957-09-11', 'Un incendie dans une zone prétendument ignifuge du bâtiment de traitement du plutonium a entraîné la propagation de radioactivité, cachée au public pendant des années, 
 avec une contamination au plutonium détectée jusqu''à 48 km de l''usine de Rocky Flats',
  'Un incendie dans une zone prétendument ignifuge du bâtiment de traitement du plutonium a entraîné la propagation de radioactivité, cachée au public pendant des années, 
@@ -1139,14 +1338,14 @@ avec une contamination au plutonium détectée jusqu''à 48 km de l''usine de Ro
  1 500 fois le niveau normal, plus élevé que celui enregistré dans toute autre zone urbaine, y compris Nagasaki. La Commission de l''énergie atomique a ensuite 
  mené sa propre étude hors site, confirmant la contamination au plutonium jusqu''à 48 km de l''usine.'),
  
- ('e62ff154-ef1a-4a21-bf7a-7b302062fcbe', '0230b4fd-4317-4e14-89ed-951d7dffc25f', NULL, NULL, 'LAND', True, False,
+ ('e62ff154-ef1a-4a21-bf7a-7b302062fcbe', '0230b4fd-4317-4e14-89ed-951d7dffc25f', NULL, NULL, 'LAND', 
 '1957-05-29', 'Une défaillance du système de refroidissement à l''usine de traitement nucléaire de Mayak a entraîné une explosion majeure et la libération de matériaux radioactifs, 
 contaminant une vaste zone et entraînant l''évacuation de milliers d''habitants locaux.',
  'Une défaillance du système de refroidissement à l''usine de traitement nucléaire de Mayak a entraîné une explosion majeure et la libération de matériaux radioactifs',
  'Une défaillance du système de refroidissement à l''usine de traitement nucléaire de Mayak a entraîné une explosion majeure et la libération de matériaux radioactifs, 
  contaminant une vaste zone et entraînant l''évacuation de milliers d''habitants locaux.'),
  
-  ('fd3158fd-908b-4cf3-bcbf-f6506ce42803', '2be85f7e-c5ee-4120-8023-f45e816faf87', NULL, NULL, 'LAND', True, False,
+  ('fd3158fd-908b-4cf3-bcbf-f6506ce42803', '2be85f7e-c5ee-4120-8023-f45e816faf87', NULL, NULL, 'LAND', 
 '1957-10-12', 'Les techniciens ont accidentellement surchauffé le Pile No. 1 de Windscale lors d''un processus d''assouplissement visant à libérer l''énergie de Wigner 
 des parties en graphite du réacteur. Des capteurs de température mal positionnés ont indiqué à tort que le réacteur se refroidissait plutôt que de se chauffer. 
 La chaleur excessive a provoqué la défaillance d''une cartouche nucléaire, permettant à de l''uranium et du graphite irradié de réagir avec l''air. L''incendie résultant 
@@ -1164,7 +1363,7 @@ a brûlé pendant plusieurs jours, endommageant une partie significative du cœu
  lors de l''incendie, potentiellement deux fois plus élevée que les estimations précédentes, et du fait que le panache radioactif a effectivement voyagé plus à l''est, entre 
  100 et 240 décès par cancer pourraient survenir à long terme en conséquence de l''incendie.'),
  
- ('dab68cd7-7cf0-48e2-9285-ae3caa8e123f', 'ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', NULL, NULL, 'LAND', True, False,
+ ('dab68cd7-7cf0-48e2-9285-ae3caa8e123f', 'ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', NULL, NULL, 'LAND', 
 '1958-06-16', 'Une partie supercritique de nitrate d''uranyle hautement enrichi a été autorisée à s''accumuler dans un tambour, provoquant une criticité neutronique 
 immédiate dans l''aile C-1 du bâtiment 9212 du complexe Y-12. On estime que la réaction a produit 1,3 × 10^18 fissions. Huit employés se trouvaient à proximité immédiate 
 du tambour lors de l''accident et ont reçu des doses de neutrons allant de 30 à 477 rems. Aucun décès n''a été signalé.',
@@ -1173,7 +1372,7 @@ du tambour lors de l''accident et ont reçu des doses de neutrons allant de 30 �
  l''aile C-1 du bâtiment 9212 du complexe Y-12. On estime que la réaction a produit 1,3 × 10^18 fissions. Huit employés se trouvaient à proximité immédiate du tambour 
  lors de l''accident et ont reçu des doses de neutrons allant de 30 à 477 rems. Aucun décès n''a été signalé.'),
  
- ('e6821ad4-1a77-4209-8584-b05d93c75c42', '568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', NULL, NULL, 'LAND', True, False,
+ ('e6821ad4-1a77-4209-8584-b05d93c75c42', '568ec8a0-3b9c-4d5e-91ec-36c0070f5e62', NULL, NULL, 'LAND', 
 '1958-12-30', 'Lors d''une purification chimique au Laboratoire national de Los Alamos, une masse critique de solution de plutonium a été accidentellement formée, 
 entraînant la mort de Cecil E. Kelley par syndrome d''irradiation aiguë, et conduisant à l''abandon de la manipulation manuelle des assemblages critiques dans les 
 installations fédérales américaines.',
@@ -1183,110 +1382,181 @@ installations fédérales américaines.',
  Environmental Medicine a publié une analyse médicale spéciale de cet accident. Suite à cet incident, la manipulation manuelle des assemblages critiques a été abandonnée 
  en tant que politique dans les installations fédérales américaines.'),
  
-  ('2ee1c8da-b5c5-45ac-bf56-ab093f74161a', 'ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', NULL, NULL, 'LAND', True, False,
+  ('2ee1c8da-b5c5-45ac-bf56-ab093f74161a', 'ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', NULL, NULL, 'LAND', 
 '1959-11-20', 'Pendant la décontamination des machines de traitement dans l''usine de traitement radiochimique du Laboratoire national d''Oak Ridge dans le Tennessee, 
 une explosion chimique s''est produite. L''accident a entraîné la libération d''environ 15 grammes (0,53 oz) de 239Pu.',
  'Pendant la décontamination des machines de traitement dans l''usine de traitement radiochimique , une explosion chimique s''est produite.',
  'Pendant la décontamination des machines de traitement dans l''usine de traitement radiochimique du Laboratoire national d''Oak Ridge dans le Tennessee, une explosion 
  chimique s''est produite. L''accident a entraîné la libération d''environ 15 grammes (0,53 oz) de 239Pu.'), 
 
-('c3fb2f0c-545b-439b-bd83-5de8349d229e', '978709fc-cacb-40a5-ab6e-33b4671fa5d2',  '4a68c69a-69c8-49ab-a141-11c5e14c933c', NULL, 'SEA', True, False,
-'1960-10-13', 'Pendant un exercice, le sous-marin soviétique de classe November, le K-8, a rencontré des problèmes techniques graves, notamment des fuites dans les générateurs de vapeur et les tuyaux. L''équipage a improvisé un système de refroidissement, mais des gaz radioactifs ont pénétré dans le sous-marin, provoquant des blessures par radiation visibles chez trois membres d''équipage. ',
+('c3fb2f0c-545b-439b-bd83-5de8349d229e', '978709fc-cacb-40a5-ab6e-33b4671fa5d2',  '4a68c69a-69c8-49ab-a141-11c5e14c933c', NULL, 'SEA', 
+'1960-10-13', 'Pendant un exercice, le sous-marin soviétique de classe November, le K-8, a rencontré des problèmes techniques graves, notamment des fuites dans les générateurs de vapeur et les tuyaux. 
+L''équipage a improvisé un système de refroidissement, mais des gaz radioactifs ont pénétré dans le sous-marin, provoquant des blessures par radiation visibles chez trois membres d''équipage. ',
  'Le sous-marin soviétique K-8 a rencontré des problèmes techniques graves, notamment des fuites dans les générateurs de vapeur et les tuyaux',
- 'Une fuite s''est développée dans les générateurs de vapeur et dans un tuyau menant à la réception du compensateur à bord du malheureux K-8 alors que le sous-marin de classe November de la flotte du Nord soviétique était en exercice. Alors que l''équipage a installé un système de refroidissement improvisé, des gaz radioactifs ont fui dans le navire et trois membres de l''équipage ont subi des blessures visibles dues à l''exposition aux radiations, selon des experts en radiologie à Moscou. Certains membres de l''équipage avaient été exposés à des doses allant jusqu''à 1,8 à 2 Sv (180 à 200 rem).'),
+ 'Une fuite s''est développée dans les générateurs de vapeur et dans un tuyau menant à la réception du compensateur à bord du malheureux K-8 alors que le sous-marin de classe November de la 
+ flotte du Nord soviétique était en exercice. Alors que l''équipage a installé un système de refroidissement improvisé, des gaz radioactifs ont fui dans le navire et trois membres de 
+ l''équipage ont subi des blessures visibles dues à l''exposition aux radiations, selon des experts en radiologie à Moscou. Certains membres de l''équipage avaient été exposés à des 
+ doses allant jusqu''à 1,8 à 2 Sv (180 à 200 rem).'),
  
- ('8de1c4a6-a563-4848-9adc-31a6f72e4df1', 'af0219b6-f262-494f-9de6-c37ee03b6748', NULL, NULL, 'LAND', True, False,
-'1961-01-03', 'Pendant un arrêt de maintenance, le réacteur nucléaire expérimental SL-1 a subi une réaction critique rapide, provoquant une explosion qui a projeté le réacteur à plus de 9 pieds dans les airs. Trois personnes ont été tuées : un opérateur empalé par un bouchon de protection et deux autres militaires à cause du choc. L''usine a été démantelée et la contamination radioactive a été enterrée sur place.',
+ ('8de1c4a6-a563-4848-9adc-31a6f72e4df1', 'af0219b6-f262-494f-9de6-c37ee03b6748', NULL, NULL, 'LAND', 
+'1961-01-03', 'Pendant un arrêt de maintenance, le réacteur nucléaire expérimental SL-1 a subi une réaction critique rapide, provoquant une explosion qui a projeté le réacteur à plus de 
+9 pieds dans les airs. Trois personnes ont été tuées : un opérateur empalé par un bouchon de protection et deux autres militaires à cause du choc. L''usine a été démantelée et la 
+contamination radioactive a été enterrée sur place.',
  'Pendant un arrêt de maintenance, le réacteur nucléaire expérimental SL-1 a subi une réaction critique rapide, provoquant une explosion qui a projeté le réacteur à plus de 9 pieds dans les airs',
- 'Pendant un arrêt de maintenance, le réacteur nucléaire expérimental SL-1 a subi une réaction critique rapide, provoquant la vaporisation explosive des matériaux du cœur. Une onde de choc hydraulique, estimée à 10 000 livres par pouce carré (69 000 kPa), a frappé le dessus du réacteur, propulsant l''ensemble du réacteur à plus de 9 pieds (2,7 m) dans les airs. Un opérateur qui se trouvait sur le dessus du réacteur a été tué lorsqu''un bouchon de protection l''a transpercé et s''est logé dans le plafond. Deux autres membres du personnel militaire ont également été tués à cause du traumatisme de l''explosion, l''un d''eux ayant retiré la tige de contrôle centrale trop loin. L''usine a dû être démantelée et la contamination a été enterrée définitivement à proximité. La plupart des émissions de matériaux radioactifs étaient concentrées à l''intérieur du bâtiment du réacteur.'),
+ 'Pendant un arrêt de maintenance, le réacteur nucléaire expérimental SL-1 a subi une réaction critique rapide, provoquant la vaporisation explosive des matériaux du cœur. Une onde de choc 
+ hydraulique, estimée à 10 000 livres par pouce carré (69 000 kPa), a frappé le dessus du réacteur, propulsant l''ensemble du réacteur à plus de 9 pieds (2,7 m) dans les airs. Un opérateur 
+ qui se trouvait sur le dessus du réacteur a été tué lorsqu''un bouchon de protection l''a transpercé et s''est logé dans le plafond. Deux autres membres du personnel militaire ont 
+ également été tués à cause du traumatisme de l''explosion, l''un d''eux ayant retiré la tige de contrôle centrale trop loin. L''usine a dû être démantelée et la contamination a été 
+ enterrée définitivement à proximité. La plupart des émissions de matériaux radioactifs étaient concentrées à l''intérieur du bâtiment du réacteur.'),
  
- ('7ef0ac21-f633-4bf6-8698-e955e5e8244d', '43e95dc8-e13f-451e-b390-46225d9156f7', NULL, NULL, 'LAND', True, False,
-'1962-05-01', 'Le deuxième essai nucléaire souterrain français, nom de code Béryl, a eu lieu dans un puits sous le mont Taourirt, près d''In Ecker, à 150 km au nord de Tamanrasset, dans le Sahara algérien. En raison d''un scellement incorrect du puits, une flamme spectaculaire a jailli à travers le capot en béton et des gaz radioactifs et de la poussière ont été libérés dans l''atmosphère.',
- 'Un essai nucléaire souterrain français a eu lieu dans le Sahara algérien. En raison d''un mauvais scellement du puits, une explosion a libéré des gaz radioactifs et de la poussière dans l''atmosphère.',
- 'Le deuxième essai nucléaire souterrain français, nom de code Béryl, a eu lieu dans un puits sous le mont Taourirt, près d''In Ecker, à 150 km au nord de Tamanrasset, dans le Sahara algérien. En raison d''un scellement incorrect du puits, une flamme spectaculaire a jailli à travers le capot en béton et des gaz radioactifs et de la poussière ont été libérés dans l''atmosphère. Le panache a atteint jusqu''à 2 600 mètres de hauteur et des radiations ont été détectées à des centaines de kilomètres de là. Environ une centaine de soldats et de responsables, y compris deux ministres, ont été irradiés. Le nombre d''Algériens contaminés est inconnu.'),
+ ('7ef0ac21-f633-4bf6-8698-e955e5e8244d', '43e95dc8-e13f-451e-b390-46225d9156f7', NULL, NULL, 'LAND', 
+'1962-05-01', 'Le deuxième essai nucléaire souterrain français, nom de code Béryl, a eu lieu dans un puits sous le mont Taourirt, près d''In Ecker, à 150 km au nord de Tamanrasset, 
+dans le Sahara algérien. En raison d''un scellement incorrect du puits, une flamme spectaculaire a jailli à travers le capot en béton et des gaz radioactifs et de la poussière ont été 
+libérés dans l''atmosphère.',
+ 'Un essai nucléaire souterrain français a eu lieu dans le Sahara algérien. En raison d''un mauvais scellement du puits, une explosion a libéré des gaz radioactifs et de la 
+ poussière dans l''atmosphère.',
+ 'Le deuxième essai nucléaire souterrain français, nom de code Béryl, a eu lieu dans un puits sous le mont Taourirt, près d''In Ecker, à 150 km au nord de Tamanrasset, dans 
+ le Sahara algérien. En raison d''un scellement incorrect du puits, une flamme spectaculaire a jailli à travers le capot en béton et des gaz radioactifs et de la poussière ont 
+ été libérés dans l''atmosphère. Le panache a atteint jusqu''à 2 600 mètres de hauteur et des radiations ont été détectées à des centaines de kilomètres de là. 
+ Environ une centaine de soldats et de responsables, y compris deux ministres, ont été irradiés. Le nombre d''Algériens contaminés est inconnu.'),
 
-('ccbc53e1-b784-4b94-9acb-4525a5b27dbc', '0006438b-363a-4332-b0b6-aa3bec0525f6', NULL, '9585b84f-2330-47fe-bf4d-e971a4b16cc1', 'AIR', True, False,
-'1962-06-20', 'Dans le cadre de la série d''essais Starfish menée par l''armée américaine, un missile Thor a été lancé mais son vol a été interrompu une minute après son décollage. Aucune explosion nucléaire n''a eu lieu. Cependant, des composants fortement contaminés du missile sont retombés sur l''île où le personnel militaire travaillait et vivait.',
+('ccbc53e1-b784-4b94-9acb-4525a5b27dbc', '0006438b-363a-4332-b0b6-aa3bec0525f6', NULL, '9585b84f-2330-47fe-bf4d-e971a4b16cc1', 'AIR', 
+'1962-06-20', 'Dans le cadre de la série d''essais Starfish menée par l''armée américaine, un missile Thor a été lancé mais son vol a été interrompu une minute après son décollage. 
+Aucune explosion nucléaire n''a eu lieu. Cependant, des composants fortement contaminés du missile sont retombés sur l''île où le personnel militaire travaillait et vivait.',
  'Un missile a été lancé mais a été interrompu après son décollage. Aucune explosion nucléaire n''a eu lieu. Cependant, des composants fortement contaminés du missile sont retombés',
- 'Dans le cadre de la série d''essais Starfish menée par l''armée américaine, un missile Thor a été lancé mais son vol a été interrompu une minute après son décollage. Aucune explosion nucléaire n''a eu lieu. Cependant, des composants fortement contaminés du missile sont retombés sur l''île où le personnel militaire travaillait et vivait.'),
+ 'Dans le cadre de la série d''essais Starfish menée par l''armée américaine, un missile Thor a été lancé mais son vol a été interrompu une minute après son décollage. 
+ Aucune explosion nucléaire n''a eu lieu. Cependant, des composants fortement contaminés du missile sont retombés sur l''île où le personnel militaire travaillait et vivait.'),
  
- ('f618dee7-712c-4dfb-b68b-e1f1607d17f6', '0006438b-363a-4332-b0b6-aa3bec0525f6', NULL, '9585b84f-2330-47fe-bf4d-e971a4b16cc1', 'LAND', True, False,
-'1962-07-25', 'Le missile Thor a explosé sur sa rampe de lancement, dispersant des débris hautement contaminés sur toute l''île. Le personnel militaire a été fortement exposé aux radiations à la fois pendant l''explosion et lors des efforts d''urgence ultérieurs de nettoyage. Les vétérans exposés aux dangers radiologiques élevés ont tous souffert des effets létaux à long terme de cancers causés par les radiations.',
+ ('f618dee7-712c-4dfb-b68b-e1f1607d17f6', '0006438b-363a-4332-b0b6-aa3bec0525f6', NULL, '9585b84f-2330-47fe-bf4d-e971a4b16cc1', 'LAND', 
+'1962-07-25', 'Le missile Thor a explosé sur sa rampe de lancement, dispersant des débris hautement contaminés sur toute l''île. Le personnel militaire a été fortement 
+exposé aux radiations à la fois pendant l''explosion et lors des efforts d''urgence ultérieurs de nettoyage. Les vétérans exposés aux dangers radiologiques élevés 
+ont tous souffert des effets létaux à long terme de cancers causés par les radiations.',
  'Le missile Thor a explosé sur sa rampe de lancement, dispersant des débris hautement contaminés sur toute l''île.',
- 'Le missile Thor a explosé sur sa rampe de lancement, dispersant des débris hautement contaminés sur toute l''île. Le personnel militaire a été fortement exposé aux radiations à la fois pendant l''explosion et lors des efforts d''urgence ultérieurs de nettoyage. Les vétérans exposés aux dangers radiologiques élevés ont tous souffert des effets létaux à long terme de cancers causés par les radiations.'),
+ 'Le missile Thor a explosé sur sa rampe de lancement, dispersant des débris hautement contaminés sur toute l''île. Le personnel militaire a été fortement exposé aux 
+ radiations à la fois pendant l''explosion et lors des efforts d''urgence ultérieurs de nettoyage. Les vétérans exposés aux dangers radiologiques élevés ont tous souffert 
+ des effets létaux à long terme de cancers causés par les radiations.'),
 
-('7d52fa04-22ea-4b27-9065-3ff4d69de669', '1ecc3524-c813-4ada-9729-ccb8f341d3d6', NULL, NULL, 'LAND', True, False,
-'1965-01-01', 'Un accident au Lawrence Livermore National Laboratory a libéré 300 kCi (11 PBq) de gaz de tritium. Une étude ultérieure a conclu que cette libération ne devrait pas produire d''effets nocifs sur la santé dans les communautés environnantes.',
+('7d52fa04-22ea-4b27-9065-3ff4d69de669', '1ecc3524-c813-4ada-9729-ccb8f341d3d6', NULL, NULL, 'LAND', 
+'1965-01-01', 'Un accident au Lawrence Livermore National Laboratory a libéré 300 kCi (11 PBq) de gaz de tritium. Une étude ultérieure a conclu que cette libération ne devrait 
+pas produire d''effets nocifs sur la santé dans les communautés environnantes.',
  'Un accident au Lawrence Livermore National Laboratory a libéré 300 kCi (11 PBq) de gaz de tritium.',
- 'Un accident au Lawrence Livermore National Laboratory a libéré 300 kCi (11 PBq) de gaz de tritium. Une étude ultérieure a conclu que cette libération ne devrait pas produire d''effets nocifs sur la santé dans les communautés environnantes.'),
+ 'Un accident au Lawrence Livermore National Laboratory a libéré 300 kCi (11 PBq) de gaz de tritium. Une étude ultérieure a conclu que cette libération ne devrait pas produire 
+ d''effets nocifs sur la santé dans les communautés environnantes.'),
  
-  ('26d0871b-d3fd-41f3-9296-06d82e6f50cc', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL, 'LAND', True, False,
-'1965-10-11', 'l''ancienne usine de Rocky Flats, près de Denver, a provoqué une grave contamination radioactive par le plutonium, l''américium et l''uranium. Les principaux incidents incluent deux incendies majeurs de plutonium en 1957 et 1969, ainsi que des fuites de plutonium transporté par le vent depuis des barils de déchets radioactifs. La contamination s''est propagée vers des zones peuplées au nord-ouest de Denver grâce aux vents dominants.',
+  ('26d0871b-d3fd-41f3-9296-06d82e6f50cc', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL, 'LAND', 
+'1965-10-11', 'l''ancienne usine de Rocky Flats, près de Denver, a provoqué une grave contamination radioactive par le plutonium, l''américium et l''uranium. Les principaux 
+incidents incluent deux incendies majeurs de plutonium en 1957 et 1969, ainsi que des fuites de plutonium transporté par le vent depuis des barils de déchets radioactifs. 
+La contamination s''est propagée vers des zones peuplées au nord-ouest de Denver grâce aux vents dominants.',
  'l''ancienne usine de Rocky Flats, près de Denver, a provoqué une grave contamination radioactive par le plutonium.',
- 'l''usine de Rocky Flats, une ancienne installation de production d''armes nucléaires des États-Unis située à environ 15 miles (24 km) au nord-ouest de Denver, a provoqué une contamination radioactive (principalement par le plutonium, l''américium et l''uranium) à l''intérieur et à l''extérieur de ses limites. La contamination est principalement due à deux incendies majeurs au plutonium survenus en 1957 et 1969 (le plutonium est pyrophorique et des copeaux peuvent s''enflammer spontanément) ainsi qu''à du plutonium transporté par le vent qui a fui de barils de déchets radioactifs. Des concentrations beaucoup plus faibles d''isotopes radioactifs ont été libérées tout au long de la vie opérationnelle de l''usine, de 1952 à 1992, lors de petits accidents et de rejets opérationnels normaux de particules de plutonium trop petites pour être filtrées. Les vents dominants depuis l''usine ont transporté la contamination aérienne vers le sud et l''est, dans des zones peuplées au nord-ouest de Denver.'),
+ 'l''usine de Rocky Flats, une ancienne installation de production d''armes nucléaires des États-Unis située à environ 15 miles (24 km) au nord-ouest de Denver, a provoqué 
+ une contamination radioactive (principalement par le plutonium, l''américium et l''uranium) à l''intérieur et à l''extérieur de ses limites. La contamination est 
+ principalement due à deux incendies majeurs au plutonium survenus en 1957 et 1969 (le plutonium est pyrophorique et des copeaux peuvent s''enflammer spontanément) ainsi 
+ qu''à du plutonium transporté par le vent qui a fui de barils de déchets radioactifs. Des concentrations beaucoup plus faibles d''isotopes radioactifs ont été libérées 
+ tout au long de la vie opérationnelle de l''usine, de 1952 à 1992, lors de petits accidents et de rejets opérationnels normaux de particules de plutonium trop petites pour être filtrées. 
+ Les vents dominants depuis l''usine ont transporté la contamination aérienne vers le sud et l''est, dans des zones peuplées au nord-ouest de Denver.'),
 
-('925a615b-74fb-4514-9797-91eae3681c07', 'a18f67fb-039a-4a32-b691-9747aa2c968e', '412fe53d-a9d1-4ca0-a53b-d1bc6ddbed5f', NULL, 'SEA', True, False,
-'1968-08-27', 'À Severodvinsk, le sous-marin nucléaire soviétique K-140 de classe Yankee a subi une montée incontrôlée de la puissance de son réacteur lors de réparations. Une mauvaise installation des câbles électriques des barres de contrôle a provoqué l''activation automatique d''un réacteur, augmentant la puissance à 18 fois la normale et les niveaux de pression, de température et de radiation à bord.',
+('925a615b-74fb-4514-9797-91eae3681c07', 'a18f67fb-039a-4a32-b691-9747aa2c968e', '412fe53d-a9d1-4ca0-a53b-d1bc6ddbed5f', NULL, 'SEA', 
+'1968-08-27', 'À Severodvinsk, le sous-marin nucléaire soviétique K-140 de classe Yankee a subi une montée incontrôlée de la puissance de son réacteur lors de réparations. 
+Une mauvaise installation des câbles électriques des barres de contrôle a provoqué l''activation automatique d''un réacteur, augmentant la puissance à 18 fois la normale et 
+les niveaux de pression, de température et de radiation à bord.',
  'Le sous-marin nucléaire soviétique K-140 a subi une montée incontrôlée de la puissance de son réacteur lors de réparations.',
- 'Pendant des réparations aux chantiers navals de Severodvinsk, le sous-marin nucléaire soviétique de classe Yankee K-140 a subi une augmentation incontrôlée de la puissance du réacteur. l''un des réacteurs s''est activé automatiquement lorsque les travailleurs ont relevé les barres de contrôle à une position plus élevée, faisant grimper la puissance à 18 fois la normale, tandis que la pression et la température dans le réacteur ont atteint quatre fois la normale. l''accident a également entraîné une augmentation des niveaux de radiation à bord du navire. Le problème a été attribué à l''installation incorrecte des câbles électriques des barres de contrôle.'),
+ 'Pendant des réparations aux chantiers navals de Severodvinsk, le sous-marin nucléaire soviétique de classe Yankee K-140 a subi une augmentation incontrôlée de la puissance du réacteur. 
+ l''un des réacteurs s''est activé automatiquement lorsque les travailleurs ont relevé les barres de contrôle à une position plus élevée, faisant grimper la puissance à 18 fois la normale, 
+ tandis que la pression et la température dans le réacteur ont atteint quatre fois la normale. l''accident a également entraîné une augmentation des niveaux de radiation à bord du navire. 
+ Le problème a été attribué à l''installation incorrecte des câbles électriques des barres de contrôle.'),
  
- ('3d5bdaf6-79bd-45cb-be2d-abf38adb2016', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL, 'LAND', True, False,
-'1969-05-11', 'Un accident au cours duquel 5 kilogrammes de plutonium ont brûlé à l''intérieur d''une boîte à gants à Rocky Flats. Le nettoyage a pris deux ans et cet accident était à l''époque le plus coûteux de l''histoire industrielle des États-Unis.',
+ ('3d5bdaf6-79bd-45cb-be2d-abf38adb2016', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL, 'LAND', 
+'1969-05-11', 'Un accident au cours duquel 5 kilogrammes de plutonium ont brûlé à l''intérieur d''une boîte à gants à Rocky Flats. Le nettoyage a pris deux ans et cet accident était à 
+l''époque le plus coûteux de l''histoire industrielle des États-Unis.',
 'Un accident au cours duquel 5 kilogrammes de plutonium ont brûlé à l''intérieur d''une boîte à gants à Rocky Flats.',
- 'Un accident au cours duquel 5 kilogrammes de plutonium ont brûlé à l''intérieur d''une boîte à gants à Rocky Flats. Le nettoyage a pris deux ans et cet accident était à l''époque le plus coûteux de l''histoire industrielle des États-Unis.'),
+ 'Un accident au cours duquel 5 kilogrammes de plutonium ont brûlé à l''intérieur d''une boîte à gants à Rocky Flats. Le nettoyage a pris deux ans et cet accident était à l''époque le 
+ plus coûteux de l''histoire industrielle des États-Unis.'),
 
-('63c156df-1db4-42f1-ba43-a335922a8ade', 'db5fb3c5-59e5-4af0-a47a-7c0b354ec2cb', NULL, NULL, 'LAND', True, False,
-'1970-12-18', 'Le test "Baneberry" de 1970, réalisé sous Yucca Flat dans le cadre de l''Opération Emery, a conduit à une explosion nucléaire imprévue, provoquant la libération de matériau radioactif et une retombée significative sur plusieurs États américains, ainsi qu''à l''international. Bien que 86 travailleurs aient été exposés à la radioactivité, aucun n''a reçu une dose excédant les normes du site, et le département de l''Énergie n''a pas considéré que la radiation hors site représentait un danger.',
- 'Le test "Baneberry" de 1970 a conduit à une explosion nucléaire imprévue, provoquant la libération de matériau radioactif et une retombée significative sur plusieurs États américains, ainsi qu''à l''international.',
- 'Le Traité d''interdiction partielle des essais nucléaires de 1963 visait à prévenir les retombées nucléaires associées librement aux tests atmosphériques précédents. Malgré cela, l''explosion de test "Baneberry" de 1970, partie de l''Opération Emery, a entraîné une retombée extensive hors site. Le test de 10 kilotonnes "Baneberry" a eu lieu sous l''Area 8 sur Yucca Flat. l''arme a explosé comme prévu au fond d''un puits vertical scellé à 270 mètres sous la surface de la Terre, mais l''énergie de l''appareil a fissuré le sol de manière inattendue, provoquant une fissure près du point zéro et libérant un panache de gaz chauds et de poussière radioactive qui a continué pendant de nombreuses heures, entraînant des retombées sur les travailleurs au sein du site d''essai nucléaire (NTS). Six pour cent des produits radioactifs de l''explosion ont été libérés, libérant 6,7 MCi de matériau radioactif, dont 80 kCi d''iode-131 et un ratio élevé de gaz nobles. Les particules légères du nuage chaud ont été transportées à trois altitudes par trois courants-jets divergents, puis transportées par des tempêtes hivernales et les courants-jets pour être déposées sous forme de neige chargée en radionucléides dans les comtés de Lassen et Sierra, dans le nord-est de la Californie, ainsi que, à moindre degré, dans le nord du Nevada, le sud de l''Idaho et certaines parties est de l''Oregon et de l''État de Washington. Les trois courants-jets divergents ont transporté les radionucléides à travers les États-Unis jusqu''au Canada, au golfe du Mexique et à l''océan Atlantique. Environ 86 travailleurs sur le site ont été exposés à la radioactivité, mais selon le département de l''Énergie, aucun n''a reçu une dose dépassant les directives du site, et de même, la radiation dérivant hors site n''était pas considérée comme présentant un danger par le DOE. En mars 2009, le magazine TIME a identifié le test Baneberry comme l''une des pires catastrophes nucléaires au monde.'),
+('63c156df-1db4-42f1-ba43-a335922a8ade', 'db5fb3c5-59e5-4af0-a47a-7c0b354ec2cb', NULL, NULL, 'LAND', 
+'1970-12-18', 'Le test "Baneberry" de 1970, réalisé sous Yucca Flat dans le cadre de l''Opération Emery, a conduit à une explosion nucléaire imprévue, provoquant la libération de matériau 
+radioactif et une retombée significative sur plusieurs États américains, ainsi qu''à l''international. Bien que 86 travailleurs aient été exposés à la radioactivité, 
+aucun n''a reçu une dose excédant les normes du site, et le département de l''Énergie n''a pas considéré que la radiation hors site représentait un danger.',
+ 'Le test "Baneberry" de 1970 a conduit à une explosion nucléaire imprévue, provoquant la libération de matériau radioactif et une retombée significative sur plusieurs 
+ États américains, ainsi qu''à l''international.',
+ 'Le Traité d''interdiction partielle des essais nucléaires de 1963 visait à prévenir les retombées nucléaires associées librement aux tests atmosphériques précédents. 
+ Malgré cela, l''explosion de test "Baneberry" de 1970, partie de l''Opération Emery, a entraîné une retombée extensive hors site. Le test de 10 kilotonnes "Baneberry" a 
+ eu lieu sous l''Area 8 sur Yucca Flat. l''arme a explosé comme prévu au fond d''un puits vertical scellé à 270 mètres sous la surface de la Terre, mais l''énergie de 
+ l''appareil a fissuré le sol de manière inattendue, provoquant une fissure près du point zéro et libérant un panache de gaz chauds et de poussière radioactive qui a 
+ continué pendant de nombreuses heures, entraînant des retombées sur les travailleurs au sein du site d''essai nucléaire (NTS). Six pour cent des produits radioactifs 
+ de l''explosion ont été libérés, libérant 6,7 MCi de matériau radioactif, dont 80 kCi d''iode-131 et un ratio élevé de gaz nobles. Les particules légères du nuage chaud 
+ ont été transportées à trois altitudes par trois courants-jets divergents, puis transportées par des tempêtes hivernales et les courants-jets pour être déposées sous 
+ forme de neige chargée en radionucléides dans les comtés de Lassen et Sierra, dans le nord-est de la Californie, ainsi que, à moindre degré, dans le nord du Nevada, 
+ le sud de l''Idaho et certaines parties est de l''Oregon et de l''État de Washington. Les trois courants-jets divergents ont transporté les radionucléides à travers les 
+ États-Unis jusqu''au Canada, au golfe du Mexique et à l''océan Atlantique. Environ 86 travailleurs sur le site ont été exposés à la radioactivité, mais selon le département 
+ de l''Énergie, aucun n''a reçu une dose dépassant les directives du site, et de même, la radiation dérivant hors site n''était pas considérée comme présentant un danger par le DOE. 
+ En mars 2009, le magazine TIME a identifié le test Baneberry comme l''une des pires catastrophes nucléaires au monde.'),
  
- ('3bdadef1-cc34-45ac-94a2-1ac9f69adf33', 'a9082acc-9412-48f4-ae2d-573c0f9ac14b', '5ed74ac8-779a-4778-aff8-15787c6ea518', NULL, 'SEA', True, False,
-'1971-12-12', 'Pendant le transfert d''eau de refroidissement radioactive du sous-marin USS Dace au navire de soutien USS Fulton, 500 gallons américains (1 900 L ; 420 gallons impériaux) ont été déversés dans la rivière Thames (États-Unis).',
+ ('3bdadef1-cc34-45ac-94a2-1ac9f69adf33', 'a9082acc-9412-48f4-ae2d-573c0f9ac14b', '5ed74ac8-779a-4778-aff8-15787c6ea518', NULL, 'SEA', 
+'1971-12-12', 'Pendant le transfert d''eau de refroidissement radioactive du sous-marin USS Dace au navire de soutien USS Fulton, 500 gallons américains (1 900 L ; 420 gallons impériaux) 
+ont été déversés dans la rivière Thames (États-Unis).',
  'Pendant le transfert d''eau de refroidissement radioactive entre 2 sous marins (1 900 L) ont été déversés dans la rivière Thames (États-Unis).',
- 'Pendant le transfert d''eau de refroidissement radioactive du sous-marin USS Dace au navire de soutien USS Fulton, 500 gallons américains (1 900 L ; 420 gallons impériaux) ont été déversés dans la rivière Thames (États-Unis).'),
+ 'Pendant le transfert d''eau de refroidissement radioactive du sous-marin USS Dace au navire de soutien USS Fulton, 500 gallons américains (1 900 L ; 420 gallons impériaux) 
+ ont été déversés dans la rivière Thames (États-Unis).'),
 
-('3848f682-a4ca-4769-81ee-f9cf7ac7fbf3', '83289d68-05d2-4717-95bd-0446508288a0', NULL, NULL, 'LAND', True, False,
+('3848f682-a4ca-4769-81ee-f9cf7ac7fbf3', '83289d68-05d2-4717-95bd-0446508288a0', NULL, NULL, 'LAND', 
 '1972-12-01', 'Un incendie majeur et deux explosions ont contaminé l''usine et les terrains d''une installation de fabrication de plutonium, entraînant une fermeture définitive.',
  'Un incendie majeur et deux explosions ont contaminé l''usine et les terrains d''une installation de fabrication de plutonium, entraînant une fermeture définitive.',
  'Un incendie majeur et deux explosions ont contaminé l''usine et les terrains d''une installation de fabrication de plutonium, entraînant une fermeture définitive.'),
  
-  ('b7d8fa2a-ed53-4293-8793-177478c97023', '409fbeb9-be90-49cb-aa88-72a8b9aa192b', 'bf9206b2-53c0-4355-874d-e0a715eac632', NULL, 'SEA', True, False,
+  ('b7d8fa2a-ed53-4293-8793-177478c97023', '409fbeb9-be90-49cb-aa88-72a8b9aa192b', 'bf9206b2-53c0-4355-874d-e0a715eac632', NULL, 'SEA', 
 '1973-04-21', 'Fuite de liquide de refroidissement primaire à bord du sous-marin USS Guardfish en cours de navigation.',
  'Fuite de liquide de refroidissement primaire à bord du sous-marin USS Guardfish en cours de navigation.',
  'Fuite de liquide de refroidissement primaire à bord du sous-marin USS Guardfish en cours de navigation.'),
  
-  ('3c08372f-a091-41e7-a4cb-8fb016023a5d', '12f04aff-9634-4611-9440-cb4aa501dd0c', 'bf9206b2-53c0-4355-874d-e0a715eac632', NULL, 'SEA', True, False,
+  ('3c08372f-a091-41e7-a4cb-8fb016023a5d', '12f04aff-9634-4611-9440-cb4aa501dd0c', 'bf9206b2-53c0-4355-874d-e0a715eac632', NULL, 'SEA', 
 '1975-01-01', 'La résine radioactive contamine le sous-marin américain de classe Sturgeon, l''USS Guardfish, après que le vent a soufflé la poudre de résine de manière inattendue vers le navire. ',
  'La résine radioactive contamine l''USS Guardfish, après que le vent a soufflé la poudre de résine de manière inattendue vers le navire. ',
- 'La résine radioactive contamine le sous-marin américain de classe Sturgeon, l''USS Guardfish, après que le vent a soufflé la poudre de résine de manière inattendue vers le navire. La résine est utilisée pour éliminer les minéraux et particules radioactifs dissous des boucles de refroidissement primaire des sous-marins. Ce type d''accident était assez courant ; cependant, les navires nucléaires de la marine américaine ne déchargent plus de résine en mer.'),
+ 'La résine radioactive contamine le sous-marin américain de classe Sturgeon, l''USS Guardfish, après que le vent a soufflé la poudre de résine de manière inattendue vers le navire. 
+ La résine est utilisée pour éliminer les minéraux et particules radioactifs dissous des boucles de refroidissement primaire des sous-marins. Ce type d''accident était assez courant ; 
+ cependant, les navires nucléaires de la marine américaine ne déchargent plus de résine en mer.'),
  
-  ('c0295eb8-aa02-4645-bc6a-fc9ba243e102', 'f35e61f5-168c-4af6-bc27-74e1b1d7216a', '901bdea5-e32e-4f14-8c62-d987509bd28c', NULL, 'SEA', True, False,
+  ('c0295eb8-aa02-4645-bc6a-fc9ba243e102', 'f35e61f5-168c-4af6-bc27-74e1b1d7216a', '901bdea5-e32e-4f14-8c62-d987509bd28c', NULL, 'SEA', 
 '1975-10-01', 'Alors qu''il était désactivé, le navire de soutien aux sous-marins USS Proteus a déversé de l''eau de refroidissement radioactive.',
  'Alors qu''il était désactivé, le navire de soutien aux sous-marins USS Proteus a déversé de l''eau de refroidissement radioactive.',
- 'Alors qu''il était désactivé, le navire de soutien aux sous-marins USS Proteus a déversé de l''eau de refroidissement radioactive. Un compteur Geiger sur deux des plages publiques du port a enregistré 100 millirems/heure, soit cinquante fois la dose autorisée.'),
+ 'Alors qu''il était désactivé, le navire de soutien aux sous-marins USS Proteus a déversé de l''eau de refroidissement radioactive. Un compteur Geiger sur deux des plages publiques du 
+ port a enregistré 100 millirems/heure, soit cinquante fois la dose autorisée.'),
  
-  ('b7a54040-34f4-4059-abac-e158878e7149', 'd6d1516d-8651-41f6-bb40-6aa3f796a059', NULL, NULL , 'LAND', True, False,
-'1976-08-21', 'Une explosion à l''usine de finition de plutonium du site de Hanford a fait voler en éclats une fenêtre en verre plombé de 6 mm d''épaisseur. Harold McCluskey, un ouvrier, a été aspergé d''acide nitrique et de verre radioactif. Il a inhalé la plus grande dose d''241Am jamais enregistrée, environ 500 fois les normes professionnelles du gouvernement américain.',
+  ('b7a54040-34f4-4059-abac-e158878e7149', 'd6d1516d-8651-41f6-bb40-6aa3f796a059', NULL, NULL , 'LAND', 
+'1976-08-21', 'Une explosion à l''usine de finition de plutonium du site de Hanford a fait voler en éclats une fenêtre en verre plombé de 6 mm d''épaisseur. Harold McCluskey, 
+un ouvrier, a été aspergé d''acide nitrique et de verre radioactif. Il a inhalé la plus grande dose d''241Am jamais enregistrée, environ 500 fois les normes 
+professionnelles du gouvernement américain.',
  'Une explosion à l''usine de finition de plutonium du site de Hanford a fait voler en éclats une fenêtre en verre plombé de 6 mm d''épaisseur.',
- 'Une explosion à l''usine de finition de plutonium du site de Hanford a fait voler en éclats une fenêtre en verre plombé de 6 mm d''épaisseur. Harold McCluskey, un ouvrier, a été aspergé d''acide nitrique et de verre radioactif. Il a inhalé la plus grande dose d''241Am jamais enregistrée, environ 500 fois les normes professionnelles du gouvernement américain. l''ouvrier a été placé en isolement pendant cinq mois et a reçu un médicament expérimental pour éliminer l''isotope de son corps. En 1977, le taux de radiation dans son corps avait diminué d''environ 80 %. Il est décédé de causes naturelles en 1987 à l''âge de 75 ans.'),
+ 'Une explosion à l''usine de finition de plutonium du site de Hanford a fait voler en éclats une fenêtre en verre plombé de 6 mm d''épaisseur. Harold McCluskey, un ouvrier, 
+ a été aspergé d''acide nitrique et de verre radioactif. Il a inhalé la plus grande dose d''241Am jamais enregistrée, environ 500 fois les normes professionnelles du gouvernement américain. 
+ L''ouvrier a été placé en isolement pendant cinq mois et a reçu un médicament expérimental pour éliminer l''isotope de son corps. En 1977, le taux de radiation dans son corps avait diminué 
+ d''environ 80 %. Il est décédé de causes naturelles en 1987 à l''âge de 75 ans.'),
  
- ('407e9041-9a85-4ca7-b0a0-bf5fb82893a3', '325ce705-85a1-446b-9dfc-2af6e20112ae', 'bde662cb-7abd-46ab-b272-3055081d4085', NULL, 'AIR', True, False,
-'1978-01-24', 'un satellite soviétique de reconnaissance océanique radar avec un réacteur nucléaire à bord, n''a pas réussi à se séparer de son lanceur et s''est disloqué lors de sa rentrée au-dessus de l''ouest et du nord du Canada. Le carburant s''est répandu sur une vaste zone et certains morceaux radioactifs ont été récupérés.',
- 'Un satellite soviétique de reconnaissance océanique radar avec un réacteur nucléaire à bord, n''a pas réussi à se séparer de son lanceur et s''est disloqué lors de sa rentrée au-dessus de l''ouest et du nord du Canada.',
- 'Kosmos 954, un satellite soviétique de reconnaissance océanique radar avec un réacteur nucléaire à bord, n''a pas réussi à se séparer de son lanceur et s''est disloqué lors de sa rentrée au-dessus de l''ouest et du nord du Canada. Le carburant s''est répandu sur une vaste zone et certains morceaux radioactifs ont été récupérés. l''Union soviétique a finalement versé au gouvernement canadien 3 millions de dollars canadiens (13 millions de dollars actuels) pour les frais liés à l''accident.'),
+ ('407e9041-9a85-4ca7-b0a0-bf5fb82893a3', '325ce705-85a1-446b-9dfc-2af6e20112ae', 'bde662cb-7abd-46ab-b272-3055081d4085', NULL, 'AIR', 
+'1978-01-24', 'un satellite soviétique de reconnaissance océanique radar avec un réacteur nucléaire à bord, n''a pas réussi à se séparer de son lanceur et s''est disloqué lors de sa rentrée 
+au-dessus de l''ouest et du nord du Canada. Le carburant s''est répandu sur une vaste zone et certains morceaux radioactifs ont été récupérés.',
+ 'Un satellite soviétique de reconnaissance océanique radar avec un réacteur nucléaire à bord, n''a pas réussi à se séparer de son lanceur et s''est disloqué lors de sa rentrée au-dessus de 
+ l''ouest et du nord du Canada.',
+ 'Kosmos 954, un satellite soviétique de reconnaissance océanique radar avec un réacteur nucléaire à bord, n''a pas réussi à se séparer de son lanceur et s''est disloqué lors de sa rentrée 
+ au-dessus de l''ouest et du nord du Canada. Le carburant s''est répandu sur une vaste zone et certains morceaux radioactifs ont été récupérés. l''Union soviétique a finalement versé 
+ au gouvernement canadien 3 millions de dollars canadiens (13 millions de dollars actuels) pour les frais liés à l''accident.'),
   
- ('460c1a2f-eadf-4d3f-af03-a59f4e11c17f', '409fbeb9-be90-49cb-aa88-72a8b9aa192b', '170fb0c9-10b1-4167-b95b-278c2e9ae0e0', NULL, 'SEA', True, False,
+ ('460c1a2f-eadf-4d3f-af03-a59f4e11c17f', '409fbeb9-be90-49cb-aa88-72a8b9aa192b', '170fb0c9-10b1-4167-b95b-278c2e9ae0e0', NULL, 'SEA', 
 '1978-05-22', 'Une valve a été ouverte par erreur à bord du sous-marin USS Puffer, libérant jusqu''à 500 gallons américains d''eau radioactive.',
  'Une valve a été ouverte par erreur à bord du sous-marin USS Puffer, libérant jusqu''à 500 gallons américains d''eau radioactive.',
  'Une valve a été ouverte par erreur à bord du sous-marin USS Puffer, libérant jusqu''à 500 gallons américains (1 900 L ; 420 gallons impériaux) d''eau radioactive.'),
  
- ('fdb9c099-287d-41cd-9126-1749d679d775', '5d342ca9-ca87-4de1-b95e-c1ba1c66141d', NULL, null , 'SEA', True, False,
-'1985-05-22', 'l''accident nucléaire de la baie d''Andreev est lié à des fuites dans une immense piscine de refroidissement et de stockage. Les fuites ont causé environ 700 000 tonnes d''eau hautement radioactive à s''écouler dans la mer de Barents pendant cette période.',
+ ('fdb9c099-287d-41cd-9126-1749d679d775', '5d342ca9-ca87-4de1-b95e-c1ba1c66141d', NULL, null , 'SEA', 
+'1985-05-22', 'l''accident nucléaire de la baie d''Andreev est lié à des fuites dans une immense piscine de refroidissement et de stockage. Les fuites ont causé environ 700 000 tonnes 
+d''eau hautement radioactive à s''écouler dans la mer de Barents pendant cette période.',
  'l''accident nucléaire de la baie d''Andreev est lié à des fuites dans une immense piscine de refroidissement et de stockage.',
- 'l''accident nucléaire de la baie d''Andreev est lié à des fuites dans une immense piscine de refroidissement et de stockage. Les fuites ont causé environ 700 000 tonnes d''eau hautement radioactive à s''écouler dans la mer de Barents pendant cette période. Pendant la longue période de tentatives de réparations et le démantèlement ultérieur de la piscine, d''autres incidents se sont produits sur le site, y compris des accumulations accidentelles de masses critiques de matériaux libérant des radiations et un "accident industriel" qui a provoqué la chute directe de deux travailleurs dans la piscine radioactive.'),
+ 'l''accident nucléaire de la baie d''Andreev est lié à des fuites dans une immense piscine de refroidissement et de stockage. Les fuites ont causé environ 700 000 tonnes d''eau 
+ hautement radioactive à s''écouler dans la mer de Barents pendant cette période. Pendant la longue période de tentatives de réparations et le démantèlement ultérieur de la piscine, 
+ d''autres incidents se sont produits sur le site, y compris des accumulations accidentelles de masses critiques de matériaux libérant des radiations et un "accident industriel" qui 
+ a provoqué la chute directe de deux travailleurs dans la piscine radioactive.'),
 
-('c12281e7-5e97-4e46-a17b-182b8f024690', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', '8bd618c5-40a6-4111-bd43-65cca8637be8', NULL, 'SEA', True, False,
-'1982-08-08', 'Alors qu''il était en service dans la mer de Barents, une fuite de liquide de refroidissement métallique s''est produite dans le réacteur du sous-marin soviétique de classe Alfa, le K-123, 
+('c12281e7-5e97-4e46-a17b-182b8f024690', '978709fc-cacb-40a5-ab6e-33b4671fa5d2', '8bd618c5-40a6-4111-bd43-65cca8637be8', NULL, 'SEA', 
+'1982-08-08', 'Alors qu''il était en service dans la mer de Barents, une fuite de liquide de refroidissement métallique s''est produite dans le réacteur du sous-marin soviétique de 
+classe Alfa, le K-123, 
  du projet 705. l''accident a été causé par une fuite dans le générateur de vapeur.',
  'l''accident du K-123 a été causé par une fuite dans le générateur de vapeur.',
  'Alors qu''il était en service dans la mer de Barents, une fuite de liquide de refroidissement métallique s''est produite dans le réacteur du sous-marin soviétique de classe Alfa, le K-123, 
@@ -1294,32 +1564,51 @@ une explosion chimique s''est produite. L''accident a entraîné la libération 
  Environ deux tonnes d''alliage métallique se sont échappées dans le compartiment du réacteur, 
  endommageant irrémédiablement le réacteur, qui a dû être remplacé. Il a fallu neuf ans pour réparer le sous-marin.'),
  
- ('82abea43-327a-4151-87ba-ca7dd5e0c417', 'b42968fb-3e70-43bd-a10c-60855e340d96', 'bde662cb-7abd-46ab-b272-3055081d4085', NULL, 'AIR', True, False,
+ ('82abea43-327a-4151-87ba-ca7dd5e0c417', 'b42968fb-3e70-43bd-a10c-60855e340d96', 'bde662cb-7abd-46ab-b272-3055081d4085', NULL, 'AIR', 
 '1983-01-03', 'Le satellite espion soviétique à propulsion nucléaire Kosmos 1402 s''est désintégré au-dessus de l''Atlantique Sud.',
  'Le satellite espion soviétique à propulsion nucléaire Kosmos 1402 s''est désintégré au-dessus de l''Atlantique Sud.',
  'Le satellite espion soviétique à propulsion nucléaire Kosmos 1402 s''est désintégré au-dessus de l''Atlantique Sud.'),
 
-('61006dae-406d-4a35-8e4c-254aeb94069d', 'a94978d4-bda1-4ab2-9430-48c40fe53315', NULL, NULL, 'LAND', True, False,
-'1986-01-03', 'Le gouvernement des États-Unis a déclassifié plusieurs pages de documents indiquant qu''entre 1946 et 1986, le site de Hanford àlibéré des milliers de gallons américains de liquides radioactifs. De nombreuses personnes vivant dans la zone affectée ont reçu de faibles doses de radiation.',
+('61006dae-406d-4a35-8e4c-254aeb94069d', 'a94978d4-bda1-4ab2-9430-48c40fe53315', NULL, NULL, 'LAND', 
+'1986-01-03', 'Le gouvernement des États-Unis a déclassifié plusieurs pages de documents indiquant qu''entre 1946 et 1986, le site de Hanford àlibéré des milliers de gallons américains 
+de liquides radioactifs. De nombreuses personnes vivant dans la zone affectée ont reçu de faibles doses de radiation.',
  'Le gouvernement des États-Unis a déclassifié plusieurs pages de documents indiquant qu''entre 1946 et 1986, le site de Hanford àlibéré des milliers de gallons américains de liquides radioactifs.',
- 'Le gouvernement des États-Unis a déclassifié 19 000 pages de documents indiquant qu''entre 1946 et 1986, le site de Hanford, près de Richland, dans l''État de Washington, a libéré des milliers de gallons américains de liquides radioactifs. De nombreuses personnes vivant dans la zone affectée ont reçu de faibles doses de radiation.'),
+ 'Le gouvernement des États-Unis a déclassifié 19 000 pages de documents indiquant qu''entre 1946 et 1986, le site de Hanford, près de Richland, dans l''État de Washington, 
+ a libéré des milliers de gallons américains de liquides radioactifs. De nombreuses personnes vivant dans la zone affectée ont reçu de faibles doses de radiation.'),
  
- ('e25120c7-aaa5-41a6-a69e-bb9f7a8fed15', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL , 'LAND', True, False,
-'1988-10-03', 'Dans l''usine de fabrication de noyaux nucléaires de Rocky Flats, au Colorado, deux employés et un inspecteur du département de l''Énergie des États-Unis ont inhalé des particules radioactives, ce qui a entraîné la fermeture de l''usine. Plusieurs violations de sécurité ont été signalées.',
- 'Dans l''usine de fabrication de noyaux nucléaires de Rocky Flats, au Colorado, deux employés et un inspecteur du département de l''Énergie des États-Unis ont inhalé des particules radioactives, ce qui a entraîné la fermeture de l''usine.',
- 'Dans l''usine de fabrication de noyaux nucléaires de Rocky Flats, au Colorado, deux employés et un inspecteur du département de l''Énergie des États-Unis ont inhalé des particules radioactives, ce qui a entraîné la fermeture de l''usine. Plusieurs violations de sécurité ont été signalées, notamment des moniteurs non calibrés, un équipement anti-incendie inadéquat et des eaux souterraines contaminées par la radioactivité.'),
+ ('e25120c7-aaa5-41a6-a69e-bb9f7a8fed15', 'f9540ab5-36c6-42e6-88dd-32d6583f60de', NULL, NULL , 'LAND', 
+'1988-10-03', 'Dans l''usine de fabrication de noyaux nucléaires de Rocky Flats, au Colorado, deux employés et un inspecteur du département de l''Énergie des États-Unis ont 
+inhalé des particules radioactives, ce qui a entraîné la fermeture de l''usine. Plusieurs violations de sécurité ont été signalées.',
+ 'Dans l''usine de fabrication de noyaux nucléaires de Rocky Flats, au Colorado, deux employés et un inspecteur du département de l''Énergie des États-Unis ont inhalé des particules radioactives, 
+ ce qui a entraîné la fermeture de l''usine.',
+ 'Dans l''usine de fabrication de noyaux nucléaires de Rocky Flats, au Colorado, deux employés et un inspecteur du département de l''Énergie des États-Unis ont inhalé des particules radioactives, 
+ ce qui a entraîné la fermeture de l''usine. Plusieurs violations de sécurité ont été signalées, notamment des moniteurs non calibrés, un équipement anti-incendie inadéquat 
+ et des eaux souterraines contaminées par la radioactivité.'),
 
-('1de0f261-7dce-4d96-b1e3-9506a42c8bc2', '0616f111-f1d3-44f0-b672-a5ccac725701', NULL, NULL , 'LAND', True, False,
-'1997-10-03', 'Des soldats ont souffert d''empoisonnement par radiation et de brûlures, attribués à des sources radioactives abandonnées provenant d''activités d''entraînement oubliées et non étiquetées après la dissolution de l''Union soviétique. Une de ces sources était une pastille de césium-137 retrouvée dans la poche d''une veste partagée, émettant un niveau de radiation environ 130 000 fois plus élevé que le fond radioactif à une distance d''un mètre (3,3 pieds).',
+('1de0f261-7dce-4d96-b1e3-9506a42c8bc2', '0616f111-f1d3-44f0-b672-a5ccac725701', NULL, NULL , 'LAND', 
+'1997-10-03', 'Des soldats ont souffert d''empoisonnement par radiation et de brûlures, attribués à des sources radioactives abandonnées provenant d''activités d''entraînement oubliées 
+et non étiquetées après la dissolution de l''Union soviétique. Une de ces sources était une pastille de césium-137 retrouvée dans la poche d''une veste partagée, émettant un niveau de 
+radiation environ 130 000 fois plus élevé que le fond radioactif à une distance d''un mètre (3,3 pieds).',
  'Des soldats ont souffert d''empoisonnement par radiation et de brûlures, attribués à des sources radioactives abandonnées provenant d''activités d''entraînement oubliées et non étiquetées...',
- 'Des soldats ont souffert d''empoisonnement par radiation et de brûlures, attribués à des sources radioactives abandonnées provenant d''activités d''entraînement oubliées et non étiquetées après la dissolution de l''Union soviétique. Une de ces sources était une pastille de césium-137 retrouvée dans la poche d''une veste partagée, émettant un niveau de radiation environ 130 000 fois plus élevé que le fond radioactif à une distance d''un mètre (3,3 pieds).'),
+ 'Des soldats ont souffert d''empoisonnement par radiation et de brûlures, attribués à des sources radioactives abandonnées provenant d''activités d''entraînement oubliées et non étiquetées 
+ après la dissolution de l''Union soviétique. Une de ces sources était une pastille de césium-137 retrouvée dans la poche d''une veste partagée, émettant un niveau de radiation environ 
+ 130 000 fois plus élevé que le fond radioactif à une distance d''un mètre (3,3 pieds).'),
  
- ('0c3e8938-52ff-41fc-8f95-a6323bd5ad48', 'ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', NULL, NULL , 'LAND', True, False,
-'2003-02-03', 'Lors des tests finaux d''une nouvelle méthode de traitement de l''uranium sans sel, il y a eu une petite explosion suivie d''un incendie. l''explosion s''est produite dans un récipient non ventilé contenant du calcium non réagi, de l''eau et de l''uranium appauvri.',
+ ('0c3e8938-52ff-41fc-8f95-a6323bd5ad48', 'ca2b5c8e-4b99-4d05-83b9-3c89a1b43a65', NULL, NULL , 'LAND', 
+'2003-02-03', 'Lors des tests finaux d''une nouvelle méthode de traitement de l''uranium sans sel, il y a eu une petite explosion suivie d''un incendie. l''explosion s''est produite 
+dans un récipient non ventilé contenant du calcium non réagi, de l''eau et de l''uranium appauvri.',
  'Lors des tests finaux d''une nouvelle méthode de traitement de l''uranium sans sel, il y a eu une petite explosion suivie d''un incendie...',
- 'Lors des tests finaux d''une nouvelle méthode de traitement de l''uranium sans sel, il y a eu une petite explosion suivie d''un incendie. l''explosion s''est produite dans un récipient non ventilé contenant du calcium non réagi, de l''eau et de l''uranium appauvri. Une réaction exothermique dans le récipient a généré suffisamment de vapeur pour faire éclater le contenant. Cette petite explosion a endommagé la boîte à gants, permettant à l''air d''entrer et d''enflammer de la poudre d''uranium libre. Trois employés ont été contaminés. BWXT Y-12 (maintenant B&W Y-12), un partenariat entre Babcock & Wilcox et Bechtel, a été condamné à une amende de 82 500 dollars pour cet accident.'),
+ 'Lors des tests finaux d''une nouvelle méthode de traitement de l''uranium sans sel, il y a eu une petite explosion suivie d''un incendie. l''explosion s''est produite dans un 
+ récipient non ventilé contenant du calcium non réagi, de l''eau et de l''uranium appauvri. Une réaction exothermique dans le récipient a généré suffisamment de vapeur pour faire éclater le contenant.
+ Cette petite explosion a endommagé la boîte à gants, permettant à l''air d''entrer et d''enflammer de la poudre d''uranium libre. Trois employés ont été contaminés. BWXT Y-12 
+ (maintenant B&W Y-12), un partenariat entre Babcock & Wilcox et Bechtel, a été condamné à une amende de 82 500 dollars pour cet accident.'),
  
- ('539e4259-a5df-4a95-884f-5c1b9d14a11c', '0c2933cc-edcd-4bee-84d4-89966d311da9', NULL, NULL , 'LAND', True, False,
+ ('539e4259-a5df-4a95-884f-5c1b9d14a11c', '0c2933cc-edcd-4bee-84d4-89966d311da9', NULL, NULL , 'LAND', 
 '2003-02-03', 'l''incident était le résultat d''un test raté d''une "source d''énergie isotopique pour un moteur de fusée à carburant liquide"',
  'l''incident était le résultat d''un test raté d''une "source d''énergie isotopique pour un moteur de fusée à carburant liquide"...',
- 'l''incident était le résultat d''un test raté d''une "source d''énergie isotopique pour un moteur de fusée à carburant liquide" Cependant, d''autres experts en contrôle des armements ont contesté ces assertions ; Ian Williams du Center for Strategic and International Studies et James Acton du Carnegie Endowment for International Peace ont exprimé leur scepticisme quant aux capacités financières et techniques de Moscou pour déployer cette arme, tandis que Michael Kofman du Wilson Center a conclu que l''explosion n''était probablement pas liée au Burevestnik mais plutôt au test d''une autre plateforme militaire. Selon CNBC, les Russes tentaient de récupérer un missile du fond de la mer perdu lors d''un test précédemment échoué.');
+ 'l''incident était le résultat d''un test raté d''une "source d''énergie isotopique pour un moteur de fusée à carburant liquide". 
+ Cependant, d''autres experts en contrôle des armements ont contesté ces assertions ; 
+ Ian Williams du Center for Strategic and International Studies et James Acton du Carnegie Endowment for International Peace ont exprimé leur scepticisme 
+ quant aux capacités financières et techniques de Moscou pour déployer cette arme, tandis que Michael Kofman du Wilson Center 
+ a conclu que l''explosion n''était probablement pas liée au Burevestnik mais plutôt au test d''une autre plateforme militaire. 
+ Selon CNBC, les Russes tentaient de récupérer un missile du fond de la mer perdu lors d''un test précédemment échoué.');

@@ -20,6 +20,6 @@ namespace NuclearIncident.Src.Common.DbSet
         [Column("description")]
         public string? Description { get; set; }
 
-        public List<Accident>? Accidents { get; set; }
+        public List<BrokenArrow>? BrokenArrows { get; set; }
     }
 }

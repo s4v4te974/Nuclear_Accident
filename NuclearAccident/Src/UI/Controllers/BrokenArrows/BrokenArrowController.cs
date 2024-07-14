@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
 using NuclearIncident.Src.Common.Enum;
 using NuclearIncident.Src.Common.Utils;
 using NuclearIncident.Src.Services.Interfaces.BrokenArrows;
@@ -11,19 +11,19 @@ namespace NuclearIncident.Src.UI.Controllers.BrokenArrows
     [ApiController]
     public class BrokenArrowController(IbrokenArrowsService service) : ControllerBase
     {
-        private readonly IbrokenArrowsService _accidentService = service;
+        private readonly IbrokenArrowsService _BrokenArrowsService = service;
 
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<IEnumerable<AccidentResponse>>> GetAccidents()
+        public async Task<ActionResult<IEnumerable<BrokenArrowResponse>>> GetBrokenArrowss()
         {
-            IEnumerable<AccidentResponse> accidents = await _accidentService.GetAccidentsAsync();
-            return accidents == null || !accidents.Any() ? NotFound() : Ok(accidents);
+            IEnumerable<BrokenArrowResponse> BrokenArrowss = await _BrokenArrowsService.GetBrokenArrowssAsync();
+            return BrokenArrowss == null || !BrokenArrowss.Any() ? NotFound() : Ok(BrokenArrowss);
         }
 
         [HttpPost("{id}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<AccidentResponse>> GetSingleAccidentAsync([FromRoute] Guid id)
+        public async Task<ActionResult<BrokenArrowResponse>> GetSingleBrokenArrowsAsync([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -31,17 +31,17 @@ namespace NuclearIncident.Src.UI.Controllers.BrokenArrows
             }
             else
             {
-                AccidentResponse? accident = await _accidentService.GetSingleAccidentAsync(id);
-                return accident == null ? NotFound() : Ok(accident);
+                BrokenArrowResponse? BrokenArrows = await _BrokenArrowsService.GetSingleBrokenArrowsAsync(id);
+                return BrokenArrows == null ? NotFound() : Ok(BrokenArrows);
             }
         }
 
         [HttpPost("/years/{year}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<AccidentResponse>> GetAccidentsByYearsAsync([FromRoute] AvailableYear year)
+        public async Task<ActionResult<BrokenArrowResponse>> GetBrokenArrowssByYearsAsync([FromRoute] AvailableYear year)
         {
-            IEnumerable<AccidentResponse> accidents = await _accidentService.GetAccidentsByYearsAsync((int)year);
-            return accidents == null ? NotFound() : Ok(accidents);
+            IEnumerable<BrokenArrowResponse> BrokenArrowss = await _BrokenArrowsService.GetBrokenArrowssByYearsAsync((int)year);
+            return BrokenArrowss == null ? NotFound() : Ok(BrokenArrowss);
         }
     }
 }

@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NuclearIncident.Src.Common.DbSet
 {
-    [Table("accident")]
-    public class Accident
+    [Table("brokenarrow")]
+    public class BrokenArrow
     {
 
         [Key]
-        [Column("accidentid")]
-        public Guid AccidentId { get; set; }
+        [Column("brokenarrowid")]
+        public Guid BrokenArrowsId { get; set; }
 
         // location
         [Column("locationid")]
@@ -40,12 +40,6 @@ namespace NuclearIncident.Src.Common.DbSet
 
         [Column("seal")]
         public string? Seal { get; set; }
-
-        [Column("isbrokenarrow")]
-        public bool IsBrokenArrow { get; set; }
-
-        [Column("isclosecall")]
-        public bool IsCloseCall { get; set; }
 
     }
 }

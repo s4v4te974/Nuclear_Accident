@@ -1,24 +1,24 @@
 ﻿using AutoMapper;
 using NuclearIncident.Src.Common.DbSet;
-using NuclearIncident.Src.Common.Dtos;
+using NuclearIncident.Src.Common.Dtos.BrokenArrow;
 
 namespace NuclearIncident.Src.UI.Profiles
 {
-    public class AccidentProfile : Profile
+    public class BrokenArrowsProfile : Profile
     {
 
         private readonly float _defautltCoordonate = 0.0f;
-        public AccidentProfile()
+        public BrokenArrowsProfile()
         {
-            CreateMap<Accident, AccidentResponse>()
+            CreateMap<BrokenArrow, BrokenArrowResponse>()
                 .ForPath(dest => dest.Vehicule.VehiculeId, opt => opt.MapFrom(src => src.Vehicule == null ? Guid.Empty : src.Vehicule.VehiculeId))
                 .ForPath(dest => dest.Vehicule.Type, opt => opt.MapFrom(src => src.Vehicule == null ? string.Empty : src.Vehicule.Type))
                 .ForPath(dest => dest.Vehicule.Builder, opt => opt.MapFrom(src => src.Vehicule == null ? string.Empty : src.Vehicule.Builder))
                 .ForPath(dest => dest.Vehicule.Name, opt => opt.MapFrom(src => src.Vehicule == null ? string.Empty : src.Vehicule.Name))
                 .ForPath(dest => dest.Vehicule.Description, opt => opt.MapFrom(src => src.Vehicule == null ? string.Empty : src.Vehicule.Description))
                 .ForPath(dest => dest.Location.LocationId, opt => opt.MapFrom(src => src.Location == null ? Guid.Empty : src.Location.LocationId))
-                .ForPath(dest => dest.Location.Country, opt => opt.MapFrom(src => src.Location == null ? string.Empty : src.Location.Country))
-                .ForPath(dest => dest.Location.PositionLost, opt => opt.MapFrom(src => src.Location == null ? string.Empty : src.Location.PositionLost))
+                .ForPath(dest => dest.Location.Continent, opt => opt.MapFrom(src => src.Location == null ? string.Empty : src.Location.Continent))
+                .ForPath(dest => dest.Location.LostLocation, opt => opt.MapFrom(src => src.Location == null ? string.Empty : src.Location.LostLocation))
                 .ForPath(dest => dest.Location.XCoordonate, opt => opt.MapFrom(src => src.Location == null ? _defautltCoordonate : src.Location.XCoordonate))
                 .ForPath(dest => dest.Location.YCoordonate, opt => opt.MapFrom(src => src.Location == null ? _defautltCoordonate : src.Location.YCoordonate))
                 .ForPath(dest => dest.Weapon.WeaponId, opt => opt.MapFrom(src => src.Weapon == null ? Guid.Empty : src.Weapon.WeaponId))
@@ -31,7 +31,7 @@ namespace NuclearIncident.Src.UI.Profiles
 
 /*
  *  {
-            CreateMap<Accident, AccidentResponse>()
+            CreateMap<BrokenArrows, BrokenArrowsResponse>()
                 .ForMember(dest => dest.Vehicule != null ? dest.Vehicule.VehiculeId : Guid.Empty, opt => opt.MapFrom(src => src.Vehicule == null ? Guid.Empty : src.Vehicule.VehiculeId))
                 .ForMember(dest => dest.Vehicule != null ? dest.Vehicule.Type : string.Empty, opt => opt.MapFrom(src => src.Vehicule == null ? string.Empty : src.Vehicule.Type))
                 .ForMember(dest => dest.Vehicule != null ? dest.Vehicule.Builder : string.Empty, opt => opt.MapFrom(src => src.Vehicule == null ? string.Empty : src.Vehicule.Builder))

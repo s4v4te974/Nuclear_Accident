@@ -11,11 +11,11 @@ namespace NuclearIncident.Src.Common.DbSet
         [Column("locationid")]
         public Guid LocationId { get; set; }
 
-        [Column("country")]
-        public string? Country { get; set; }
+        [Column("continent")]
+        public string? Continent { get; set; }
 
-        [Column("positionlost")]
-        public string? PositionLost { get; set; }
+        [Column("lostlocation")]
+        public string? LostLocation { get; set; }
 
         [Column("xcoordonate")]
         public float? XCoordonate { get; set; }
@@ -23,7 +23,7 @@ namespace NuclearIncident.Src.Common.DbSet
         [Column("ycoordonate")]
         public float? YCoordonate { get; set; }
 
-        public List<Accident>? Accidents { get; set; }
+        public List<BrokenArrow>? BrokenArrows { get; set; }
 
     }
 }

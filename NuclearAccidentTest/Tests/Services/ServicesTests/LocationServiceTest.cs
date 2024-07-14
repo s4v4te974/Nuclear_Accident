@@ -15,7 +15,7 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
     public class LocationServiceTest
     {
 
-        private readonly NuclearAccidentContext _dbContext;
+        private readonly NuclearBrokenArrowsContext _dbContext;
         private readonly Mapper _mapper;
         private readonly ILogger<LocationServiceImpl> _logger;
         private readonly LocationServiceImpl _locationService;
@@ -34,11 +34,11 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
 
         public LocationServiceTest()
         {
-            var options = new DbContextOptionsBuilder<NuclearAccidentContext>()
+            var options = new DbContextOptionsBuilder<NuclearBrokenArrowsContext>()
             .UseSqlite("Data Source =:memory:")
             .Options;
 
-            _dbContext = new NuclearAccidentContext(options);
+            _dbContext = new NuclearBrokenArrowsContext(options);
             _dbContext.Database.OpenConnection();
             _dbContext.Database.EnsureCreated();
             DataInitializer.Initialize(_dbContext);
@@ -90,10 +90,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetAccidentsByLocationAsync()
+        public async Task Test_GetBrokenArrowssByLocationAsync()
         {
             InsertLocation();
-            IEnumerable<LocationResponse?> Locations = await _locationService.GetAccidentsByLocationAsync(AvailableLocation.CANADA);
+            IEnumerable<LocationResponse?> Locations = await _locationService.GetBrokenArrowssByLocationAsync(AvailableLocation.CANADA);
             Assert.NotNull(Locations);
             Assert.True(Locations.Any());
             LocationResponse? expectedLocation = Locations.First();
@@ -122,10 +122,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_Test_GetAccidentsByLocationAsync_ShouldReturnEmptyList_WhenNoLocationExist()
+        public async Task Test_Test_GetBrokenArrowssByLocationAsync_ShouldReturnEmptyList_WhenNoLocationExist()
         {
             ClearLocation();
-            IEnumerable<LocationResponse?> Locations = await _locationService.GetAccidentsByLocationAsync(AvailableLocation.CANADA);
+            IEnumerable<LocationResponse?> Locations = await _locationService.GetBrokenArrowssByLocationAsync(AvailableLocation.CANADA);
             Assert.Empty(Locations);
         }
 
@@ -134,8 +134,8 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
             Location location = new()
             {
                 LocationId = locationOneId,
-                Country = locationOneCountry,
-                PositionLost = locationOnePositionLost,
+                Continent = locationOneCountry,
+                LostLocation = locationOnePositionLost,
                 XCoordonate = locationOneXCoordonate,
                 YCoordonate = locationOneYCoordonate,
 
@@ -143,8 +143,8 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
             Location locationTwo = new()
             {
                 LocationId = locationTwoId,
-                Country = locationTwoCountry,
-                PositionLost = locationTwoPositionLost,
+                Continent = locationTwoCountry,
+                LostLocation = locationTwoPositionLost,
                 XCoordonate = locationTwoXCoordonate,
                 YCoordonate = locationTwoYCoordonate,
 

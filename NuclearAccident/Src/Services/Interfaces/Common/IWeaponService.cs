@@ -10,6 +10,6 @@ namespace NuclearIncident.Src.Services.Interfaces.Common
 
         Task<WeaponResponse?> GetSingleWeaponAsync(Guid weaponId);
 
-        Task<IEnumerable<WeaponResponse?>> GetAccidentsByWeaponAsync(AvailableWeapon availableWeapon);
+        Task<IEnumerable<WeaponResponse?>> GetBrokenArrowssByWeaponAsync(AvailableWeapon availableWeapon);
     }
 }

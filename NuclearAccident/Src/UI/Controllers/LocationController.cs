@@ -41,14 +41,14 @@ namespace NuclearIncident.Src.UI.Controllers
 
         [HttpPost("{location}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<IEnumerable<LocationResponse>>> GetAccidentsByLocationAsync([FromRoute] string location)
+        public async Task<ActionResult<IEnumerable<LocationResponse>>> GetBrokenArrowssByLocationAsync([FromRoute] string location)
         {
             if (!Enum.TryParse(location, true, out AvailableLocation locationEnum))
             {
                 return BadRequest("Invalid location");
             }
-            IEnumerable<LocationResponse?> accidents = await _coordonateService.GetAccidentsByLocationAsync(locationEnum);
-            return accidents == null || !accidents.Any() ? NotFound() : Ok(accidents);
+            IEnumerable<LocationResponse?> BrokenArrowss = await _coordonateService.GetBrokenArrowssByLocationAsync(locationEnum);
+            return BrokenArrowss == null || !BrokenArrowss.Any() ? NotFound() : Ok(BrokenArrowss);
         }
     }
 }

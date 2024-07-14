@@ -14,7 +14,7 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
     public class WeaponServiceTest
     {
 
-        private readonly NuclearAccidentContext _dbContext;
+        private readonly NuclearBrokenArrowsContext _dbContext;
         private readonly Mapper _mapper;
         private readonly ILogger<WeaponServiceImpl> _logger;
         private readonly WeaponServiceImpl _weaponService;
@@ -31,11 +31,11 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
 
         public WeaponServiceTest()
         {
-            var options = new DbContextOptionsBuilder<NuclearAccidentContext>()
+            var options = new DbContextOptionsBuilder<NuclearBrokenArrowsContext>()
             .UseSqlite("Data Source =:memory:")
             .Options;
 
-            _dbContext = new NuclearAccidentContext(options);
+            _dbContext = new NuclearBrokenArrowsContext(options);
             _dbContext.Database.OpenConnection();
             _dbContext.Database.EnsureCreated();
             DataInitializer.Initialize(_dbContext);
@@ -67,8 +67,8 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
             InsertWeapon();
             WeaponResponse? weapon = await _weaponService.GetSingleWeaponAsync(weaponOneId);
             Assert.NotNull(weapon);
-            Assert.NotNull(weapon.Accidents);
-            Assert.True(weapon.Accidents.Any());
+            Assert.NotNull(weapon.BrokenArrowss);
+            Assert.True(weapon.BrokenArrowss.Any());
             Assert.Equal(weapon.WeaponId, weaponOneId);
             Assert.Equal(weapon.Builder, weaponOneBuilder);
             Assert.Equal(weapon.Name, weaponOneName);
@@ -88,15 +88,15 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetAccidentsByWeaponAsync()
+        public async Task Test_GetBrokenArrowssByWeaponAsync()
         {
             InsertWeapon();
-            IEnumerable<WeaponResponse?> weapons = await _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15);
+            IEnumerable<WeaponResponse?> weapons = await _weaponService.GetBrokenArrowssByWeaponAsync(AvailableWeapon.MARK15);
             Assert.NotNull(weapons);
             Assert.True(weapons.Any());
             WeaponResponse? expectedWeapon = weapons.First();
-            Assert.NotNull(expectedWeapon.Accidents);
-            Assert.True(expectedWeapon.Accidents.Any());
+            Assert.NotNull(expectedWeapon.BrokenArrowss);
+            Assert.True(expectedWeapon.BrokenArrowss.Any());
             Assert.Equal(expectedWeapon.WeaponId, weaponOneId);
             Assert.Equal(expectedWeapon.Builder, weaponOneBuilder);
             Assert.Equal(expectedWeapon.Name, weaponOneName);
@@ -121,10 +121,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetAccidentsByWeaponAsync_ShouldReturnEmptyList_WhenNoWeaponsExist()
+        public async Task Test_GetBrokenArrowssByWeaponAsync_ShouldReturnEmptyList_WhenNoWeaponsExist()
         {
             ClearWeapon();
-            IEnumerable<WeaponResponse?> weapons = await _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15);
+            IEnumerable<WeaponResponse?> weapons = await _weaponService.GetBrokenArrowssByWeaponAsync(AvailableWeapon.MARK15);
             Assert.Empty(weapons);
         }
 
@@ -136,10 +136,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
                 Name = weaponOneName,
                 Builder = weaponOneBuilder,
                 Description = weaponOneDescription,
-                Accidents =
+                BrokenArrows =
                     [
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { BrokenArrowsId = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { BrokenArrowsId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                     ]
             };
             Weapon weaponTwo = new()
@@ -148,10 +148,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
                 Name = weaponTwoName,
                 Builder = weaponTwoBuilder,
                 Description = weaponTwoDescription,
-                Accidents =
+                BrokenArrows =
                     [
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { BrokenArrowsId = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { BrokenArrowsId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                 ]
             };
             return [weapon, weaponTwo];

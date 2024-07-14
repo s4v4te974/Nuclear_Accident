@@ -10,7 +10,7 @@ namespace NuclearIncident.Src.Services.Interfaces.Common
 
         Task<VehiculeResponse?> GetSingleVehiculeAsync(Guid vehiculeId);
 
-        Task<IEnumerable<VehiculeResponse?>> GetAccidentsByVehiculeAsync(AvailableVehicule availableVehicule);
+        Task<IEnumerable<VehiculeResponse?>> GetBrokenArrowssByVehiculeAsync(AvailableVehicule availableVehicule);
 
     }
 }

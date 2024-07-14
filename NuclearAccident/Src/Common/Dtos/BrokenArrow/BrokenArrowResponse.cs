@@ -1,10 +1,10 @@
 ﻿using NuclearIncident.Src.Common.DbSet;
 
-namespace NuclearIncident.Src.Common.Dtos
+namespace NuclearIncident.Src.Common.Dtos.BrokenArrow
 {
-    public class AccidentResponse
+    public class BrokenArrowResponse
     {
-        public Guid AccidentId { get; set; }
+        public Guid BrokenArrowsId { get; set; }
         public Location? Location { get; set; }
 
         public Vehicule? Vehicule { get; set; }

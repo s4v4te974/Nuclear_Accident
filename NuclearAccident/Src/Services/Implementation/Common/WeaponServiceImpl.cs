@@ -11,9 +11,9 @@ using System.Data.Common;
 
 namespace NuclearIncident.Src.Services.Implementation.Common
 {
-    public class WeaponServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<WeaponServiceImpl> logger) : IWeaponService
+    public class WeaponServiceImpl(NuclearBrokenArrowsContext context, IMapper mapper, ILogger<WeaponServiceImpl> logger) : IWeaponService
     {
-        private readonly NuclearAccidentContext _context = context;
+        private readonly NuclearBrokenArrowsContext _context = context;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<WeaponServiceImpl> _logger = logger;
         public async Task<IEnumerable<WeaponResponse>> GetWeaponsAsync()
@@ -21,7 +21,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 List<Weapon> weapons = await _context.Weapons
-                    .Include(s => s.Accidents).ToListAsync();
+                    .Include(s => s.BrokenArrows).ToListAsync();
                 return weapons != null && weapons.Any() ? _mapper.Map<IEnumerable<WeaponResponse>>(weapons) : [];
             }
             catch (DbException ex)
@@ -45,7 +45,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             }
         }
 
-        public async Task<IEnumerable<WeaponResponse?>> GetAccidentsByWeaponAsync(AvailableWeapon availableWeapon)
+        public async Task<IEnumerable<WeaponResponse?>> GetBrokenArrowssByWeaponAsync(AvailableWeapon availableWeapon)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
                 if (weaponName != null)
                 {
                     List<Weapon> weapons = await _context.Weapons.Where(w => w.Name != null && w.Name.ToLower() == weaponName.ToLower())
-                        .Include(w => w.Accidents)
+                        .Include(w => w.BrokenArrows)
                         .ToListAsync();
                     return weapons != null ? _mapper.Map<IEnumerable<WeaponResponse>>(weapons) : [];
                 }

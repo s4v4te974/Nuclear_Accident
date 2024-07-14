@@ -14,7 +14,7 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
     public class VehiculeServiceTest
     {
 
-        private readonly NuclearAccidentContext _dbContext;
+        private readonly NuclearBrokenArrowsContext _dbContext;
         private readonly Mapper _mapper;
         private readonly ILogger<VehiculeServiceImpl> _logger;
         private readonly VehiculeServiceImpl _vehiculeService;
@@ -34,11 +34,11 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         public VehiculeServiceTest()
 
         {
-            var options = new DbContextOptionsBuilder<NuclearAccidentContext>()
+            var options = new DbContextOptionsBuilder<NuclearBrokenArrowsContext>()
             .UseSqlite("Data Source =:memory:")
             .Options;
 
-            _dbContext = new NuclearAccidentContext(options);
+            _dbContext = new NuclearBrokenArrowsContext(options);
             _dbContext.Database.OpenConnection();
             _dbContext.Database.EnsureCreated();
             DataInitializer.Initialize(_dbContext);
@@ -70,14 +70,14 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
             InsertVehicule();
             VehiculeResponse? vehicule = await _vehiculeService.GetSingleVehiculeAsync(vehiculeOneId);
             Assert.NotNull(vehicule);
-            Assert.NotNull(vehicule.Accidents);
-            Assert.True(vehicule.Accidents.Any());
+            Assert.NotNull(vehicule.BrokenArrowss);
+            Assert.True(vehicule.BrokenArrowss.Any());
             Assert.Equal(vehicule.VehiculeId, vehiculeOneId);
             Assert.Equal(vehicule.Type, vehiculeOneType);
             Assert.Equal(vehicule.Builder, vehiculeOneBuilder);
             Assert.Equal(vehicule.Name, vehiculeOneName);
             Assert.Equal(vehicule.Description, vehiculeOneDescription);
-            Assert.Equal(2, vehicule.Accidents.Count);
+            Assert.Equal(2, vehicule.BrokenArrowss.Count);
             ClearVehicule();
         }
 
@@ -93,15 +93,15 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetAccidentsByVehiculeAsync()
+        public async Task Test_GetBrokenArrowssByVehiculeAsync()
         {
             InsertVehicule();
-            IEnumerable<VehiculeResponse?> vehicules = await _vehiculeService.GetAccidentsByVehiculeAsync(AvailableVehicule.DOUGLAS);
+            IEnumerable<VehiculeResponse?> vehicules = await _vehiculeService.GetBrokenArrowssByVehiculeAsync(AvailableVehicule.DOUGLAS);
             Assert.NotNull(vehicules);
             Assert.True(vehicules.Any());
             VehiculeResponse? expectedVehicule = vehicules.First();
-            Assert.NotNull(expectedVehicule.Accidents);
-            Assert.True(expectedVehicule.Accidents.Any());
+            Assert.NotNull(expectedVehicule.BrokenArrowss);
+            Assert.True(expectedVehicule.BrokenArrowss.Any());
             Assert.Equal(expectedVehicule.VehiculeId, vehiculeOneId);
             Assert.Equal(expectedVehicule.Type, vehiculeOneType);
             Assert.Equal(expectedVehicule.Builder, vehiculeOneBuilder);
@@ -127,10 +127,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetAccidentsByWeaponAsync_ShouldReturnEmptyList_WhenNoVehiculeExist()
+        public async Task Test_GetBrokenArrowssByWeaponAsync_ShouldReturnEmptyList_WhenNoVehiculeExist()
         {
             ClearVehicule();
-            IEnumerable<VehiculeResponse?> vehicules = await _vehiculeService.GetAccidentsByVehiculeAsync(AvailableVehicule.DOUGLAS);
+            IEnumerable<VehiculeResponse?> vehicules = await _vehiculeService.GetBrokenArrowssByVehiculeAsync(AvailableVehicule.DOUGLAS);
             Assert.Empty(vehicules);
         }
 
@@ -145,10 +145,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
                 Builder = vehiculeOneBuilder,
                 Name = vehiculeOneName,
                 Description = vehiculeOneDescription,
-                Accidents =
+                BrokenArrows =
                 [
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { BrokenArrowsId = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { BrokenArrowsId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                 ]
             };
             Vehicule vehiculeTwo = new()
@@ -158,10 +158,10 @@ namespace NuclearInccidentTest.Tests.Services.ServicesTests
                 Builder = vehiculeTwoBuilder,
                 Name = vehiculeTwoName,
                 Description = vehiculeTwoDescription,
-                Accidents =
+                BrokenArrows =
                     [
-                    new() { AccidentId = Guid.NewGuid() },
-                    new() { AccidentId = Guid.NewGuid() }
+                    new() { BrokenArrowsId = Guid.NewGuid() },
+                    new() { BrokenArrowsId = Guid.NewGuid() }
                 ]
             };
             return [vehicule, vehiculeTwo];

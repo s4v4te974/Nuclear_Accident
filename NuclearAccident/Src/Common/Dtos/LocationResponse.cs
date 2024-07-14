@@ -1,4 +1,6 @@
-﻿namespace NuclearIncident.Src.Common.Dtos
+﻿using NuclearIncident.Src.Common.Dtos.BrokenArrow;
+
+namespace NuclearIncident.Src.Common.Dtos
 {
     public class LocationResponse
     {
@@ -12,6 +14,6 @@
 
         public float? YCoordonate { get; set; }
 
-        public List<AccidentShortResponse>? BrokenArrows { get; set; }
+        public List<BrokenArrowShortResponse>? BrokenArrows { get; set; }
     }
 }

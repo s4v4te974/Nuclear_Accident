@@ -4,37 +4,37 @@ using NuclearIncident.Src.Common.DbSet;
 
 namespace NuclearIncident.Src.Data
 {
-    public class NuclearAccidentContext : DbContext
+    public class NuclearBrokenArrowsContext : DbContext
     {
 
-        public NuclearAccidentContext(DbContextOptions<NuclearAccidentContext> options) : base(options)
+        public NuclearBrokenArrowsContext(DbContextOptions<NuclearBrokenArrowsContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // relation between BA and Coordonate (one-to-one)
-            modelBuilder.Entity<Accident>()
+            modelBuilder.Entity<BrokenArrow>()
                 .HasOne(b => b.Location)
-                .WithMany(d => d.Accidents)
+                .WithMany(d => d.BrokenArrows)
                 .HasForeignKey(d => d.LocationId)
                 .IsRequired(false);
 
             // relation between BA and Weapon (one to many)
-            modelBuilder.Entity<Accident>()
+            modelBuilder.Entity<BrokenArrow>()
                 .HasOne(w => w.Weapon)
-                .WithMany(d => d.Accidents)
+                .WithMany(d => d.BrokenArrows)
                 .HasForeignKey(w => w.WeaponId)
                 .IsRequired(false);
 
             // relation between BA and Plane (one to many)
-            modelBuilder.Entity<Accident>()
+            modelBuilder.Entity<BrokenArrow>()
                 .HasOne(v => v.Vehicule)
-                .WithMany(d => d.Accidents)
+                .WithMany(d => d.BrokenArrows)
                 .HasForeignKey(v => v.VehiculeId)
                 .IsRequired(false);
         }
-        public DbSet<Accident> Accidents { get; set; }
+        public DbSet<BrokenArrow> BrokenArrows { get; set; }
 
         public DbSet<Location> Locations { get; set; }
 

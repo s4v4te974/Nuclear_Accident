@@ -10,7 +10,7 @@ namespace NuclearIncident.Src.Services.Interfaces.Common
 
         Task<LocationResponse?> GetSingleLocationAsync(Guid locationId);
 
-        Task<IEnumerable<LocationResponse?>> GetAccidentsByLocationAsync(AvailableLocation availableLocation);
+        Task<IEnumerable<LocationResponse?>> GetBrokenArrowssByLocationAsync(AvailableLocation availableLocation);
 
     }
 }

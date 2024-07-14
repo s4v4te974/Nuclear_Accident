@@ -39,14 +39,14 @@ namespace NuclearIncident.Src.UI.Controllers
 
         [HttpPost("{vehicule}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<VehiculeResponse>> GetAccidentsByVehiculeAsync([FromRoute] string vehicule)
+        public async Task<ActionResult<VehiculeResponse>> GetBrokenArrowssByVehiculeAsync([FromRoute] string vehicule)
         {
             if (!Enum.TryParse(vehicule, true, out AvailableVehicule vehiculeEnum))
             {
                 return BadRequest("Invalid vehicule");
             }
-            IEnumerable<VehiculeResponse?> Accidents = await _vehiculeService.GetAccidentsByVehiculeAsync(vehiculeEnum);
-            return Accidents == null || !Accidents.Any() ? NotFound() : Ok(Accidents);
+            IEnumerable<VehiculeResponse?> BrokenArrowss = await _vehiculeService.GetBrokenArrowssByVehiculeAsync(vehiculeEnum);
+            return BrokenArrowss == null || !BrokenArrowss.Any() ? NotFound() : Ok(BrokenArrowss);
         }
     }
 }

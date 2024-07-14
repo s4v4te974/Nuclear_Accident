@@ -1,15 +1,15 @@
-﻿using NuclearIncident.Src.Common.Dtos;
+﻿using NuclearIncident.Src.Common.Dtos.BrokenArrow;
 
 namespace NuclearIncident.Src.Services.Interfaces.BrokenArrows
 {
     public interface IbrokenArrowsService
     {
 
-        Task<IEnumerable<AccidentResponse>> GetAccidentsAsync();
+        Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowssAsync();
 
-        Task<AccidentResponse?> GetSingleAccidentAsync(Guid AccidentId);
+        Task<BrokenArrowResponse?> GetSingleBrokenArrowsAsync(Guid BrokenArrowsId);
 
-        Task<IEnumerable<AccidentResponse>> GetAccidentsByYearsAsync(int year);
+        Task<IEnumerable<BrokenArrowResponse>> GetBrokenArrowssByYearsAsync(int year);
 
     }
 }

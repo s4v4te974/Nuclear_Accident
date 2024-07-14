@@ -1,6 +1,6 @@
-@Accident_HostAddress = http://localhost:5280
+@BrokenArrows_HostAddress = http://localhost:5280
 
-GET {{Accident_HostAddress}}/weatherforecast/
+GET {{BrokenArrows_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

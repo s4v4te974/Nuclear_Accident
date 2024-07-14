@@ -11,9 +11,9 @@ using System.Data.Common;
 
 namespace NuclearIncident.Src.Services.Implementation.Common
 {
-    public class VehiculeServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<VehiculeServiceImpl> logger) : IVehiculeService
+    public class VehiculeServiceImpl(NuclearBrokenArrowsContext context, IMapper mapper, ILogger<VehiculeServiceImpl> logger) : IVehiculeService
     {
-        private readonly NuclearAccidentContext _context = context;
+        private readonly NuclearBrokenArrowsContext _context = context;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<VehiculeServiceImpl> _logger = logger;
 
@@ -22,7 +22,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 List<Vehicule> vehicules = await _context.Vehicules
-                    .Include(s => s.Accidents).ToListAsync();
+                    .Include(s => s.BrokenArrows).ToListAsync();
                 return vehicules != null && vehicules.Any() ? _mapper.Map<IEnumerable<VehiculeResponse>>(vehicules) : [];
             }
             catch (DbException ex)
@@ -37,7 +37,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 Vehicule? vehicule = await _context.Vehicules
-                    .Include(v => v.Accidents)
+                    .Include(v => v.BrokenArrows)
                     .SingleOrDefaultAsync(s => s.VehiculeId == vehiculeId);
                 return vehicule != null ? _mapper.Map<VehiculeResponse>(vehicule) : null;
             }
@@ -48,7 +48,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             }
         }
 
-        public async Task<IEnumerable<VehiculeResponse?>> GetAccidentsByVehiculeAsync(AvailableVehicule availableVehicule)
+        public async Task<IEnumerable<VehiculeResponse?>> GetBrokenArrowssByVehiculeAsync(AvailableVehicule availableVehicule)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
                 if (vehiculeName != null)
                 {
                     List<Vehicule> vehicules = await _context.Vehicules.Where(v => v.Builder != null && v.Builder.ToLower() == vehiculeName.ToLower())
-                        .Include(v => v.Accidents)
+                        .Include(v => v.BrokenArrows)
                         .ToListAsync();
                     return vehicules != null ? _mapper.Map<IEnumerable<VehiculeResponse>>(vehicules) : [];
                 }

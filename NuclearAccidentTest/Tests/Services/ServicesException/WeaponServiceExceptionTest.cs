@@ -14,25 +14,25 @@ namespace NuclearInccidentTest.Tests.Services.ServicesException
 {
     public class WeaponServiceExceptionTest
     {
-        private readonly NuclearAccidentContext _dbContext;
+        private readonly NuclearBrokenArrowsContext _dbContext;
         private readonly IWeaponService _weaponService;
         private readonly Mock<ILogger<WeaponServiceImpl>> _logger;
         private readonly Mock<IMapper> _mapper;
 
         public WeaponServiceExceptionTest()
         {
-            var options = new DbContextOptionsBuilder<NuclearAccidentContext>()
+            var options = new DbContextOptionsBuilder<NuclearBrokenArrowsContext>()
             .UseSqlite("Data Source =:memory:")
             .Options;
 
-            _dbContext = new NuclearAccidentContext(options);
+            _dbContext = new NuclearBrokenArrowsContext(options);
             _logger = new Mock<ILogger<WeaponServiceImpl>>();
             _mapper = new Mock<IMapper>();
             _weaponService = new WeaponServiceImpl(_dbContext, _mapper.Object, _logger.Object);
         }
 
         [Fact]
-        public async Task GetWeaponsAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
+        public async Task GetWeaponsAsync_ShouldThrowNuclearBrokenArrowsException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Weapon>>();
             mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
@@ -43,7 +43,7 @@ namespace NuclearInccidentTest.Tests.Services.ServicesException
         }
 
         [Fact]
-        public async Task GetSingleWeaponAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
+        public async Task GetSingleWeaponAsync_ShouldThrowNuclearBrokenArrowsException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Weapon>>();
             mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
@@ -54,12 +54,12 @@ namespace NuclearInccidentTest.Tests.Services.ServicesException
         }
 
         [Fact]
-        public async Task GetAccidentsByWeaponAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
+        public async Task GetBrokenArrowssByWeaponAsync_ShouldThrowNuclearBrokenArrowsException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Weapon>>();
             mockSet.As<IQueryable<Weapon>>().Setup(m => m.Provider).Throws(new NuclearIncidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15));
+            var exception = await Assert.ThrowsAsync<NuclearIncidentException>(() => _weaponService.GetBrokenArrowssByWeaponAsync(AvailableWeapon.MARK15));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, exception.Message);
         }

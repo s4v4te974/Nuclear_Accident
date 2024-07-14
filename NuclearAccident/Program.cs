@@ -68,7 +68,7 @@ builder.Services.AddScoped<IBrokenArrowsStatistiqueService, BrokenArrowsStatisti
 
 // database connexion build the context
 
-builder.Services.AddDbContext<NuclearAccidentContext>(options =>
+builder.Services.AddDbContext<NuclearBrokenArrowsContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
 var app = builder.Build();

@@ -40,14 +40,14 @@ namespace NuclearIncident.Src.UI.Controllers
 
         [HttpPost("{weapon}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<WeaponResponse>> GetAccidentsByWeaponAsync([FromRoute] string weapon)
+        public async Task<ActionResult<WeaponResponse>> GetBrokenArrowssByWeaponAsync([FromRoute] string weapon)
         {
             if (!Enum.TryParse(weapon, true, out AvailableWeapon weaponEnum))
             {
                 return BadRequest("Invalid weapon");
             }
-            IEnumerable<WeaponResponse?> Accidents = await _weaponService.GetAccidentsByWeaponAsync(weaponEnum);
-            return Accidents == null || !Accidents.Any() ? NotFound() : Ok(Accidents);
+            IEnumerable<WeaponResponse?> BrokenArrowss = await _weaponService.GetBrokenArrowssByWeaponAsync(weaponEnum);
+            return BrokenArrowss == null || !BrokenArrowss.Any() ? NotFound() : Ok(BrokenArrowss);
         }
     }
 }

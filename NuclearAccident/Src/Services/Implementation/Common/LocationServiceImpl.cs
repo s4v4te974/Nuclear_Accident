@@ -11,9 +11,9 @@ using System.Data.Common;
 
 namespace NuclearIncident.Src.Services.Implementation.Common
 {
-    public class LocationServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<LocationServiceImpl> logger) : ILocationService
+    public class LocationServiceImpl(NuclearBrokenArrowsContext context, IMapper mapper, ILogger<LocationServiceImpl> logger) : ILocationService
     {
-        private readonly NuclearAccidentContext _context = context;
+        private readonly NuclearBrokenArrowsContext _context = context;
         private readonly IMapper _mapper = mapper;
         private readonly ILogger<LocationServiceImpl> _logger = logger;
 
@@ -22,7 +22,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 List<Location> locations = await _context.Locations
-                    .Include(l => l.Accidents)
+                    .Include(l => l.BrokenArrows)
                     .ToListAsync();
                 return locations != null && locations.Any() ? _mapper.Map<IEnumerable<LocationResponse>>(locations).ToList() : [];
             }
@@ -38,7 +38,7 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             try
             {
                 Location? location = await _context.Locations
-                    .Include(l => l.Accidents)
+                    .Include(l => l.BrokenArrows)
                     .SingleOrDefaultAsync(l => l.LocationId == locationId);
                 return location != null ? _mapper.Map<LocationResponse>(location) : null;
             }
@@ -49,15 +49,15 @@ namespace NuclearIncident.Src.Services.Implementation.Common
             }
         }
 
-        public async Task<IEnumerable<LocationResponse?>> GetAccidentsByLocationAsync(AvailableLocation availableLocation)
+        public async Task<IEnumerable<LocationResponse?>> GetBrokenArrowssByLocationAsync(AvailableLocation availableLocation)
         {
             try
             {
                 string? locationName = Enum.GetName(typeof(AvailableLocation), value: availableLocation);
                 if (locationName != null)
                 {
-                    List<Location> location = await _context.Locations.Where(l => l.Country != null && l.Country.ToLower() == locationName.ToLower())
-                        .Include(l => l.Accidents)
+                    List<Location> location = await _context.Locations.Where(l => l.Continent != null && l.Continent.ToLower() == locationName.ToLower())
+                        .Include(l => l.BrokenArrows)
                         .ToListAsync();
                     return location != null ? _mapper.Map<IEnumerable<LocationResponse>>(location) : [];
                 }
