@@ -5,31 +5,32 @@ using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Exceptions;
 using NuclearAccident.Src.Common.Utils;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
 using System.Data.Common;
 
 
-namespace NuclearAccident.Src.Services.Implementation
+namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
 {
-    public class AccidentServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<AccidentServiceImpl> logger) : IAccidentService
+    public class BrokenArrowsServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<BrokenArrowsServiceImpl> logger) : IbrokenArrowsService
     {
         private readonly NuclearAccidentContext _context = context;
         private readonly IMapper _mapper = mapper;
-        private readonly ILogger<AccidentServiceImpl> _logger = logger;
+        private readonly ILogger<BrokenArrowsServiceImpl> _logger = logger;
 
         public async Task<IEnumerable<AccidentResponse>> GetAccidentsAsync()
         {
             try
             {
-                List<Accident> accidents = await _context.Accidents
+                List<Accident> brokenArrows = await _context.Accidents
+                    .Where(b => b.isBrokenArrow)
                     .Include(b => b.Weapon).Include(b => b.Vehicule)
                     .Include(b => b.Location).ToListAsync();
-                return accidents != null && accidents.Any() ? _mapper.Map<IEnumerable<AccidentResponse>>(accidents) : [];
+                return brokenArrows != null && brokenArrows.Any() ? _mapper.Map<IEnumerable<AccidentResponse>>(brokenArrows) : [];
             }
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
             }
         }
 
@@ -39,14 +40,14 @@ namespace NuclearAccident.Src.Services.Implementation
             {
                 int lastYear = year + 9;
                 List<Accident> Accidents = await _context.Accidents
-                    .Where(b => b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear)
+                    .Where(b => b.isBrokenArrow && (b.DisasterDate.Year >= year && b.DisasterDate.Year <= lastYear))
                     .Include(b => b.Weapon).Include(b => b.Vehicule)
                     .Include(b => b.Location).ToListAsync();
                 return Accidents != null && Accidents.Any() ? _mapper.Map<IEnumerable<AccidentResponse>>(Accidents) : [];
             }
             catch (DbException ex)
             {
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, ex);
             }
         }
 
@@ -54,12 +55,12 @@ namespace NuclearAccident.Src.Services.Implementation
         {
             try
             {
-                Accident? accident = await _context.Accidents.SingleOrDefaultAsync(b => b.AccidentId == AccidentId);
+                Accident? accident = await _context.Accidents.SingleOrDefaultAsync(b => b.Brokenarrowid == AccidentId);
                 return accident != null ? _mapper.Map<AccidentResponse>(accident) : null;
             }
             catch (DbException ex)
             {
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, ex);
             }
         }
     }

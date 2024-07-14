@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
 using System.Net.Mime;
 
-namespace NuclearAccident.Src.Mna.UI.Controllers
+namespace NuclearAccident.Src.UI.Controllers.BrokenArrows
 {
-    [Route(ConstUtils.LOCATION_ROOT_URL)]
+    [Route(ConstUtils.ROOT_URL)]
     [ApiController]
-    public class StatsController(IStatistiqueService service) : ControllerBase
+    public class BrokenArrowsStatsController(IBrokenArrowsStatistiqueService service) : ControllerBase
     {
-        private readonly IStatistiqueService _statistiquesService = service;
+        private readonly IBrokenArrowsStatistiqueService _statistiquesService = service;
 
         [HttpGet(ConstUtils.STATS_URL)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<StatsResponse>> GetBrokenArrows()
+        public async Task<ActionResult<StatsResponse>> GetAccidents()
         {
             StatsResponse stats = await _statistiquesService.GetAllStatsAsync();
             return stats == null ? NotFound() : Ok(stats);

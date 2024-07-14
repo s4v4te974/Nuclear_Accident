@@ -1,0 +1,62 @@
+﻿using Microsoft.EntityFrameworkCore;
+using NuclearAccident.Src.Common.DbSet;
+using NuclearAccident.Src.Common.Dtos;
+using NuclearAccident.Src.Common.Exceptions;
+using NuclearAccident.Src.Common.Utils;
+using NuclearAccident.Src.Data;
+using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
+using System.Data.Common;
+
+namespace NuclearAccident.Src.Services.Implementation.BrokenArrows
+{
+    public class BrokenArrowsStatistiquesImpl(NuclearAccidentContext context, ILogger<BrokenArrowsStatistiquesImpl> logger) : IBrokenArrowsStatistiqueService
+    {
+        private readonly NuclearAccidentContext _context = context;
+        private readonly ILogger<BrokenArrowsStatistiquesImpl> _logger = logger;
+
+        public async Task<StatsResponse> GetAllStatsAsync()
+        {
+            try
+            {
+                List<Accident> brokenArrows = await _context.Accidents
+                    .Include(b => b.Weapon).Include(b => b.Vehicule)
+                    .Include(b => b.Location).ToListAsync();
+
+                if (brokenArrows != null)
+                {
+                    return new()
+                    {
+                        AccidentByVehiculeBuilder = brokenArrows
+                    .Where(b => b.Vehicule != null && b.Vehicule.Builder != null)
+                    .GroupBy(b => b.Vehicule!.Builder!)
+                    .ToDictionary(g => g.Key, g => g.Count()),
+
+                        AccidentByVehiculesType = brokenArrows
+                    .Where(b => b.Vehicule != null && b.Vehicule.Type != null)
+                    .GroupBy(b => b.Vehicule!.Type!)
+                    .ToDictionary(g => g.Key, g => g.Count()),
+
+                        AccidentByLocations = brokenArrows
+                    .Where(b => b.Location != null && b.Location.Country != null)
+                    .GroupBy(b => b.Location!.Country!)
+                    .ToDictionary(g => g.Key, g => g.Count()),
+
+                        AccidentByWeaponsName = brokenArrows
+                    .Where(b => b.Weapon != null && b.Weapon.Name != null)
+                    .GroupBy(b => b.Weapon!.Name!)
+                    .ToDictionary(g => g.Key, g => g.Count())
+                    };
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, ex);
+            }
+        }
+    }
+}

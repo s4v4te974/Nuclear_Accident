@@ -6,10 +6,10 @@ using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Common.Exceptions;
 using NuclearAccident.Src.Common.Utils;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using System.Data.Common;
 
-namespace NuclearAccident.Src.Services.Implementation
+namespace NuclearAccident.Src.Services.Implementation.Common
 {
     public class VehiculeServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<VehiculeServiceImpl> logger) : IVehiculeService
     {
@@ -28,7 +28,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_VEHICULE);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_VEHICULE, ex);
             }
         }
 
@@ -44,7 +44,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_VEHICULE);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_VEHICULE, ex);
             }
         }
 
@@ -52,7 +52,7 @@ namespace NuclearAccident.Src.Services.Implementation
         {
             try
             {
-                string? vehiculeName = System.Enum.GetName(typeof(AvailableVehicule), value: availableVehicule);
+                string? vehiculeName = Enum.GetName(typeof(AvailableVehicule), value: availableVehicule);
                 if (vehiculeName != null)
                 {
                     List<Vehicule> vehicules = await _context.Vehicules.Where(v => v.Builder != null && v.Builder.ToLower() == vehiculeName.ToLower())
@@ -68,7 +68,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_VEHICULE, ex);
             }
         }
     }

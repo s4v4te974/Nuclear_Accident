@@ -2,7 +2,7 @@
 using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Dtos;
 
-namespace NuclearAccident.Src.UI.Controllers.Profiles
+namespace NuclearAccident.Src.UI.Profiles
 {
     public class VehiculeProfile : Profile
     {
@@ -11,8 +11,7 @@ namespace NuclearAccident.Src.UI.Controllers.Profiles
             CreateMap<Vehicule, VehiculeResponse>()
                  .ForMember(dest => dest.Accidents, opt => opt.MapFrom(src => src.Accidents));
 
-            CreateMap<Accident, AccidentShortResponse>();
+            CreateMap<Accident, BrokenArrowsShortResponse>();
         }
-
     }
 }

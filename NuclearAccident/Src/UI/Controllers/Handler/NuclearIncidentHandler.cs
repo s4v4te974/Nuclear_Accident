@@ -3,7 +3,7 @@ using System.Net;
 
 namespace NuclearAccident.Src.UI.Controllers.Handler
 {
-    public class AccidentHandler(RequestDelegate next)
+    public class NuclearIncidentHandler(RequestDelegate next)
     {
         private readonly RequestDelegate _next = next;
 

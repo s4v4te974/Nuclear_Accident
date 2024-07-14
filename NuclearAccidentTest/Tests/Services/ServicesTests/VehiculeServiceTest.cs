@@ -5,11 +5,11 @@ using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation;
-using NuclearAccident.Src.UI.Controllers.Profiles;
+using NuclearAccident.Src.Services.Implementation.Common;
+using NuclearAccident.Src.UI.Profiles;
 using NuclearAccidentTest.Utils;
 
-namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
+namespace NuclearAccidentTest.Tests.Services.ServicesTests
 {
     public class VehiculeServiceTest
     {
@@ -93,7 +93,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetBrokenArrowsByVehiculeAsync()
+        public async Task Test_GetAccidentsByVehiculeAsync()
         {
             InsertVehicule();
             IEnumerable<VehiculeResponse?> vehicules = await _vehiculeService.GetAccidentsByVehiculeAsync(AvailableVehicule.DOUGLAS);
@@ -127,7 +127,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetBrokenArrowsByWeaponAsync_ShouldReturnEmptyList_WhenNoVehiculeExist()
+        public async Task Test_GetAccidentsByWeaponAsync_ShouldReturnEmptyList_WhenNoVehiculeExist()
         {
             ClearVehicule();
             IEnumerable<VehiculeResponse?> vehicules = await _vehiculeService.GetAccidentsByVehiculeAsync(AvailableVehicule.DOUGLAS);
@@ -147,8 +147,8 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
                 Description = vehiculeOneDescription,
                 Accidents =
                 [
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                 ]
             };
             Vehicule vehiculeTwo = new()
@@ -160,8 +160,8 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
                 Description = vehiculeTwoDescription,
                 Accidents =
                     [
-                    new() { AccidentId = Guid.NewGuid() },
-                    new() { AccidentId = Guid.NewGuid() }
+                    new() { Brokenarrowid = Guid.NewGuid() },
+                    new() { Brokenarrowid = Guid.NewGuid() }
                 ]
             };
             return [vehicule, vehiculeTwo];

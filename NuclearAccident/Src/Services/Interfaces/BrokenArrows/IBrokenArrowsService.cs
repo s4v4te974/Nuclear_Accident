@@ -1,8 +1,8 @@
 ﻿using NuclearAccident.Src.Common.Dtos;
 
-namespace NuclearAccident.Src.Services.Interfaces
+namespace NuclearAccident.Src.Services.Interfaces.BrokenArrows
 {
-    public interface IAccidentService
+    public interface IbrokenArrowsService
     {
 
         Task<IEnumerable<AccidentResponse>> GetAccidentsAsync();

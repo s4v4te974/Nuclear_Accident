@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MilitaryNuclearAccident.Src.Mna.UI.Controllers.Profiles;
 using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation;
+using NuclearAccident.Src.Services.Implementation.Common;
+using NuclearAccident.Src.UI.Profiles;
 using NuclearAccidentTest.Utils;
 
 namespace NuclearAccidentTest.Tests.Services.ServicesTests
@@ -44,7 +44,7 @@ namespace NuclearAccidentTest.Tests.Services.ServicesTests
             {
                 cfg.AddProfile<WeaponProfile>();
             });
-            _mapper = (Mapper?)config.CreateMapper();
+            _mapper = config.CreateMapper() as Mapper;
 
             _weaponService = new WeaponServiceImpl(_dbContext, _mapper, _logger);
         }
@@ -88,7 +88,7 @@ namespace NuclearAccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetBrokenArrowsByWeaponAsync()
+        public async Task Test_GetAccidentsByWeaponAsync()
         {
             InsertWeapon();
             IEnumerable<WeaponResponse?> weapons = await _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15);
@@ -121,7 +121,7 @@ namespace NuclearAccidentTest.Tests.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetBrokenArrowsByWeaponAsync_ShouldReturnEmptyList_WhenNoWeaponsExist()
+        public async Task Test_GetAccidentsByWeaponAsync_ShouldReturnEmptyList_WhenNoWeaponsExist()
         {
             ClearWeapon();
             IEnumerable<WeaponResponse?> weapons = await _weaponService.GetAccidentsByWeaponAsync(AvailableWeapon.MARK15);
@@ -138,8 +138,8 @@ namespace NuclearAccidentTest.Tests.Services.ServicesTests
                 Description = weaponOneDescription,
                 Accidents =
                     [
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                     ]
             };
             Weapon weaponTwo = new()
@@ -150,8 +150,8 @@ namespace NuclearAccidentTest.Tests.Services.ServicesTests
                 Description = weaponTwoDescription,
                 Accidents =
                     [
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" },
-                    new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 2"  }
+                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 1" },
+                    new() { Brokenarrowid = Guid.NewGuid(), ShortDescription = "Short description 2"  }
                 ]
             };
             return [weapon, weaponTwo];

@@ -6,10 +6,10 @@ using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Common.Exceptions;
 using NuclearAccident.Src.Common.Utils;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using System.Data.Common;
 
-namespace NuclearAccident.Src.Services.Implementation
+namespace NuclearAccident.Src.Services.Implementation.Common
 {
     public class LocationServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<LocationServiceImpl> logger) : ILocationService
     {
@@ -22,14 +22,14 @@ namespace NuclearAccident.Src.Services.Implementation
             try
             {
                 List<Location> locations = await _context.Locations
-                    .Include(l => l.Accident)
+                    .Include(l => l.BrokenArrows)
                     .ToListAsync();
                 return locations != null && locations.Any() ? _mapper.Map<IEnumerable<LocationResponse>>(locations).ToList() : [];
             }
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_COORDONATE);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
             }
         }
 
@@ -38,14 +38,14 @@ namespace NuclearAccident.Src.Services.Implementation
             try
             {
                 Location? location = await _context.Locations
-                    .Include(l => l.Accident)
+                    .Include(l => l.BrokenArrows)
                     .SingleOrDefaultAsync(l => l.LocationId == locationId);
                 return location != null ? _mapper.Map<LocationResponse>(location) : null;
             }
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_COORDONATE);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_LOCATION, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_LOCATION, ex);
             }
         }
 
@@ -53,11 +53,11 @@ namespace NuclearAccident.Src.Services.Implementation
         {
             try
             {
-                string? locationName = System.Enum.GetName(typeof(AvailableLocation), value: availableLocation);
+                string? locationName = Enum.GetName(typeof(AvailableLocation), value: availableLocation);
                 if (locationName != null)
                 {
                     List<Location> location = await _context.Locations.Where(l => l.Country != null && l.Country.ToLower() == locationName.ToLower())
-                        .Include(l => l.Accident)
+                        .Include(l => l.BrokenArrows)
                         .ToListAsync();
                     return location != null ? _mapper.Map<IEnumerable<LocationResponse>>(location) : [];
                 }
@@ -69,7 +69,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_LOCATION, ex);
             }
         }
     }

@@ -2,10 +2,10 @@
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using System.Net.Mime;
 
-namespace MilitaryNuclearAccident.Src.Mna.UI.Controllers
+namespace NuclearAccident.Src.UI.Controllers
 {
     [Route(ConstUtils.WEAPON_ROOT_URL)]
     [ApiController]
@@ -40,14 +40,14 @@ namespace MilitaryNuclearAccident.Src.Mna.UI.Controllers
 
         [HttpPost("{weapon}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<WeaponResponse>> GetBrokenArrowsByWeaponAsync([FromRoute] string weapon)
+        public async Task<ActionResult<WeaponResponse>> GetAccidentsByWeaponAsync([FromRoute] string weapon)
         {
-            if (!System.Enum.TryParse(weapon, true, out AvailableWeapon weaponEnum))
+            if (!Enum.TryParse(weapon, true, out AvailableWeapon weaponEnum))
             {
                 return BadRequest("Invalid weapon");
             }
-            IEnumerable<WeaponResponse?> brokenArrows = await _weaponService.GetAccidentsByWeaponAsync(weaponEnum);
-            return brokenArrows == null || !brokenArrows.Any() ? NotFound() : Ok(brokenArrows);
+            IEnumerable<WeaponResponse?> Accidents = await _weaponService.GetAccidentsByWeaponAsync(weaponEnum);
+            return Accidents == null || !Accidents.Any() ? NotFound() : Ok(Accidents);
         }
     }
 }

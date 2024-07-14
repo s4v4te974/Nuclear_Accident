@@ -5,11 +5,12 @@ using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation;
-using NuclearAccident.Src.UI.Controllers.Profiles;
+using NuclearAccident.Src.Services.Implementation.Common;
+using NuclearAccident.Src.UI.Profiles;
 using NuclearAccidentTest.Utils;
 
-namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
+
+namespace NuclearAccidentTest.Tests.Services.ServicesTests
 {
     public class LocationServiceTest
     {
@@ -69,7 +70,6 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             InsertLocation();
             LocationResponse? location = await _locationService.GetSingleLocationAsync(locationOneId);
             Assert.NotNull(location);
-            Assert.NotNull(location.Accident);
             Assert.Equal(location.LocationId, locationOneId);
             Assert.Equal(location.Country, locationOneCountry);
             Assert.Equal(location.PositionLost, locationOnePositionLost);
@@ -90,14 +90,13 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_GetBrokenArrowsByLocationAsync()
+        public async Task Test_GetAccidentsByLocationAsync()
         {
             InsertLocation();
             IEnumerable<LocationResponse?> Locations = await _locationService.GetAccidentsByLocationAsync(AvailableLocation.CANADA);
             Assert.NotNull(Locations);
             Assert.True(Locations.Any());
             LocationResponse? expectedLocation = Locations.First();
-            Assert.NotNull(expectedLocation.Accident);
             Assert.Equal(expectedLocation.LocationId, locationOneId);
             Assert.Equal(expectedLocation.Country, locationOneCountry);
             Assert.Equal(expectedLocation.PositionLost, locationOnePositionLost);
@@ -123,7 +122,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
         }
 
         [Fact]
-        public async Task Test_Test_GetBrokenArrowsByLocationAsync_ShouldReturnEmptyList_WhenNoLocationExist()
+        public async Task Test_Test_GetAccidentsByLocationAsync_ShouldReturnEmptyList_WhenNoLocationExist()
         {
             ClearLocation();
             IEnumerable<LocationResponse?> Locations = await _locationService.GetAccidentsByLocationAsync(AvailableLocation.CANADA);
@@ -139,7 +138,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
                 PositionLost = locationOnePositionLost,
                 XCoordonate = locationOneXCoordonate,
                 YCoordonate = locationOneYCoordonate,
-                Accident = new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" }
+
             };
             Location locationTwo = new()
             {
@@ -148,7 +147,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
                 PositionLost = locationTwoPositionLost,
                 XCoordonate = locationTwoXCoordonate,
                 YCoordonate = locationTwoYCoordonate,
-                Accident = new() { AccidentId = Guid.NewGuid(), ShortDescription = "Short description 1" }
+
             };
             return [location, locationTwo];
         }

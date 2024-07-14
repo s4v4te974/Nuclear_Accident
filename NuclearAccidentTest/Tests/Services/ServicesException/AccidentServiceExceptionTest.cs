@@ -6,16 +6,16 @@ using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Exceptions;
 using NuclearAccident.Src.Common.Utils;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Implementation.BrokenArrows;
+using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
 
-namespace NuclearAccidentTest.Tests.Mna.Services.ServicesException
+namespace NuclearAccidentTest.Tests.Services.ServicesException
 {
     public class AccidentServiceExceptionTest
     {
         private readonly NuclearAccidentContext _dbContext;
-        private readonly IAccidentService _brokenArrowService;
-        private readonly Mock<ILogger<AccidentServiceImpl>> _logger;
+        private readonly IbrokenArrowsService _accidentService;
+        private readonly Mock<ILogger<BrokenArrowsServiceImpl>> _logger;
         private readonly Mock<IMapper> _mapper;
 
         public AccidentServiceExceptionTest()
@@ -25,40 +25,40 @@ namespace NuclearAccidentTest.Tests.Mna.Services.ServicesException
             .Options;
 
             _dbContext = new NuclearAccidentContext(options);
-            _logger = new Mock<ILogger<AccidentServiceImpl>>();
+            _logger = new Mock<ILogger<BrokenArrowsServiceImpl>>();
             _mapper = new Mock<IMapper>();
-            _brokenArrowService = new AccidentServiceImpl(_dbContext, _mapper.Object, _logger.Object);
+            _accidentService = new BrokenArrowsServiceImpl(_dbContext, _mapper.Object, _logger.Object);
         }
 
         [Fact]
-        public async Task GetBrokenArrowsAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
+        public async Task GetAccidentsAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Accident>>();
-            mockSet.As<IQueryable<Accident>>().Setup(m => m.Provider).Throws(new NuclearAccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Accident>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearAccidentException>(() => _brokenArrowService.GetAccidentsAsync());
+            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _accidentService.GetAccidentsAsync());
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_ALL_BA, exception.Message);
         }
 
         [Fact]
-        public async Task GetBrokenArrowsByYearsAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
+        public async Task GetAccidentsByYearsAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Accident>>();
-            mockSet.As<IQueryable<Accident>>().Setup(m => m.Provider).Throws(new NuclearAccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Accident>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearAccidentException>(() => _brokenArrowService.GetAccidentsByYearsAsync(1950));
+            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _accidentService.GetAccidentsByYearsAsync(1950));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_YEAR, exception.Message);
         }
 
         [Fact]
-        public async Task GetSingleBrokenArrowAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
+        public async Task GetSingleAccidentAsync_ShouldThrowNuclearAccidentException_WhenDbExceptionOccurs()
         {
             var mockSet = new Mock<DbSet<Accident>>();
-            mockSet.As<IQueryable<Accident>>().Setup(m => m.Provider).Throws(new NuclearAccidentException("error", new Exception()));
+            mockSet.As<IQueryable<Accident>>().Setup(m => m.Provider).Throws(new NuclearInccidentException("error", new Exception()));
 
-            var exception = await Assert.ThrowsAsync<NuclearAccidentException>(() => _brokenArrowService.GetSingleAccidentAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
+            var exception = await Assert.ThrowsAsync<NuclearInccidentException>(() => _accidentService.GetSingleAccidentAsync(new Guid("d3aaceaa-7d01-4c45-bbd7-6738fb88201c")));
 
             Assert.Equal(ConstUtils.UNABLE_TO_RETRIEVE_SINGLE_BA, exception.Message);
         }

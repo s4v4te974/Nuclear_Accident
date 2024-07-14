@@ -6,9 +6,8 @@ namespace NuclearAccident.Src.UI.Controllers.RouteConstraint
     {
         public bool Match(HttpContext? httpContext, IRouter? route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            var matchingValue = values[routeKey].ToString();
+            var matchingValue = values[routeKey] != null ? values[routeKey]?.ToString() : "notokay";
             return System.Enum.TryParse(matchingValue, true, out AvailableYear _);
         }
     }
-
 }

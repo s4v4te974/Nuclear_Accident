@@ -6,10 +6,10 @@ using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Common.Exceptions;
 using NuclearAccident.Src.Common.Utils;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using System.Data.Common;
 
-namespace NuclearAccident.Src.Services.Implementation
+namespace NuclearAccident.Src.Services.Implementation.Common
 {
     public class WeaponServiceImpl(NuclearAccidentContext context, IMapper mapper, ILogger<WeaponServiceImpl> logger) : IWeaponService
     {
@@ -27,7 +27,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_WEAPON);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_WEAPON, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_ALL_WEAPON, ex);
             }
         }
 
@@ -41,7 +41,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_WEAPON);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_WEAPON, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_SPECIFIC_WEAPON, ex);
             }
         }
 
@@ -49,7 +49,7 @@ namespace NuclearAccident.Src.Services.Implementation
         {
             try
             {
-                string? weaponName = System.Enum.GetName(typeof(AvailableWeapon), value: availableWeapon);
+                string? weaponName = Enum.GetName(typeof(AvailableWeapon), value: availableWeapon);
                 if (weaponName != null)
                 {
                     List<Weapon> weapons = await _context.Weapons.Where(w => w.Name != null && w.Name.ToLower() == weaponName.ToLower())
@@ -65,7 +65,7 @@ namespace NuclearAccident.Src.Services.Implementation
             catch (DbException ex)
             {
                 _logger.LogError(ex, ConstUtils.ERROR_LOG_BA);
-                throw new NuclearAccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, ex);
+                throw new NuclearInccidentException(ConstUtils.UNABLE_TO_RETRIEVE_BA_BY_WEAPON, ex);
             }
         }
     }

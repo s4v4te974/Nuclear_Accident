@@ -23,7 +23,7 @@ namespace NuclearAccident.Src.Common.DbSet
         [Column("ycoordonate")]
         public float? YCoordonate { get; set; }
 
-        public Accident? Accident { get; set; }
+        public List<Accident>? BrokenArrows { get; set; }
 
     }
 }

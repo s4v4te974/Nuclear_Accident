@@ -2,16 +2,16 @@
 using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Dtos;
 
-namespace NuclearAccident.Src.UI.Controllers.Profiles
+namespace NuclearAccident.Src.UI.Profiles
 {
     public class LocationProfile : Profile
     {
         public LocationProfile()
         {
             CreateMap<Location, LocationResponse>()
-                .ForMember(dest => dest.Accident, opt => opt.MapFrom(src => src.Accident));
+                .ForMember(dest => dest.BrokenArrows, opt => opt.MapFrom(src => src.BrokenArrows));
 
-            CreateMap<Accident, AccidentShortResponse>();
+            CreateMap<Accident, BrokenArrowsShortResponse>();
         }
     }
 }

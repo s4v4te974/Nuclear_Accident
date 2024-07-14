@@ -12,6 +12,6 @@
 
         public float? YCoordonate { get; set; }
 
-        public AccidentShortResponse? Accident { get; set; }
+        public List<BrokenArrowsShortResponse>? BrokenArrows { get; set; }
     }
 }

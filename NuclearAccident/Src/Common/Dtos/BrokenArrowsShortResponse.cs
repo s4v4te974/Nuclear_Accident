@@ -1,6 +1,6 @@
 ﻿namespace NuclearAccident.Src.Common.Dtos
 {
-    public class AccidentShortResponse
+    public class BrokenArrowsShortResponse
     {
 
         public Guid AccidentId { get; set; }

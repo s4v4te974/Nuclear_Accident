@@ -2,10 +2,10 @@
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using System.Net.Mime;
 
-namespace MilitaryNuclearAccident.Src.Mna.UI.Controllers
+namespace NuclearAccident.Src.UI.Controllers
 {
     [Route(ConstUtils.VEHICULE_ROOT_URL)]
     [ApiController]
@@ -39,14 +39,14 @@ namespace MilitaryNuclearAccident.Src.Mna.UI.Controllers
 
         [HttpPost("{vehicule}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<VehiculeResponse>> GetBrokenArrowsByVehiculeAsync([FromRoute] string vehicule)
+        public async Task<ActionResult<VehiculeResponse>> GetAccidentsByVehiculeAsync([FromRoute] string vehicule)
         {
-            if (!System.Enum.TryParse(vehicule, true, out AvailableVehicule vehiculeEnum))
+            if (!Enum.TryParse(vehicule, true, out AvailableVehicule vehiculeEnum))
             {
                 return BadRequest("Invalid vehicule");
             }
-            IEnumerable<VehiculeResponse?> brokenArrows = await _vehiculeService.GetBrokenArrowsByVehiculeAsync(vehiculeEnum);
-            return brokenArrows == null || !brokenArrows.Any() ? NotFound() : Ok(brokenArrows);
+            IEnumerable<VehiculeResponse?> Accidents = await _vehiculeService.GetAccidentsByVehiculeAsync(vehiculeEnum);
+            return Accidents == null || !Accidents.Any() ? NotFound() : Ok(Accidents);
         }
     }
 }

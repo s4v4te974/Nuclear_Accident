@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearAccident", "NuclearAccident.csproj", "{074BE360-5DA9-4D96-BB87-1369B4BFA92E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearIncident", "NuclearIncident.csproj", "{074BE360-5DA9-4D96-BB87-1369B4BFA92E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearAccidentTest", "..\NuclearAccidentTest\NuclearAccidentTest.csproj", "{7A7DF839-AC89-4557-A960-1F1B5EEA5B4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuclearInccidentTest", "..\NuclearAccidentTest\NuclearInccidentTest.csproj", "{7A7DF839-AC89-4557-A960-1F1B5EEA5B4E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{074BE360-5DA9-4D96-BB87-1369B4BFA92E} = {074BE360-5DA9-4D96-BB87-1369B4BFA92E}
 	EndProjectSection

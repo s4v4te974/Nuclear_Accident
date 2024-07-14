@@ -2,10 +2,10 @@
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 using NuclearAccident.Src.Common.Utils;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using System.Net.Mime;
 
-namespace NuclearAccident.Src.Mna.UI.Controllers
+namespace NuclearAccident.Src.UI.Controllers
 {
 
     [Route(ConstUtils.LOCATION_ROOT_URL)]
@@ -41,14 +41,14 @@ namespace NuclearAccident.Src.Mna.UI.Controllers
 
         [HttpPost("{location}")]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<IEnumerable<LocationResponse>>> GetBrokenArrowsByLocationAsync([FromRoute] string location)
+        public async Task<ActionResult<IEnumerable<LocationResponse>>> GetAccidentsByLocationAsync([FromRoute] string location)
         {
-            if (!System.Enum.TryParse(location, true, out AvailableLocation locationEnum))
+            if (!Enum.TryParse(location, true, out AvailableLocation locationEnum))
             {
                 return BadRequest("Invalid location");
             }
-            IEnumerable<LocationResponse?> brokenArrows = await _coordonateService.GetBrokenArrowsByLocationAsync(locationEnum);
-            return brokenArrows == null || !brokenArrows.Any() ? NotFound() : Ok(brokenArrows);
+            IEnumerable<LocationResponse?> accidents = await _coordonateService.GetAccidentsByLocationAsync(locationEnum);
+            return accidents == null || !accidents.Any() ? NotFound() : Ok(accidents);
         }
     }
 }

@@ -12,6 +12,6 @@
 
         public string? Description { set; get; }
 
-        public List<AccidentShortResponse>? Accidents { get; set; }
+        public List<BrokenArrowsShortResponse>? Accidents { get; set; }
     }
 }

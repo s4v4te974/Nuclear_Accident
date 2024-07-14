@@ -2,8 +2,10 @@ using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation;
-using NuclearAccident.Src.Services.Interfaces;
+using NuclearAccident.Src.Services.Implementation.BrokenArrows;
+using NuclearAccident.Src.Services.Implementation.Common;
+using NuclearAccident.Src.Services.Interfaces.BrokenArrows;
+using NuclearAccident.Src.Services.Interfaces.Common;
 using NuclearAccident.Src.UI.Controllers.Handler;
 using NuclearAccident.Src.UI.Controllers.RouteConstraint;
 using System.Threading.RateLimiting;
@@ -60,8 +62,8 @@ builder.Services.AddScoped<AutoMapper.Mapper>();
 builder.Services.AddScoped<IVehiculeService, VehiculeServiceImpl>();
 builder.Services.AddScoped<ILocationService, LocationServiceImpl>();
 builder.Services.AddScoped<IWeaponService, WeaponServiceImpl>();
-builder.Services.AddScoped<IAccidentService, AccidentServiceImpl>();
-builder.Services.AddScoped<IStatistiqueService, StatistiquesImpl>();
+builder.Services.AddScoped<IbrokenArrowsService, BrokenArrowsServiceImpl>();
+builder.Services.AddScoped<IBrokenArrowsStatistiqueService, BrokenArrowsStatistiquesImpl>();
 
 
 // database connexion build the context
@@ -70,7 +72,7 @@ builder.Services.AddDbContext<NuclearAccidentContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
 var app = builder.Build();
-app.UseMiddleware<AccidentHandler>();
+app.UseMiddleware<NuclearIncidentHandler>();
 app.UseRateLimiter();
 
 // Configure the HTTP request pipeline.

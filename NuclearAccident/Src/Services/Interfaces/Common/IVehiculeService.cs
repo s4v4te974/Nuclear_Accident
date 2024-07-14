@@ -1,7 +1,7 @@
 ﻿using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Common.Enum;
 
-namespace NuclearAccident.Src.Services.Interfaces
+namespace NuclearAccident.Src.Services.Interfaces.Common
 {
     public interface IVehiculeService
     {

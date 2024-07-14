@@ -4,18 +4,18 @@ using Microsoft.Extensions.Logging;
 using NuclearAccident.Src.Common.DbSet;
 using NuclearAccident.Src.Common.Dtos;
 using NuclearAccident.Src.Data;
-using NuclearAccident.Src.Services.Implementation;
-using NuclearAccident.Src.UI.Controllers.Profiles;
+using NuclearAccident.Src.Services.Implementation.BrokenArrows;
+using NuclearAccident.Src.UI.Profiles;
 using NuclearAccidentTest.Utils;
 
-namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
+namespace NuclearAccidentTest.Tests.Services.ServicesTests
 {
     public class AccidentServiceTest
     {
         private readonly NuclearAccidentContext _dbContext;
         private readonly Mapper _mapper;
-        private readonly ILogger<AccidentServiceImpl> _logger;
-        private readonly AccidentServiceImpl _AccidentService;
+        private readonly ILogger<BrokenArrowsServiceImpl> _logger;
+        private readonly BrokenArrowsServiceImpl _AccidentService;
 
         private readonly Guid AccidentOneId = new("45795bfc-2ae5-49ed-87e3-54cac6f9d77e");
         private readonly DateTime AccidentOneDisasterDate = new(1950, 1, 1);
@@ -51,7 +51,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             });
             _mapper = (Mapper?)config.CreateMapper();
 
-            _AccidentService = new AccidentServiceImpl(_dbContext, _mapper, _logger);
+            _AccidentService = new BrokenArrowsServiceImpl(_dbContext, _mapper, _logger);
         }
 
         private void InsertAccident()
@@ -78,10 +78,9 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             InsertAccident();
             AccidentResponse? Accident = await _AccidentService.GetSingleAccidentAsync(AccidentOneId);
             Assert.NotNull(Accident);
-            Assert.NotNull(Accident.LocationId);
-            Assert.NotNull(Accident.WeaponId);
-            Assert.NotNull(Accident.VehiculeId);
-            Assert.NotNull(Accident.FullDescriptionId);
+            Assert.NotNull(Accident.Location);
+            Assert.NotNull(Accident.Weapon);
+            Assert.NotNull(Accident.Vehicule);
             Assert.Equal(Accident.DisasterDate, AccidentOneDisasterDate);
             Assert.Equal(Accident.ShortDescription, AccidentOneShortDescription);
             Assert.Equal(Accident.BubbleDescription, AccidentOneBubbleDescription);
@@ -108,10 +107,9 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             Assert.True(Accidents.Any());
             AccidentResponse? expectedAccident = Accidents.First();
             Assert.NotNull(expectedAccident);
-            Assert.NotNull(expectedAccident.LocationId);
-            Assert.NotNull(expectedAccident.WeaponId);
-            Assert.NotNull(expectedAccident.VehiculeId);
-            Assert.NotNull(expectedAccident.FullDescriptionId);
+            Assert.NotNull(expectedAccident.Location);
+            Assert.NotNull(expectedAccident.Weapon);
+            Assert.NotNull(expectedAccident.Vehicule);
             Assert.Equal(expectedAccident.DisasterDate, AccidentOneDisasterDate);
             Assert.Equal(expectedAccident.ShortDescription, AccidentOneShortDescription);
             Assert.Equal(expectedAccident.BubbleDescription, AccidentOneBubbleDescription);
@@ -146,7 +144,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
         {
             Accident AccidentOne = new()
             {
-                AccidentId = AccidentOneId,
+                Brokenarrowid = AccidentOneId,
                 LocationId = locationOneId,
                 VehiculeId = vehiculeOneId,
                 WeaponId = weaponOneId,
@@ -156,7 +154,7 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             };
             Accident AccidentTwo = new()
             {
-                AccidentId = AccidentTwoId,
+                Brokenarrowid = AccidentTwoId,
                 LocationId = locationTwoId,
                 VehiculeId = vehiculeTwoId,
                 WeaponId = weaponTwoId,
@@ -172,12 +170,12 @@ namespace MilitaryNuclearAccidentTest.Tests.Mna.Services.ServicesTests
             Location location = new()
             {
                 LocationId = locationOneId,
-                Accident = null
+                BrokenArrows = null
             };
             Location locationTwo = new()
             {
                 LocationId = locationTwoId,
-                Accident = null
+                BrokenArrows = null
             };
             return [location, locationTwo];
         }

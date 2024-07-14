@@ -8,8 +8,8 @@ namespace NuclearAccident.Src.Common.DbSet
     {
 
         [Key]
-        [Column("accidentid")]
-        public Guid AccidentId { get; set; }
+        [Column("brokenarrowid")]
+        public Guid Brokenarrowid { get; set; }
 
         // location
         [Column("locationid")]
@@ -38,9 +38,14 @@ namespace NuclearAccident.Src.Common.DbSet
         [Column("fulldescription")]
         public string? FullDescription { get; set; }
 
-        [Column("isPowerPlant")]
-        public Boolean? isPowerPlant { get; set; }
+        [Column("seal")]
+        public string? seal { get; set; }
 
+        [Column("isbrokenarrow")]
+        public bool isBrokenArrow { get; set; }
+
+        [Column("isclosecall")]
+        public bool isCloseCall { get; set; }
 
     }
 }
